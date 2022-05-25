@@ -1,7 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 // 按需引入组件，引入方式见https://element.eleme.cn/#/zh-CN/component/quickstart#an-xu-yin-ru
-import { Input, Select, Option, Button, Avatar } from "element-ui";
+import { Input, Select, Option, Button, Avatar, Card, Form, FormItem, Tree, DatePicker, TimePicker } from "element-ui";
 
 Vue.config.productionTip = false;
 Vue.use(Input);
@@ -9,6 +9,15 @@ Vue.use(Select);
 Vue.use(Option);
 Vue.use(Button);
 Vue.use(Avatar);
+Vue.use(Card);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Tree);
+Vue.use(DatePicker);
+Vue.use(TimePicker);
+
+import AMapLoader from '@amap/amap-jsapi-loader'
+Vue.prototype.AMapLoader = AMapLoader
 
 // import * as appService from "@njsdata/app-sdk";
 
@@ -23,7 +32,7 @@ if (process.env.NODE_ENV !== "production") {
   };
 
   new Vue({
-    render: h => {
+    render: (h) => {
       return <App customConfig={customConfig} />;
     },
   }).$mount("#app");
@@ -35,14 +44,14 @@ if (process.env.NODE_ENV !== "production") {
   window.CUSTOM_PLUGIN.set(
     process.env.VUE_APP_CUSTOM_PLUGIN_ID,
     (dom, props) => {
-      const customConfig = (props && props.customConfig) || {};
-      const component = new Vue({
-        render: h => <App customConfig={customConfig} info={props} />,
-      }).$mount();
       if (dom.childNodes.length > 0) {
         dom.removeChild(dom.childNodes[0]);
       }
-      dom.appendChild(component.$el);
+      const div = document.createElement("div");
+      dom.appendChild(div);
+      new Vue({
+        render: (h) => <App {...{ props }} />,
+      }).$mount(div);
     }
   );
 }
