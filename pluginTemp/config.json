@@ -1,7 +1,7 @@
 {
-  "id": "e58d249f-703c-4918-9e0d-892936394f78",
+  "id": "86c04105-a04c-45c8-be1d-afb9fddc9008",
   "type": "app",
-  "main": "app.9439dbc9.js",
+  "main": "app.95b0986c.js",
   "version": "2",
   "props": {
     "type": "customize",
@@ -11,10 +11,10 @@
     "lib": [],
     "css_script": [],
     "customconf": [
-      "title",
-      "url",
-      "desc",
-      "imgUrl"
+      "assetId",
+      "subAssetId",
+      "mapWidth",
+      "mapHeight"
     ]
   }
 }
