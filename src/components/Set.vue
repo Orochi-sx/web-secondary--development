@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="map">
     <div :style="mapStyle" ref="containerSet"></div>
     <div class="map_button">
       <el-button type="success" size="mini" round v-show="!geocoderButton" ref="geocoderClickOn">开启详细定位</el-button>
@@ -13,7 +13,7 @@
 
 <script>
 import eventActionDefine from "./msgCompConfig";
-import AMapLoader from '@amap/amap-jsapi-loader'
+// import AMapLoader from '@amap/amap-jsapi-loader'
 
 window._AMapSecurityConfig = {
   securityJsCode:'d6916f1f375303ccb0c2fff4d752b46a',
@@ -31,7 +31,7 @@ export default {
       data: this.customConfig.data,
       mapStyle: '',
       mapCityCenter: '',
-      map: {},
+      map: null,
       overlaysButton: false,
       geocoderButton: false,
     };
@@ -48,7 +48,6 @@ export default {
       if(style.mapCityCenter.length <= 1) {
         let centerPoint = style.mapCityCenter[0].toString().split(',')
         this.mapCityCenter = [ Number(centerPoint[0]), Number(centerPoint[1]) ]
-
       } else {
         let centerPoint = style.mapCityCenter[1].toString().split(',')
         this.mapCityCenter = [ Number(centerPoint[0]), Number(centerPoint[1]) ]
@@ -90,9 +89,9 @@ export default {
           'AMap.MouseTool'
         ]
       }).then( (AMap) => {
-        let map = new AMap.Map(this.$refs['containerSet'],{ zoom: 10, zooms:[9,15], center: this.mapCityCenter })
+        let centerPoint = this.mapCityCenter ? this.mapCityCenter : [118.432581,32.423072]
+        let map = new AMap.Map(this.$refs['containerSet'],{ zoom: 13, zooms:[9,15], center: centerPoint })
 
-        this.map = map
         let _that = this
         let mapMouseTool = {}
 
@@ -191,6 +190,9 @@ export default {
           polygon.setPath(pathArray);
           map.add(polygon)
         })
+      }).catch( (e) => {
+        this.map = null
+        this.initMap()
       })
     },
 
@@ -226,5 +228,10 @@ export default {
     position: absolute;
     top: 20px;
     right: 20px;
+  }
+  .map {
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
 </style>

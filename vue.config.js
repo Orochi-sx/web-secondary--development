@@ -35,10 +35,10 @@ module.exports = {
         }
       );
     });
-    // config.module
-    //   .rule("images")
-    //   .use("url-loader")
-    //   .loader("url-loader")
-    //   .tap(options => Object.assign(options, { limit: 1 * 100 * 1024 * 1024 }));
+    config.module
+      .rule("fonts")
+      .use("url-loader")
+      .loader("url-loader")
+      .tap(options => Object.assign(options, { limit: 1000 * 100 * 1024 * 1024 }));
   },
 };

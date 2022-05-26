@@ -58,6 +58,23 @@ export const actions = [
       },
     ],
   },
+  {
+    key: "loadMap",
+    name: "刷新地图",
+    isSupportChild: false,
+    params: [
+      {
+        key: "mapLng",
+        name: "经度",
+        dataType: "string",
+      },
+      {
+        key: "mapLat",
+        name: "纬度",
+        dataType: "string",
+      },
+    ],
+  },
 ];
 
 export default {

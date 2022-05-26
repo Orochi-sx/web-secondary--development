@@ -18,7 +18,11 @@ import "./index.css";
 import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 
+import AMapLoader from '@amap/amap-jsapi-loader'
+
 Vue.config.productionTip = false;
+
+Vue.prototype.AMapLoader = AMapLoader
 
 Vue.use(Button);
 Vue.use(Tooltip);
