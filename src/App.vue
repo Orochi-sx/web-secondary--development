@@ -140,26 +140,31 @@ export default {
       );
     
     let { mapWidth, mapHeight } = this.customConfig
-    this.mapStyle = mapWidth && mapHeight ? `width: ${mapWidth}; height: ${mapHeight};` : 'width: 100%; height: 100%;'
+    mapWidth = mapWidth ? `width: ${mapWidth};` : 'width: 100%;'
+    mapHeight = mapHeight ? `height: ${mapHeight};` : 'height: 100%;'
+    this.mapStyle = mapWidth + mapHeight
 
     this.getTreeDataList()
 
     window.checkAnimation = this.checkAnimation
+    window.checkMonitor = this.checkMonitor
   },
 
   methods: {
     // 获取树形数据
     getTreeDataList() {
-      let assetId = '8814ee94-13b1-5cfd-cc43-4beb208e4344'
-      let chlidremAssetId = '43335512-54ac-4770-cb09-17606e87690f'
+      let { assetId } = this.customConfig
+      let { subAssetId } = this.customConfig
       
+      assetId = assetId ? assetId : '8814ee94-13b1-5cfd-cc43-4beb208e4344'
+      subAssetId = subAssetId ? subAssetId : '43335512-54ac-4770-cb09-17606e87690f'
+
       queryAssetById(assetId).then( (res1) => {
-        queryAssetById(chlidremAssetId).then( (res2) => {
+        queryAssetById(subAssetId).then( (res2) => {
           const nestParent = (items, data_id = null) => items.filter(item => item['parent_id'] == data_id).map(item => ({ ...item, children: nestParent(items, item.data_id) }));
 
           let parentTreeList = this.translatePlatformDataToJsonArray(res1)
           let chlidremTreeList = this.translatePlatformDataToJsonArray(res2)
-
 
           parentTreeList.forEach( (e) => {
             let lineAr = []
@@ -211,7 +216,7 @@ export default {
     },
 
     // 生成地图
-    initMap() {
+    initMap(map_x,map_y) {
       this.temp=[]
 
       this.moveAnimationShow = false
@@ -235,6 +240,9 @@ export default {
         let markerList = []
         let titleIcon = require('./assets/carIcon.png')
         let trajectoryIcon = require('./assets/trajectory.png')
+        let monitor = require('./assets/monitor.png')
+
+        map.setCenter([map_x, map_y])
 
         // 创建坐标点图标
         let carIcon = new AMap.Icon({
@@ -263,7 +271,7 @@ export default {
                 <div>${e.car_number ? e.car_number : ''}</div>
               </div>
               <div class="infowindow_info">
-                <img src="${e.imgUrl ? e.imgUrl : ''}" />
+                <img src="${e.imgurl ? e.imgurl : ''}" />
                 <div class="info_form">
                   <div>司机: ${e.driver ? e.driver : ''}</div>
                   <div>联系方式: ${e.phone ? e.phone : ''}</div>
@@ -272,10 +280,16 @@ export default {
                   <div>车辆型号: ${e.carmModel ? e.carmModel : ''}</div>
                   <div>发动机型号: ${e.enginemodel ? e.enginemodel : ''}</div>
                 </div>
-              </div>
-              <div class="infowindow_bottom"  onclick="checkAnimation('${i}')">
-                <img src="${trajectoryIcon}" />
-                <div>轨迹查看</div>
+              </div> 
+              <div class="infowindow_bottom">
+                <div class="infowindow_button" onclick="checkAnimation('${i}')">
+                  <img src="${trajectoryIcon}" style="width: 18px;height: 18px;"/>
+                  <div>轨迹查看</div>
+                </div>
+                <div class="infowindow_button" onclick="checkMonitor('${i}')" style="margin-left: 15px;">
+                  <img src="${monitor}" />
+                  <div>视频监控</div>
+                </div>
               </div>
             </div>`
             // 创建信息弹窗
@@ -379,6 +393,13 @@ export default {
     checkAnimation(data) {
       this.mapMarkerData = data
       this.moveAnimationShow = true
+      this.pickerForm.dataPicker = []
+      this.temp[this.mapMarkerData][1].close()
+    },
+
+    // 查看监控
+    checkMonitor(data) {
+      this.mapMarkerData = data
       this.moveAnimationVedioShow = true
       this.pickerForm.dataPicker = []
       this.temp[this.mapMarkerData][1].close()
@@ -453,17 +474,22 @@ export default {
       if(data.visible) {
         data.childNodes.forEach( (e) => {
           if(e.visible) {
-            let numLength = 0
+            let numLengthE = 0
             e.childNodes.forEach( (i) => {
               if(i.visible) {
+                let numLengthI = 0
                 i.childNodes.forEach( (j) => {
                   if(j.visible) {
                     this.nodeList.push(j.data)
-                    numLength++
+
+                    numLengthE++
+                    numLengthI++
+
                     let cityName = e.data.car_number.substring(e.data.car_number.indexOf('('), e.data.car_number.indexOf('/'))
-                    e.data.car_number = e.data.car_number.replace(cityName,`(${numLength}`)
+                    e.data.car_number = e.data.car_number.replace(cityName,`(${numLengthE}`)
+                    
                     let countyName = i.data.car_number.substring(i.data.car_number.indexOf('('), i.data.car_number.indexOf('/'))
-                    i.data.car_number = i.data.car_number.replace(countyName,`(${numLength}`)
+                    i.data.car_number = i.data.car_number.replace(countyName,`(${numLengthI}`)
                   }
                 })
               }
@@ -481,8 +507,10 @@ export default {
         this.$refs.tree.filter('')
         // this.treeShowList = [value]
         this.carPointList = []
-        this.mapPointList = this.createDataList([value],2)
+        this.mapPointList = this.createDataList(this.treeShowList,2)
         this.initMap()
+        this.treeShowList = _.cloneDeep(this.treeList)
+        this.countCar(this.treeShowList)
       } else {
         let countyList = this.createDataList(this.treeShowList,1)
         let mapPointList = {}
@@ -490,9 +518,10 @@ export default {
           if(e.data_id == value.parent_id) mapPointList = _.cloneDeep(e)
         })
         mapPointList.children = [value]
+
         this.carPointList = []
         this.mapPointList = this.createDataList([mapPointList],2)
-        this.initMap()
+        this.initMap(value.map_x,value.map_y)
       }
     },
 
@@ -622,6 +651,12 @@ export default {
     padding-top: 10px;
     color: #fff;
     font-size: 15px;
+    width: 100%;
+  }
+  .infowindow_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
   }
   .infowindow_bottom img {
