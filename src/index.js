@@ -26,11 +26,11 @@ if (process.env.NODE_ENV !== "production") {
     externalVariables: {
       colorConfig:'red,blue,yellow,aqua,brown,blueviolet,chartreuse',
       sectorNameConfig:'高排低效1,低排低效1,低排高效1,高排高效1',
-      // sectorBackgroundColorConfig:'[{"color":"blue","opacity":0.3},{"color":"red","opacity":0.3},{"color":"blue","opacity":0.3},{"color":"red","opacity":0.3}]',
+      sectorBackgroundColorConfig:'[{"color":"blue","opacity":0.3},{"color":"red","opacity":0.3},{"color":"blue","opacity":0.3},{"color":"red","opacity":0.3}]',
       centerNumConfig:'50,40',
       centerLineColor:'blue',
       yMax:100,
-      sectorBackgroundColorConfig:'[{"color":"blue","opacity":0.3},{"color":"red","opacity":0.3},{"color":"blue","opacity":0.3},{"color":"red","opacity":0.3}]'
+
 
     },
   };
