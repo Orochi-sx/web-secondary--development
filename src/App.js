@@ -103,9 +103,9 @@ export default class App extends Component {
     const myChart = echarts.init(this.divRef);
     let option = {
       title: {
-        text: this.titleText?this.titleText:'帕累托图',
+        text: this.titleText ? this.titleText : "帕累托图",
         // subtext:'数据纯属瞎、编',
-        left: this.titlePosition?this.titlePosition:'center',
+        left: this.titlePosition ? this.titlePosition : "center",
       },
       tooltip: {
         trigger: "item",
@@ -136,7 +136,7 @@ export default class App extends Component {
           data: arrx,
           axisLabel: {
             formatter: function (value) {
-              var newValue =value.split("").join("\n");
+              var newValue = value.split("").join("\n");
               var newParamsName = ""; // 最终拼接成的字符串
               var paramsNameNumber = newValue.length; // 实际标签的个数
               var provideNumber = 10; // 每行能显示的字的个数
