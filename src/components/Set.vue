@@ -80,7 +80,7 @@ export default {
 
   methods: {
     initMap() {
-      AMapLoader.load({
+      this.AMapLoader.load({
         "key": "4f9ebccb236519f688c2545d15e5242d",
         "version": "2.0",
         "plugins": [

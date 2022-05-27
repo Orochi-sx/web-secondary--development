@@ -73,6 +73,8 @@ export default {
     }
 
     this.initMap()
+
+    window.loadMap = this.do_EventCenter_loadMap
   },
 
   methods: {
@@ -91,6 +93,20 @@ export default {
           centerPoint = this.mapCenterPoint
         }
         let map = new AMap.Map(this.$refs['containerAdd'],{ zoom: 13, zooms:[9,15], center: centerPoint })
+
+        let marker = null
+        if(this.mapCenterPoint) {
+          let carIcon = new AMap.Icon({
+            image: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+            imageSize: new AMap.Size(25, 34),
+          });
+          marker = new AMap.Marker({
+            icon: carIcon,
+            position: centerPoint,
+            offset: new AMap.Pixel(-13, -30)
+          })
+          map.add(marker)
+        }
 
         this.map = map
         let _that = this
