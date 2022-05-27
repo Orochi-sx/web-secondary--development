@@ -50,9 +50,11 @@ export default class App extends Component {
     if (props.options.externalVariables) {
       this.barColor = props.options.externalVariables.barColor;
       this.lineColor = props.options.externalVariables.lineColor;
-      this.tipLineFontSize = props.options.externalVariables.tipLineFontSize;
+      this.markingTextSize = props.options.externalVariables.markingTextSize;
       this.markingPosition = props.options.externalVariables.markingPosition;
       this.markingText = props.options.externalVariables.markingText;
+      this.titleText = props.options.externalVariables.titleText;
+      this.titlePosition = props.options.externalVariables.titlePosition;
     }
   }
   initEcharts(data) {
@@ -101,9 +103,9 @@ export default class App extends Component {
     const myChart = echarts.init(this.divRef);
     let option = {
       title: {
-        // text: '帕累托图模拟',
+        text: this.titleText?this.titleText:'帕累托图',
         // subtext:'数据纯属瞎、编',
-        left: "left",
+        left: this.titlePosition?this.titlePosition:'center',
       },
       tooltip: {
         trigger: "item",
@@ -134,7 +136,20 @@ export default class App extends Component {
           data: arrx,
           axisLabel: {
             formatter: function (value) {
-              return value.split("").join("\n");
+              var newValue =value.split("").join("\n");
+              var newParamsName = ""; // 最终拼接成的字符串
+              var paramsNameNumber = newValue.length; // 实际标签的个数
+              var provideNumber = 10; // 每行能显示的字的个数
+              // 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
+              if (paramsNameNumber > provideNumber) {
+                // ********重点在这里********
+                newParamsName = newValue.substring(0, 10) + ".\n.\n."; // 最终拼成的字符串
+              } else {
+                // 将旧标签的值赋给新标签
+                newParamsName = newValue;
+              }
+              // 将最终的字符串返回
+              return newParamsName;
             },
             textStyle: {
               color: "black", //文字颜色
@@ -200,12 +215,12 @@ export default class App extends Component {
                 name: "",
                 // 支持 'average', 'min', 'max'
                 // type: "average",
-                xAxis: this.markingPosition?this.markingPosition:arrx[0],
+                xAxis: this.markingPosition ? this.markingPosition : arrx[0],
                 animation: false,
                 label: {
                   position: "insideMiddleBottom",
-                  formatter: this.markingText?this.markingText:'test',
-                  fontSize: "32px",
+                  formatter: this.markingText ? this.markingText : "test",
+                  fontSize: this.tipLineFontSize ? this.tipLineFontSize : "32px",
                 },
                 lineStyle: {
                   normal: {
