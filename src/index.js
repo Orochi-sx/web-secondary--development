@@ -33,8 +33,6 @@ if (process.env.NODE_ENV !== "production") {
       titleText:'象限图',
       titleColor:'#000000',
       titleSize:18
-
-
     },
   };
   ReactDOM.render(
