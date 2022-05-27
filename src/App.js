@@ -78,6 +78,9 @@ export default class App extends Component {
     let centerNumConfigArr = this.props.options.externalVariables.centerNumConfig.split(',')
     let centerLineColor = this.props.options.externalVariables.centerLineColor
     let yMax = this.props.options.externalVariables.yMax
+    let titleColor = this.props.options.externalVariables.titleColor
+    let titleSize = this.props.options.externalVariables.titleSize
+    let titleText = this.props.options.externalVariables.titleText
     dataInfo.forEach((item,index) => {
       marksData.push({
         name: item[0],
@@ -118,6 +121,13 @@ export default class App extends Component {
 
     option = {
       // backgroundColor:'#cccccc',
+      title:{
+        text:titleText,
+        textStyle:{
+          color:titleColor,
+          fontSize:titleSize,
+        }
+      },
       tooltip: {
         trigger: 'item',
         // confine: true,

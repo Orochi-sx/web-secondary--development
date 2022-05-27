@@ -1,7 +1,7 @@
 {
   "id": "48554ed0-3721-46ed-91bb-11d45fba687a",
   "type": "analyzer",
-  "main": "main.4e7d8fc7.js",
+  "main": "main.a629e13e.js",
   "version": "2",
   "props": {
     "img": "custom_table.png",
@@ -19,7 +19,10 @@
       "sectorBackgroundColorConfig",
       "centerNumConfig",
       "centerLineColor",
-      "yMax"
+      "yMax",
+      "titleText",
+      "titleColor",
+      "titleSize"
     ],
     "optionModules": []
   }
