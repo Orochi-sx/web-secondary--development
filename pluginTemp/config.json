@@ -1,7 +1,7 @@
 {
-  "id": "ead06901-4b1e-458a-95f3-34b25bcec204",
+  "id": "9c18788a-7f95-4383-9469-5f7a5ba17b90",
   "type": "analyzer",
-  "main": "main.fe03ff9e.js",
+  "main": "main.ff4e1f7e.js",
   "version": "2",
   "props": {
     "img": "custom_table.png",
@@ -14,7 +14,11 @@
     "cssDep": [],
     "scriptName": "main.b42fe2f5.js",
     "vars": [
-      "headerBGColor"
+      "barColor",
+      "lineColor",
+      "tipLineFontSize",
+      "markingPosition",
+      "markingText"
     ],
     "optionModules": []
   }

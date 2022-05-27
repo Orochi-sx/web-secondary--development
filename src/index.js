@@ -20,21 +20,15 @@ import App from "./App";
  */
 if (process.env.NODE_ENV !== "production") {
   require("antd/dist/antd.css");
-  const dataSource = [
-    ["标题一", "标题二", "标题三"],
-    ["标题一数据一", "标题二数据一", "标题三数据一"],
-    ["标题一数据二", "标题二数据二", "标题三数据二"],
-    ["标题一数据三", "标题二数据三", "标题三数据三"],
-  ];
+  const dataSource = JSON.parse('[["name","amount"],["Zhangpw","38848"],["Wanggl","10633"],["Yingcr","6239"],["WangCW","2739"],["ZhangY1","1200"],["Chenxq","3"]]');
   const options = {
     externalVariables: {
-      headerBGColor: "#000",
+      barColor: null,
+      lineColor: null,
+      tipLineFontSize: null,
     },
   };
-  ReactDOM.render(
-    <App dataSource={dataSource} options={options} />,
-    document.getElementById("root")
-  );
+  ReactDOM.render(<App dataSource={dataSource} options={options} />, document.getElementById("root"));
 } else {
   if (!window.CUSTOM_PLUGIN) {
     window.CUSTOM_PLUGIN = new Map();
