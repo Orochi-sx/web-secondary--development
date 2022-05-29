@@ -1,7 +1,7 @@
 {
-  "id": "e58d249f-703c-4918-9e0d-892936394f78",
+  "id": "0d872f60-2368-4d40-b64b-3a880186bb99",
   "type": "app",
-  "main": "app.9439dbc9.js",
+  "main": "app.9db81ad2.js",
   "version": "2",
   "props": {
     "type": "customize",
@@ -14,7 +14,8 @@
       "title",
       "url",
       "desc",
-      "imgUrl"
+      "imgUrl",
+      "chooseList"
     ]
   }
 }

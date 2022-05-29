@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.js": "/static/js/main.bdf1f838.js",
+    "main.js.map": "/static/js/main.bdf1f838.js.map",
+    "index.html": "/index.html",
+    "static/js/main.bdf1f838.js.LICENSE.txt": "/static/js/main.bdf1f838.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/main.bdf1f838.js"
+  ]
+}
