@@ -73,10 +73,10 @@ export default class App extends Component {
     let YmaxNum = allYnum[allYnum.length -1]
     let YminNum = allYnum[0]
     let colorConfigArr = this.props.options.externalVariables.colorConfig.split(',')
-    let sectorNameConfigArr = this.props.options.externalVariables.sectorNameConfig.split(',')
-    let sectorBackgroundColorConfigArr = JSON.parse(this.props.options.externalVariables.sectorBackgroundColorConfig) 
-    let centerNumConfigArr = this.props.options.externalVariables.centerNumConfig.split(',')
-    let centerLineColor = this.props.options.externalVariables.centerLineColor
+    let sectorNameConfigArr = this.props.options.externalVariables.sectorName.split(',')
+    let sectorBackgroundColorConfigArr = JSON.parse(this.props.options.externalVariables.sectorColor) 
+    let centerNumConfigArr = this.props.options.externalVariables.centerNum.split(',')
+    let centerLineColor = this.props.options.externalVariables.centerColor
     let yMax = this.props.options.externalVariables.yMax
     let titleColor = this.props.options.externalVariables.titleColor
     let titleSize = this.props.options.externalVariables.titleSize
