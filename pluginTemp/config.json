@@ -1,7 +1,7 @@
 {
   "id": "0d872f60-2368-4d40-b64b-3a880186bb99",
   "type": "app",
-  "main": "app.9db81ad2.js",
+  "main": "app.08bc0aa5.js",
   "version": "2",
   "props": {
     "type": "customize",
@@ -11,11 +11,8 @@
     "lib": [],
     "css_script": [],
     "customconf": [
-      "title",
-      "url",
-      "desc",
-      "imgUrl",
-      "chooseList"
+      "chooseList",
+      "assetId"
     ]
   }
 }

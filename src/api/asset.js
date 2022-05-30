@@ -5,4 +5,4 @@ import request from "./request";
  * @param id 资产ID
  */
 export const queryAssetById = id =>
-  request.post(`/asset/getAssetData?asset_id=${id}`, []);
+  request.post(`/asset/getAssetData?asset_id=${id}`, );

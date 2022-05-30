@@ -1,16 +1,11 @@
 <template>
   <div class="main">
     <div class="chooseAll" :style="{ height: chooseAllHeight }">
-      <div
-        class="choose"
-        v-for="(item, index) of customConfig.chooseList"
-        :key="index"
-      >
+      <div class="choose" v-for="(item, index) of infoDate" :key="index">
         <!-- 筛选列表标题 -->
         <p>{{ item.title }}</p>
         <!-- 不限选择  -->
         <el-radio-group
-          v-if="item.noLimit"
           size="mini"
           @change="noLimitClick(index)"
           v-model="noLimit[index]"
@@ -22,7 +17,7 @@
           v-if="item.multipleList"
           v-model="form.radioArray[index]"
           size="mini"
-          @change="checkboxChange(index)"
+          @change="checkboxChange($event, index)"
         >
           <el-checkbox-button
             v-for="itemSon of item.multipleList"
@@ -139,6 +134,13 @@
             >
           </template>
         </template>
+        <el-button
+          v-show="selectedShow"
+          class="button-new-tag"
+          size="mini"
+          @click="cleanAll"
+          >清除全部</el-button
+        >
       </div>
     </div>
     <div class="tool">
@@ -155,8 +157,9 @@
 // import appService from "@njsdata/app-sdk";
 import eventActionDefine from "./components/msgCompConfig";
 import { formateDate } from "./date";
-import queryAssetById from "./api/asset";
+import { queryAssetById } from "./api/asset";
 import "./index.css";
+import { json } from "body-parser";
 export default {
   name: "App",
   props: {
@@ -209,6 +212,8 @@ export default {
       },
       lineShow: [],
       selectedShow: false,
+      assetMessage: [],
+      infoDate: [],
     };
   },
   computed: {
@@ -221,20 +226,26 @@ export default {
   },
   created() {
     this.customConfig.chooseList = JSON.parse(this.customConfig.chooseList);
-    this.customConfig.chooseList.forEach((e, index) => {
-      this.form.radioArray[index] = [];
-      this.isChooseDate[index] = {};
-      this.inputDate[index] = "";
-      this.noLimit[index] = "不限";
-      this.lineShow[index] = true;
-      if (e.options) {
-        this.options[index] = e.options;
-      } else {
-        this.options[index] = [];
-      }
+    console.log(this.customConfig.chooseList);
+    queryAssetById(this.customConfig.assetId).then((res) => {
+      this.assetMessage = this.handleAsset(res.data);
+      this.handlePlatform();
+      this.customConfig.chooseList.forEach((e, index) => {
+        this.form.radioArray[index] = [];
+        this.selectDate[index] = [];
+        this.isChooseDate[index] = {};
+        this.inputDate[index] = "";
+        this.noLimit[index] = "不限";
+        this.lineShow[index] = true;
+        if (e.options) {
+          this.options[index] = e.options;
+        } else {
+          this.options[index] = [];
+        }
+      });
+      let date = new Date();
+      this.nowDate = formateDate(date, "yyyy-MM-dd");
     });
-    let date = new Date();
-    this.nowDate = formateDate(date, "yyyy-MM-dd");
   },
   mounted() {
     let { componentId } = this.customConfig || {};
@@ -245,15 +256,68 @@ export default {
         this,
         eventActionDefine
       );
-    this.$nextTick(() => {
-      this.startsheight = this.$el.children[0].offsetHeight;
-    });
+    // this.$nextTick(() => {
+    //   this.startsheight = this.$el.children[0].offsetHeight;
+    //   console.log(
+    //     this,
+    //     document.getElementsByClassName("chooseAll")[0].offsetHeight,
+    //     this.startsheight
+    //   );
+    // });
   },
   methods: {
+    handleAsset(data) {
+      let messageAll = [];
+      data[0].forEach((item, index) => {
+        let message = {};
+        message.title = item.col_name;
+        let info = [];
+        data[1].forEach((item2, index2) => {
+          info.push(item2[index]);
+        });
+        message.list = [...new Set(info)];
+        messageAll.push(message);
+      });
+      messageAll.forEach((item, index) => {
+        let messageAll2 = [];
+        item.list.forEach((item2, index2) => {
+          let labelKey = {
+            label: item2,
+            key: item2,
+          };
+          messageAll2.push(labelKey);
+          messageAll[index].list = messageAll2;
+        });
+      });
+      console.log(messageAll);
+      return messageAll;
+    },
+    handlePlatform() {
+      this.customConfig.chooseList.forEach((item, index) => {
+        this.assetMessage.forEach((item2, index2) => {
+          if (item.title == item2.title) {
+            if (item.singleOrMutiple == "single") {
+              item.singleList = item2.list;
+            } else if (item.singleOrMutiple == "mutiple") {
+              item.multipleList = item2.list;
+            }
+          }
+        });
+      });
+      this.infoDate = this.customConfig.chooseList;
+    },
     // 整个收起隐藏
     openOff() {
+      if (!this.startsheight) {
+        this.startsheight = this.$el.children[0].offsetHeight;
+      }
       this.openFlag = !this.openFlag;
-      this.chooseAllHeight = this.openFlag ? this.startsheight + "px" : "30px";
+      if (this.selectedShow) {
+      }
+      this.chooseAllHeight = this.openFlag
+        ? this.startsheight + 28 + "px"
+        : "30px";
+      console.log(this.chooseAllHeight);
     },
     // 行内显示隐藏
     lineShowClick(index) {
@@ -262,9 +326,10 @@ export default {
       console.log(index);
     },
     // 多选事件
-    checkboxChange(index) {
+    checkboxChange(e, index) {
       if (this.isChooseDate[index].dateFlag) {
         this.$set(this.form.radioArray, index, []);
+        this.$set(this.form.radioArray, index, [e[e.length - 1]]);
       }
       this.$set(this.dateModel, [index], []);
       if (typeof this.noLimit[index] == "string") {
@@ -272,12 +337,13 @@ export default {
       }
       this.isChooseDate[index].dateFlag = false;
       this.setRequestMessage();
+      console.log(this.form.radioArray);
     },
     // 单选事件
     radioChange(val, index) {
-      console.log(val,index);
       this.$set(this.dateModel, [index], []);
       this.$set(this.shortcutTimeDate, index, "");
+      this.$set(this.selectDate, index, []);
       if (typeof this.noLimit[index] == "string") {
         this.$set(this.noLimit, index, "");
       }
@@ -285,8 +351,8 @@ export default {
     },
     // 不限事件
     noLimitClick(index) {
-      this.$set(this.form.radioArray, index, []);
-      this.$set(this.selectDate, index, []);
+      this.$set(this.form.radioArray, [index], []);
+      this.$set(this.selectDate, [index], []);
       this.$set(this.dateModel, [index], []);
       this.setRequestMessage();
     },
@@ -336,8 +402,25 @@ export default {
     },
     // 选择器事件
     selectChange(value, index) {
+      if (this.infoDate[index].singleList) {
+        this.$set(this.form.radioArray, [index], {});
+      }
       this.setRequestMessage();
-      console.log(value, index);
+    },
+    cleanAll() {
+      this.infoDate.forEach((e, index) => {
+        this.$set(this.form.radioArray, [index], []);
+        this.$set(this.isChooseDate, [index], {});
+        this.$set(this.inputDate, [index], "");
+        this.$set(this.dateModel, [index], []);
+        this.$set(this.selectDate, [index], []);
+        this.$set(this.noLimit, [index], "不限");
+        this.lineShow[index] = true;
+      });
+      for (var key in this.requestMessage) {
+        this.requestMessage[key] = "";
+      }
+      console.log(this.form.radioArray);
     },
     // 快捷时间选中事件
     // shortcutTimeChange(index) {
@@ -352,10 +435,12 @@ export default {
     // },
     // 设置请求
     setRequestMessage() {
-      this.customConfig.chooseList.forEach((item, index) => {
+      console.log(this.infoDate);
+      this.infoDate.forEach((item, index) => {
         if (Array.isArray(this.form.radioArray[index])) {
           let message = "";
           this.form.radioArray[index].forEach((item2, index2) => {
+            console.log(item2, index2, 443);
             if (index2 > 0) {
               message += "|" + item2.key;
             } else {
@@ -364,9 +449,7 @@ export default {
           });
           this.$set(this.requestMessage, item.fieldName, message);
         } else {
-          if (
-            this.form.radioArray[index].label == "3个月前" 
-          ) {
+          if (this.form.radioArray[index].label == "3个月前") {
             let date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 90);
             this.$set(
@@ -374,9 +457,7 @@ export default {
               item.fieldName,
               formateDate(date, "yyyy-MM-dd") + "|" + this.nowDate
             );
-          } else if (
-            this.form.radioArray[index].label == "6个月前" 
-          ) {
+          } else if (this.form.radioArray[index].label == "6个月前") {
             let date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 180);
             this.$set(
@@ -384,9 +465,7 @@ export default {
               item.fieldName,
               formateDate(date, "yyyy-MM-dd") + "|" + this.nowDate
             );
-          } else if (
-            this.form.radioArray[index].label == "1年前" 
-          ) {
+          } else if (this.form.radioArray[index].label == "1年前") {
             let date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 365);
             this.$set(
@@ -404,17 +483,10 @@ export default {
         }
       });
       this.selectDate.forEach((item2, index2) => {
-        if (
-          this.requestMessage[this.customConfig.chooseList[index2].fieldName]
-            .length > 0
-        ) {
+        if (this.requestMessage[this.infoDate[index2].fieldName].length > 0) {
           item2.forEach((item3, index3) => {
-            this.requestMessage[
-              this.customConfig.chooseList[index2].fieldName
-            ] =
-              this.requestMessage[
-                this.customConfig.chooseList[index2].fieldName
-              ] +
+            this.requestMessage[this.infoDate[index2].fieldName] =
+              this.requestMessage[this.infoDate[index2].fieldName] +
               "|" +
               item3.key;
           });
@@ -426,33 +498,11 @@ export default {
             } else {
               message = item4.key;
             }
-            this.requestMessage[
-              this.customConfig.chooseList[index2].fieldName
-            ] = message;
+            this.requestMessage[this.infoDate[index2].fieldName] = message;
           });
         }
       });
       console.log(this.requestMessage);
-    },
-    triggerEvent() {
-      let { componentId, appId } = this.customConfig || {};
-      componentId &&
-        appId &&
-        window.eventCenter?.triggerEventNew({
-          objectId: appId,
-          componentId: componentId,
-          type: "app",
-          event: "onImgClick",
-          payload: {
-            value: "sasdasd",
-          },
-        });
-    },
-    do_EventCenter_messageSuccess() {
-      alert("动作执行成功！");
-    },
-    Event_Center_getName() {
-      return "应用二开测试";
     },
   },
   destroyed() {
@@ -540,6 +590,7 @@ export default {
 }
 /deep/.el-radio-button--mini .el-radio-button__inner {
   padding: 5px 10px;
+  background: transparent;
 }
 /deep/ .el-radio-button:last-child .el-radio-button__inner,
 /deep/ .el-radio-button:first-child .el-radio-button__inner,
@@ -573,10 +624,12 @@ export default {
     font-size: 14px;
     min-width: 100px;
   }
+  /deep/.el-button {
+    height: 20px;
+  }
 }
 .chooseAll {
   width: 1500px;
-  transition: 0.5s;
   overflow: hidden;
   margin-top: 30px;
 }

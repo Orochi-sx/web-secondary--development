@@ -29,36 +29,42 @@ if (process.env.NODE_ENV !== "production") {
     desc: "无码化应用搭建，弹指间即完成数据从无到有到收集和使用",
     url: "http://baidu.com",
     imgUrl: "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
-    chooseList: JSON.stringify([
+    assetId: "c2f27c9e-030f-45b4-ac20-e63329d87bc2",
+    chooseList: JSON.stringify(
+      [
       {
         noLimit: true,
-        title: "课程系列课程",
-        singleList: [{ label: "空1", key: "kong1" },{ label: "空2", key: "kong2" }],
+        title: "投资金额",
+        singleList: [],
         extra: "date",
+        singleOrMutiple: "single",
         shortcutTime: true,
-        fieldName: "seeion",
+        fieldName: "money",
       },
       {
         noLimit: true,
-        title: "课程系列",
-        multipleList: [{ label: "空3", key: "kong3" },{ label: "空4", key: "kong4" }],
+        title: "投资轮次",
+        multipleList: [],
         extra: "date",
-        fieldName: "fast",
+        singleOrMutiple: "mutiple",
+        fieldName: "cishu",
       },
       {
         noLimit: true,
-        title: "难度等级",
-        multipleList: [{ label: "空5", key: "kong5" },{ label: "空6", key: "kong6" }],
+        title: "最新投资时间",
+        multipleList: [],
         extra: "input",
+        singleOrMutiple: "mutiple",
         placeholder: "输入回车后确定",
-        fieldName: "ation",
+        fieldName: "time",
       },
       {
         noLimit: true,
         title: "课程系列",
-        multipleList: [{ label: "一星", key: "1" },{ label: "二星", key: "2" },{ label: "三星", key: "3" }],
+        multipleList: [],
+        singleOrMutiple: "mutiple",
         extra: "select",
-        options:[
+        options: [
           {
             key: "黄金糕",
             label: "黄金糕",
@@ -81,9 +87,10 @@ if (process.env.NODE_ENV !== "production") {
           },
         ],
         placeholder: "输入投资方名称",
-        fieldName: "time",
+        fieldName: "time2",
       },
-    ]),
+    ]
+    ),
   };
 
   new Vue({
