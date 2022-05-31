@@ -169,7 +169,7 @@ export default class App extends Component {
       yAxis: {
         name: titleArr[2],
         scale: true,
-        min:10,
+        min:ymin,
         max:yMax,
         axisLine: {
           symbol: 'none',
