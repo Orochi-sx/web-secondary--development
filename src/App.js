@@ -31,6 +31,7 @@ const actions = [
   },
 ];
 
+
 export default class App extends Component {
   myeCharts = React.createRef()
 
@@ -50,6 +51,7 @@ export default class App extends Component {
         this.loadTableFromData && this.loadTableFromData(data);
       });
   }
+
   echartsInit() {
     var chartDom = this.refs.xxeCharts
     var myChart = echarts.init(chartDom);
@@ -293,10 +295,15 @@ export default class App extends Component {
       ],
     };
     option && myChart.setOption(option);
+    window.addEventListener('resize',()=>{
+      myChart.resize()
+      // console.log('123');
+    })
 
 
 
   }
+
 
 
   componentDidMount() {
@@ -312,12 +319,14 @@ export default class App extends Component {
     updateProcess && updateProcess();
 
     this.Event_Center_getName = () => {
-      return "Demo实例";
+      return "象限图";
     };
-  }
-  do_EventCenter_messageSuccess(param) {
-    console.log(param);
-    alert("动作执行成功！");
+    window.addEventListener('resize',()=>{
+      // myChart.resize()
+      console.log('123');
+    })
+
+
   }
   render() {
     return (
