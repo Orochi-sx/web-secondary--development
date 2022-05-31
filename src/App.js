@@ -80,6 +80,7 @@ export default class App extends Component {
     let centerNumConfigArr = this.props.options.externalVariables.centerNum.split(',')
     let centerLineColor = this.props.options.externalVariables.centerColor
     let yMax = this.props.options.externalVariables.yMax
+    let ymin = this.props.options.externalVariables.yMin
     let titleColor = this.props.options.externalVariables.titleColor
     let titleSize = this.props.options.externalVariables.titleSize
     let titleText = this.props.options.externalVariables.titleText
@@ -150,6 +151,7 @@ export default class App extends Component {
       xAxis: {
         name: titleArr[1],
         scale: true,
+        
         axisLine: {
           symbol: 'none',
           lineStyle: {
@@ -167,7 +169,7 @@ export default class App extends Component {
       yAxis: {
         name: titleArr[2],
         scale: true,
-        min:YminNum,
+        min:10,
         max:yMax,
         axisLine: {
           symbol: 'none',
@@ -250,7 +252,7 @@ export default class App extends Component {
                 },
                 {
                   xAxis: centerNumConfigArr[0], // x 轴结束位置
-                  yAxis: YminNum, // y轴开始位置
+                  yAxis: ymin, // y轴开始位置
                 },
               ],
               // 第四象限
@@ -265,7 +267,7 @@ export default class App extends Component {
                   },
                 },
                 {
-                  yAxis: YminNum, // y轴开始位置
+                  yAxis: ymin, // y轴开始位置
                 },
               ],
             ],

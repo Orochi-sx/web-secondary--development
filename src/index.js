@@ -30,6 +30,7 @@ if (process.env.NODE_ENV !== "production") {
       centerNum:'50,40',
       centerColor:'blue',
       yMax:100,
+      yMin:10,
       titleText:'象限图',
       titleColor:'#000000',
       titleSize:18
