@@ -1,7 +1,6 @@
 {
   "id": "0d872f60-2368-4d40-b64b-3a880186bb99",
   "type": "app",
-  "main": "app.08bc0aa5.js",
   "version": "2",
   "props": {
     "type": "customize",
