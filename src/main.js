@@ -3,6 +3,8 @@ import App from "./App.vue";
 // 按需引入组件，引入方式见https://element.eleme.cn/#/zh-CN/component/quickstart#an-xu-yin-ru
 import { Input, Select, Option, Button, Avatar } from "element-ui";
 
+import './api/vant'
+
 Vue.config.productionTip = false;
 Vue.use(Input);
 Vue.use(Select);

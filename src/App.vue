@@ -1,13 +1,26 @@
 <template>
-  <div class="infoCard">
-    <div class="card-title" @click="triggerEvent">
-      {{ title }}
+  <div class="default_project">
+    <van-radio-group v-model="radio">
+
+        <div v-for="(item, index) in radioList" :key="index" class="project_label">
+          <van-cell clickable @click="changeRadio(item)">
+            
+            <template #title>
+              <van-radio :name="item[radioKey]">{{ item[radioLabel] }}</van-radio>
+            </template>
+
+            <template #right-icon>
+              <van-button v-if="item[radioLabel] == defaultKey" round plain size="mini" type="info" class="default_button">默认项目</van-button>
+            </template>
+
+          </van-cell>
+        </div>
+
+    </van-radio-group>
+    
+    <div class="default_save" v-if="radioLabel && radioKey">
+      <van-button round block size="small" type="info" class="save_button" @click="saveDefaultProject">保存</van-button>
     </div>
-    <div class="card-desc">
-      {{ desc }}
-    </div>
-    <el-button ghost @click="goToStudy"> 去学习 </el-button>
-    <el-button ghost @click="getData"> 获取数据 </el-button>
   </div>
 </template>
 
@@ -15,20 +28,26 @@
 // import appService from "@njsdata/app-sdk";
 import eventActionDefine from "./components/msgCompConfig";
 import "./index.css";
+
+import { queryAssetById } from './api/asset'
+
 export default {
   name: "App",
+
   props: {
     customConfig: Object,
-    info: Object,
   },
-  computed: {
-    title() {
-      return this.customConfig?.title || "数据构建";
-    },
-    desc() {
-      return this.customConfig?.desc || "描述";
-    },
+
+  data() {
+    return {
+      radio: '',
+      radioList: [],
+      defaultKey: '',
+      radioLabel: '',
+      radioKey: '',
+    }
   },
+
   mounted() {
     let { componentId } = this.customConfig || {};
     componentId &&
@@ -38,16 +57,50 @@ export default {
         this,
         eventActionDefine
       );
+
+    this.getRadioDataList()
   },
+
   methods: {
-    goToStudy() {
-      window.open(this.customConfig?.url || "http://baidu.com");
+    getRadioDataList() {
+      let { assetId, radioLabel, radioKey } = this.customConfig
+      this.radioLabel = radioLabel ? JSON.parse(JSON.stringify(radioLabel)) : ''
+      this.radioKey = radioKey ? JSON.parse(JSON.stringify(radioKey)) : ''
+
+      queryAssetById(assetId).then( (res) => {
+        this.radioList = this.translatePlatformDataToJsonArray(res)
+      }).catch( () => {} )
     },
-    getData() {
-      //   console.log(appService.getMenuData(), "菜单");
-      //   console.log(appService.getPageData(), "页面");
-      //   console.log(appService.getVariable(), "变量");
+
+    changeRadio(item) {
+      this.radio = item[this.radioKey]
+      this.defaultKey = item[this.radioKey]
     },
+
+    saveDefaultProject() {
+      window.hyy_default_project_key = this.radio
+      this.$toast('保存成功')
+    },
+
+    // 数据转换
+    translatePlatformDataToJsonArray(originTableData) {
+      let originTableHeader = originTableData.data[0];
+      let tableHeader = [];
+      originTableHeader.forEach((item) => {
+        tableHeader.push(item.col_name);
+      });
+      let tableBody = originTableData.data[1];
+      let tableData = [];
+      tableBody.forEach((tableItem) => {
+        let temp = {};
+        tableItem.forEach((item, index) => {
+          temp[tableHeader[index]] = item;
+        });
+        tableData.push(temp);
+      });
+      return tableData;
+    },
+    
     triggerEvent() {
       let { componentId, appId } = this.customConfig || {};
       componentId &&
@@ -62,9 +115,6 @@ export default {
           },
         });
     },
-    do_EventCenter_messageSuccess() {
-      alert("动作执行成功！");
-    },
     Event_Center_getName() {
       return "应用二开测试";
     },
@@ -74,3 +124,32 @@ export default {
   },
 };
 </script>
+
+<style>
+  /* .default_project {
+    background: #f1f1f1;
+  } */
+  .project_label {
+    margin: 10px 0;
+    padding: 0 10px;
+  }
+  .project_label .van-cell {
+    padding: 11px 16px;
+  }
+  .default_save {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: .9375rem;
+    height: 3.75rem;
+  }
+  .save_button {
+    height: 2.3125rem !important;
+    width: 80% !important;
+  }
+  .default_button {
+    height: 20px !important;
+    padding: 0 10px !important;
+  }
+</style>
