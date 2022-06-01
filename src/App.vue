@@ -6,7 +6,7 @@
           <van-cell clickable @click="changeRadio(item)">
             
             <template #title>
-              <van-radio :name="item[radioKey]">{{ item[radioLabel] }}</van-radio>
+              <van-radio :name="item[radioLabel]">{{ item[radioKey] }}</van-radio>
             </template>
 
             <template #right-icon>
@@ -63,7 +63,11 @@ export default {
 
   methods: {
     getRadioDataList() {
-      let { assetId, radioLabel, radioKey } = this.customConfig
+      let { assetId } = this.customConfig
+
+      let radioLabel = this.customConfig['存储字段']
+      let radioKey = this.customConfig['显示字段']
+      
       this.radioLabel = radioLabel ? JSON.parse(JSON.stringify(radioLabel)) : ''
       this.radioKey = radioKey ? JSON.parse(JSON.stringify(radioKey)) : ''
 
@@ -73,12 +77,16 @@ export default {
     },
 
     changeRadio(item) {
-      this.radio = item[this.radioKey]
-      this.defaultKey = item[this.radioKey]
+      this.radio = item[this.radioLabel]
+      this.defaultKey = item[this.radioLabel]
     },
 
     saveDefaultProject() {
-      window.hyy_default_project_key = this.radio
+      
+      window.hyy_default_project_key = `${this.customConfig['存储字段']}: ${this.radio}`
+
+      sessionStorage.setItem('hyy_default_project_key',`${this.customConfig['存储字段']}: ${this.radio}`)
+
       this.$toast('保存成功')
     },
 
@@ -121,6 +129,7 @@ export default {
   },
   destroyed() {
     window.componentCenter?.removeInstance(this.customConfig?.componentId);
+    sessionStorage.removeItem('hyy_default_project_key')
   },
 };
 </script>
