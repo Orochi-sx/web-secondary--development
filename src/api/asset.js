@@ -6,5 +6,9 @@ import request from "./request";
  */
 export const queryAssetById = id =>
   request.post(`/asset/getAssetData?asset_id=${id}`, []);
-export const logout = id =>
+/**
+ * 登出
+ * @returns 
+ */
+export const logout = () =>
   request.get(`/system/authority/logout`);
