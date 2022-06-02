@@ -73,10 +73,18 @@ export default {
 
       queryAssetById(assetId).then( (res) => {
         this.radioList = this.translatePlatformDataToJsonArray(res)
+        
+        if(sessionStorage.getItem('hyy_default_project_key')) {
+          let key = sessionStorage.getItem('hyy_default_project_key')
+          this.radio = key.slice(key.indexOf(':') + 2)
+          this.defaultKey = key.slice(key.indexOf(':') + 2)
+        }
+
       }).catch( () => {} )
     },
 
     changeRadio(item) {
+      console.log(item[this.radioLabel])
       this.radio = item[this.radioLabel]
       this.defaultKey = item[this.radioLabel]
     },
