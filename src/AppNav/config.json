@@ -1,10 +1,10 @@
 {
-  "id": "8155a4b7-b0d4-4cb5-b7b4-2b22e7171056",
-  "type": "head",
-  "main": "main.2bbba69c.js",
+  "id": "17364516-8468-4dda-93c2-4940200765d9",
+  "type": "app",
+  "main": "main.95f6c91f.js",
   "version": "2",
   "props": {
-    "type": "head",
+    "type": "navigation",
     "img": "APP_0001.png",
     "name": "dsadq",
     "loadStyle": 0,
@@ -12,8 +12,7 @@
     "css_script": [],
     "customconf": [
       "title",
-      "logoUrl",
-      "mainHeight"
+      "url"
     ]
   }
 }

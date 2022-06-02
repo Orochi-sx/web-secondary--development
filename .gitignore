@@ -31,19 +31,11 @@ pluginTemp/js/*
 pluginTemp/libs/*
 plugin-*.zip
 
+pnpm-lock.yaml
+package-lock.json
+
 .umi
 
 yarn.lock
-
+temp
 .history
-temp
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-temp
-.env

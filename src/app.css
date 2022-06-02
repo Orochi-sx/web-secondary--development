@@ -1,0 +1,27 @@
+.mainTop {
+  width: 100%;
+  background-color: #313a52;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mainTop .leftInfo {
+  display: flex;
+}
+.mainTop .leftInfo .logo {
+  height: 40px;
+  width: 40px;
+}
+.mainTop .leftInfo .title {
+  margin-left: 10px;
+  width: auto;
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  color: #ffffff;
+}
+.mainTop .logout {
+  color: #ffffff;
+  margin-right: 50px;
+  cursor: pointer;
+}
