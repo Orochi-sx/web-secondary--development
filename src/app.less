@@ -1,45 +1,28 @@
-.infoCard {
-  width: 24%;
-  min-width: 260px;
-  border-radius: 16px !important;
-  padding: 2vw !important;
-  .ant-card-head {
-    padding: 0;
-    .ant-card-head-title {
-      padding: 0;
-      .card-title {
-        color: white;
-        position: relative;
-        font-weight: bold;
-        font-size: 28px;
-        line-height: 39px;
-        z-index: 10;
-      }
+.mainTop {
+  width: 100%;
+  background-color: #313a52;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .leftInfo {
+    display: flex;
+    .logo {
+      height: 40px;
+      width: 40px;
     }
-    .ant-card-extra {
-      padding: 0;
-    }
-  }
-  .ant-card-body {
-    padding: 0 !important;
-    .card-desc {
-      color: white;
-      position: relative;
-      font-size: 14px;
-      line-height: 20px;
-      color: #ffffffb3;
-      margin: 1vw 0;
-      z-index: 10;
+    .title {
+      margin-left: 10px;
+      width: auto;
+      height: 40px;
+      line-height: 40px;
+      font-size: 20px;
+      color: #ffffff;
     }
   }
-  .ant-btn-background-ghost {
-    border-color: #fff8;
-    width: 100px;
-  }
-  @media (max-width: 1680px) {
-    .card-title {
-      font-size: 26px;
-      line-height: 37px;
-    }
+
+  .logout {
+    color: #ffffff;
+    margin-right: 50px;
+    cursor: pointer;
   }
 }

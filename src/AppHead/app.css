@@ -1,0 +1,17 @@
+.app-list-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+.app-list-head .head-icon {
+  margin: 0 20px;
+}
+.app-list-head .head-title {
+  font-size: 16px;
+  margin-right: 24px;
+}
+.app-list-head .head-action {
+  position: absolute;
+  right: 40px;
+}
