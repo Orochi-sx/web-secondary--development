@@ -36,7 +36,7 @@ if (process.env.NODE_ENV !== "production") {
       auto: true,
       showToolbar: false,
       columns: ["年份", "数值", "指标名称"],
-      showColumns: ["指标名称", "数值"],
+      showColumns: ["年份", "指标名称"],
       dataSourceType: 2,
       customCss: "",
     },

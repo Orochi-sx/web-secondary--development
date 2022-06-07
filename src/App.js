@@ -1,131 +1,161 @@
 import React, { Component } from "react";
 // import { Table, Button, message } from "antd";
-import * as echarts from "echarts";
 import { normalizeData } from "./normalizeData";
-import "./app.css";
+import imgUrl from "./img/BK.png";
+import "./app.less";
+import {
+  registerStore,
+  getBlockData,
+  getBlockVariables,
+} from "@njsdata/bigscreen-sdk";
 export default class App extends Component {
   divRef = null;
   state = {
-    dataSource: [],
+    voidList: [],
+    spbfData: {},
+    SPsetInterval: undefined,
+    listD: [],
+    rotationTime: 1,
+    lineNum: 4,
+    data: [
+      ["1212", "7686"],
+      ["4", "1217867212"],
+      ["1212", "121212"],
+      ["786", "6786"],
+    ],
     rowId: "",
-    default_value: "",
+    idx1: 0,
+    idx2: 1,
     id: "",
+    height: '120px'
   };
   fnref = (el) => {
     this.divRef = el;
   };
-  initChart = (variable, bigScreen_options, bigScreen_data) => {
-    const myChart = echarts.init(this.divRef);
 
-    const data = normalizeData(bigScreen_options, bigScreen_data).map((v) => {
-      return {
-        value: v[1],
-        name: v[0],
-      };
-    });
-    const { default_value = "测试的数据", id = "测试的名称" } = variable;
+  lserceen = React.createRef()
+  handleClose() {
     this.setState({
-      default_value,
-      id,
+      dialogVisible: false,
     });
 
-    let option = {
-      title: {
-        text: "演示数据",
-        subtext: "演示二级标题",
-        left: "center",
-        textStyle: {
-          color: "#f0f",
-          fontWeight: "bold",
-        },
-        subtextStyle: {
-          color: "#f0f",
-          fontWeight: "bold",
-        },
-      },
-      tooltip: {
-        trigger: "item",
-      },
-      legend: {
-        orient: "vertical",
-        left: "left",
-        textStyle: {
-          color: "#f0f",
-          fontWeight: "bold",
-        },
-      },
-      series: [
-        {
-          name: id,
-          type: "pie",
-          radius: "50%",
-          data: data,
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)",
-            },
-          },
-        },
-      ],
-    };
+    this.addSetInterval();
+  }
 
-    if (option && typeof option === "object") {
-      myChart.setOption(option);
-      myChart.resize();
+  addSetInterval() {
+
+    const { listD = [], rotationTime = 3 } = this.state;
+
+    if (listD.length >= 2) {
+      this.remSetInterval();
+      const SPsetInterval = setInterval(() => {
+
+        this.nextPage(false);
+      }, rotationTime * 1000);
+      this.setState({
+        SPsetInterval,
+      });
     }
-  };
+  }
+  remSetInterval() {
+    clearInterval(this.state.SPsetInterval);
+  }
+  proPage() {
+    const { listD = [] } = this.state;
+    let list = listD;
+    if (list.length >= 2) {
+      list.unshift(list[list.length - 1]);
+      list.pop();
+      this.setState({
+        listD: list,
+      });
+      // this.addSetInterval();
+    }
+  }
+  nextPage(bol) {
+    const { listD = [] } = this.state;
+    let list = listD;
+    if (list.length >= 2) {
+      if (bol) {
+        this.addSetInterval();
+      }
+      list.push(list[0]);
+      list.shift();
+      this.setState({
+        listD: list,
+      });
+    }
+  }
+  componentWillMount() {
+    try {
+      const varibale = getBlockVariables()
+      let lineNum = JSON.parse(varibale.default_value).lineNum
 
+      let rotationTime = JSON.parse(varibale.default_value).rotationTime
+      this.setState({
+        lineNum,
+        rotationTime
+      })
+    }
+    catch (e) {
+      console.log(e);
+    }
+
+
+  }
   componentDidMount() {
-    if (this.divRef) {
-      const bigScreen_options = this.props.options || {};
-      const variable = this.props.variable;
-      const bigScreen_data = this.props.data || [];
-
-      this.initChart(variable, bigScreen_options, bigScreen_data);
-    }
+    console.log(getBlockData(), "getBlockData");
+    console.log(getBlockVariables(), "getBlockVariables");
     const { pubSub } = this.props;
+    console.log(this.props);
+    let data = getBlockData()
+
+
+
+    if (data.length == 0) {
+      data = [
+        ["1212", "7686"],
+        ["4", "1217867212"],
+        ["1212", "121212"],
+        ["786", "6786"],
+      ]
+    }
+    let i = 0;
+    let c = 0
+    let tmpe = [];
+    let { listD } = this.state
+    if (data.length < this.state.lineNum) {
+      listD.push(data)
+    } else {
+      const a = parseInt(data.length / this.state.lineNum)
+      data.forEach((item) => {
+        i++;
+        tmpe.push(item);
+        if (this.state.lineNum == i) {
+          i = 0;
+          c++
+          listD.push(tmpe);
+          tmpe = [];
+        }
+      });
+      if (tmpe.length != 0) {
+        listD.push(tmpe);
+      }
+    }
+    this.setState({
+      listD,
+
+    },
+      () => this.addSetInterval())
     pubSub &&
       pubSub.subscribe(
-        "updateChart" + this.props.customConfig.componentId,
-        (data) => {
-          if (this.divRef) {
-            const bigScreen_options = data.options || {};
-            const variable = data.variable;
-            const bigScreen_data = data.data || [];
 
-            this.initChart(variable, bigScreen_options, bigScreen_data);
-          }
-        }
       );
 
     const events = [
-      {
-        key: "onClick",
-        name: "点击",
-        payload: [
-          {
-            name: "名称",
-            dataType: "string",
-            key: "name",
-          },
-        ],
-      },
     ];
 
     const actions = [
-      {
-        key: "messageSuccess",
-        name: "成功提示",
-        params: [
-          {
-            key: "value",
-            name: "值",
-            dataType: "string",
-          },
-        ],
-      },
     ];
 
     window.componentCenter?.register &&
@@ -136,43 +166,109 @@ export default class App extends Component {
     this.props?.updateProcess && this.props.updateProcess();
 
     this.Event_Center_getName = () => {
-      return "Demo实例";
+      return "轮播图";
     };
   }
-  do_EventCenter_messageSuccess(param) {
-    console.log(param);
-    alert(`接受的数据为：${JSON.stringify(param)}`);
+
+  componentWillUnmount() {
+    this.remSetInterval()
   }
-
   render() {
-    const { default_value, id } = this.state;
-    const { data, options, variable, componentId } = this.props;
-
+    const { listD, lineNum, idx1, idx2 } = this.state;
+    console.log(listD);
     return (
-      <>
-        <div
-          className="card-bg"
-          onClick={() => {
-            window.eventCenter.triggerEvent(componentId, "onClick", {
-              name: "二开插件",
-            });
-          }}
-        >
-          配置两个插件之后，点这里进行逻辑控制测试
+      <div className="chkj_lunbo" >
+        <div className="chkj_title" >专业考核指标</div>
+        <div className="pageCenter">
+
+
+
+          {
+            listD.map((item, index) => {
+              return (
+                <div key={index} className='Iitem'>
+                  {
+                    item.map((item2, i) => {
+                      return (
+                        <div
+                          key={i}
+                          className={`def ${lineNum == 5 ? 'five' : null}  ${lineNum == 6 ? 'six' : null}`}
+                        >
+                          <div className="vive">
+                            <img
+                              style={{ width: "100%", height: "100%" }}
+                              src={imgUrl}
+
+                              alt=""
+                            />
+                          </div>
+                          <div className="sp_title" style={{ textAlign: "center" }}>
+                            <span
+                            >
+                              {item2[0]}
+                            </span>
+                          </div>
+                          <div className="sp_title2" style={{ textAlign: "center" }}>
+                            <span
+                            >
+                              {item2[1]}
+                            </span>
+                          </div>
+                        </div>)
+
+                    })
+
+                  }
+                </div>
+              )
+
+
+            }
+
+
+            )
+          }
         </div>
-        {data && options && (
-          <div style={{ color: "#ffffff" }}>
-            展示接收到的变量值:{default_value}
-          </div>
-        )}
-        {data && options && (
-          <div style={{ color: "#ffffff" }}>展示接收到的变量ID:{id}</div>
-        )}
-        {data && options && (
-          <div ref={this.fnref} style={{ width: "100%", height: "100%" }}></div>
-        )}
-        {!(data && options) && <div>请配置数据</div>}
-      </>
+        {/* <Carousel dots={false} autoplay autoplaySpeed={rotationTime}>
+          {
+            listD.map((item, ix) => {
+
+              return (
+                <div className={`${lineNum < 5 ? 'carousel_item' : null}`} key={ix}>
+                  {
+                    item.map((item2, i) => {
+                      return (<div
+                        className={` chkj_lscreen ${lineNum < 5 ? 'chkj_lscreB' : null}`}
+
+                        key={i}
+                        style={{ height }
+
+                        }
+                      >
+                        <img src={imgUrl} alt='' width='100%' height='100%'></img>
+                        <div className="chkj_circular">
+                          <span>{item2[0]}</span>
+                        </div>
+
+                        <div className="chkj_span">
+                          <span>{item2[1]}</span>
+                        </div>
+                      </div>)
+
+                    })
+                  }
+                </div>
+
+
+              )
+            })
+
+
+          }
+
+
+        </Carousel > */}
+      </div >
     );
   }
 }
