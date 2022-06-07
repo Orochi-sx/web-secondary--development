@@ -41,9 +41,9 @@
 | scripts | scripts目录下是开发服务器启动和打包脚本，一般不需要改动。                                                                                                 |
 | src | src 目录下是插件的源码，用户在此目录下开发定制代码。                                                                                                     |
 | src/api | src/api下的文件是接口层，可以添加自己需要的Http 接口。                                                                                                |
-| src/App.js | src/App.js 是插件组件的主文件，用于开发插件的 react 组件。                                                                                           |
-| src/index.js | src/index.js 是加载入口，除了构造开发的 mock 数据外一般不需要修改。                                                                                      |
-| proxy.js | webpack proxy 配置，在开发时如果需要调用 http 请求，可以在这里配置代理，可以参考示例或者 [webpack 官方文档](https://webpack.docschina.org/configuration/dev-server/) 。 |
+| src/App.vue | src/App.js 是插件组件的主文件，用于开发插件的 react 组件。                                                                                           |
+| src/main.js | src/index.js 是加载入口，除了构造开发的 mock 数据外一般不需要修改。                                                                                      |
+| vue.confing,js | webpack proxy 配置，在开发时如果需要调用 http 请求，可以在这里配置代理，可以参考示例或者 [webpack 官方文档](https://webpack.docschina.org/configuration/dev-server/) 。 |
 
 ## config.json配置文件字段说明
 
