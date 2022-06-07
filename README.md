@@ -41,6 +41,8 @@
 | scripts | scripts目录下是开发服务器启动和打包脚本，一般不需要改动。                                                                                                 |
 | src | src 目录下是插件的源码，用户在此目录下开发定制代码。                                                                                                     |
 | src/api | src/api下的文件是接口层，可以添加自己需要的Http 接口。                                                                                                |
+| src/assets | 项目中的图片文件存放地址 |
+| src/componentst | 填报二开中需要编辑的六个文件的存放位置                       |
 | src/App.js | src/App.js 是插件组件的主文件，用于开发插件的 react 组件。                                                                                           |
 | src/index.js | src/index.js 是加载入口，除了构造开发的 mock 数据外一般不需要修改。                                                                                      |
 | proxy.js | webpack proxy 配置，在开发时如果需要调用 http 请求，可以在这里配置代理，可以参考示例或者 [webpack 官方文档](https://webpack.docschina.org/configuration/dev-server/) 。 |
@@ -257,10 +259,10 @@ export default new EventBus();
 ![](https://img.kancloud.cn/d9/a4/d9a4bec3826204ba416641df86356bb0_3900x1886.png)
 
 2. 单击“插件开发”，进入插件开发页面。
-  ![](https://img.kancloud.cn/f5/69/f5694c4d7824d0b25c6b9ad7a0d8f2d3_3882x1980.png)
+    ![](https://img.kancloud.cn/f5/69/f5694c4d7824d0b25c6b9ad7a0d8f2d3_3882x1980.png)
 
 3. 单击“我的插件”，进入插件列表页面。
-  ![](https://img.kancloud.cn/77/da/77da3cdf2c67db84589bfeb11a72030e_3896x1460.png)
+    ![](https://img.kancloud.cn/77/da/77da3cdf2c67db84589bfeb11a72030e_3896x1460.png)
 
 4. 单击“新增插件”，新增插件弹窗弹出。
 ![](https://img.kancloud.cn/9f/1e/9f1ec451feaa81f2775220e9a75e1b90_3034x1838.png)
