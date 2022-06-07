@@ -1,178 +1,313 @@
 import React, { Component } from "react";
 // import { Table, Button, message } from "antd";
-import * as echarts from "echarts";
 import { normalizeData } from "./normalizeData";
 import "./app.css";
+import {
+  registerStore,
+  getBlockData,
+  getBlockVariables,
+} from "@njsdata/bigscreen-sdk";
 export default class App extends Component {
   divRef = null;
   state = {
     dataSource: [],
     rowId: "",
     default_value: "",
-    id: "",
+    current: null,
+    durationT: null,
+    player: false,
+    currentTime: 0,
+    duration: null,
+    theme: 'light',
+    audioSrc: 'https://521dimensions.com/song/FirstSnow-Emancipator.mp3'
   };
   fnref = (el) => {
     this.divRef = el;
   };
-  initChart = (variable, bigScreen_options, bigScreen_data) => {
-    const myChart = echarts.init(this.divRef);
+  progress = React.createRef()
+  audioRf = React.createRef()
 
-    const data = normalizeData(bigScreen_options, bigScreen_data).map((v) => {
-      return {
-        value: v[1],
-        name: v[0],
-      };
-    });
-    const { default_value = "测试的数据", id = "测试的名称" } = variable;
-    this.setState({
-      default_value,
-      id,
-    });
+  playerFn() {
 
-    let option = {
-      title: {
-        text: "演示数据",
-        subtext: "演示二级标题",
-        left: "center",
-        textStyle: {
-          color: "#f0f",
-          fontWeight: "bold",
-        },
-        subtextStyle: {
-          color: "#f0f",
-          fontWeight: "bold",
-        },
-      },
-      tooltip: {
-        trigger: "item",
-      },
-      legend: {
-        orient: "vertical",
-        left: "left",
-        textStyle: {
-          color: "#f0f",
-          fontWeight: "bold",
-        },
-      },
-      series: [
-        {
-          name: id,
-          type: "pie",
-          radius: "50%",
-          data: data,
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)",
-            },
-          },
-        },
-      ],
-    };
-
-    if (option && typeof option === "object") {
-      myChart.setOption(option);
-      myChart.resize();
+    if (this.state.player) {
+      this.audioRf.current.pause();
+    } else {
+      this.audioRf.current.play();
     }
-  };
+    this.setState(
+      {
+        player: !this.state.player
+      }
+    )
+  }
+  changeFn() {
+    this.audioRf.current.currentTime = this.progress.current.value
+  }
+  Time(val) {
+    let i = parseInt(val);
+    let m = parseInt(val / 60);
+    return `${m < 10 ? "0" + m : m}:${i % 60 < 10 ? "0" + (i % 60) : i % 60}`;
+  }
+  timeupdateListener() {
+    let a = this.audioRf.current.currentTime;
 
+    // console.log(this.$refs.);
+    let nowTime = this.Time(a)
+    this.progress.current.style.backgroundSize = `${(a / this.state.duration) * 100
+      }% 100%`;
+    this.setState({
+      currentTime: a,
+      current: nowTime
+    });
+  }
+  componentWillMount() {
+    // console.log(getBlockData(), "getBlockData");
+    // console.log(getBlockVariables(), "getBlockVariables");
+
+
+
+  }
   componentDidMount() {
-    if (this.divRef) {
-      const bigScreen_options = this.props.options || {};
-      const variable = this.props.variable;
-      const bigScreen_data = this.props.data || [];
-
-      this.initChart(variable, bigScreen_options, bigScreen_data);
+    let variable = {}
+    try {
+      variable = getBlockVariables().default_value ? JSON.parse(getBlockVariables().default_value) : null;
+    } catch (error) {
+      console.log(error);
+    }
+    // console.log(variable.theme);
+    if (Object.keys(variable).length != 0) {
+      this.setState({ theme: variable.theme ? variable.theme : 'light', audioSrc: variable.audioSrc ? variable.audioSrc : 'https://521dimensions.com/song/FirstSnow-Emancipator.mp3' })
+    }
+    if (this.state.theme == "dark") {
+      document.documentElement.classList.add("dark");
     }
     const { pubSub } = this.props;
     pubSub &&
       pubSub.subscribe(
-        "updateChart" + this.props.customConfig.componentId,
-        (data) => {
-          if (this.divRef) {
-            const bigScreen_options = data.options || {};
-            const variable = data.variable;
-            const bigScreen_data = data.data || [];
 
-            this.initChart(variable, bigScreen_options, bigScreen_data);
-          }
-        }
       );
 
     const events = [
-      {
-        key: "onClick",
-        name: "点击",
-        payload: [
-          {
-            name: "名称",
-            dataType: "string",
-            key: "name",
-          },
-        ],
-      },
     ];
 
     const actions = [
-      {
-        key: "messageSuccess",
-        name: "成功提示",
-        params: [
-          {
-            key: "value",
-            name: "值",
-            dataType: "string",
-          },
-        ],
-      },
     ];
 
     window.componentCenter?.register &&
-      window.componentCenter.register(this.props.componentId, "comp", this, {
+      window.componentCenter.register(this.props?.componentId, "comp", this, {
         events,
         actions,
       });
     this.props?.updateProcess && this.props.updateProcess();
 
     this.Event_Center_getName = () => {
-      return "Demo实例";
+      return "音乐播放器";
     };
   }
-  do_EventCenter_messageSuccess(param) {
-    console.log(param);
-    alert(`接受的数据为：${JSON.stringify(param)}`);
+
+  durationchangeListener() {
+    let d = this.audioRf.current.duration
+    let Ztime = this.Time(d)
+    let a = this.audioRf.current.currentTime;
+
+    // console.log(this.$refs.);
+    let nowTime = this.Time(a)
+    this.setState({
+      duration: this.audioRf.current.duration,
+      currentTime: this.audioRf.current.currentTime,
+      durationT: Ztime,
+      current: nowTime
+    })
+
   }
-
   render() {
-    const { default_value, id } = this.state;
-    const { data, options, variable, componentId } = this.props;
-
+    const { duration, currentTime, current, durationT, player, audioSrc } = this.state
     return (
-      <>
+      <div style={{ width: '100%', height: '100%' }}>
         <div
-          className="card-bg"
-          onClick={() => {
-            window.eventCenter.triggerEvent(componentId, "onClick", {
-              name: "二开插件",
-            });
-          }}
+          className="
+        relative
+        w-player
+        flex flex-col
+        rounded-xl
+        shadow-player-light
+        bg-player-light-background
+        border border-player-light-border
+        dark:shadow-player-dark
+        dark:bg-player-dark-background
+        dark:border-player-dark-border
+        dark:backdrop-blur-xl
+      "
+          style={{ height: '100%' }}
         >
-          配置两个插件之后，点这里进行逻辑控制测试
-        </div>
-        {data && options && (
-          <div style={{ color: "#ffffff" }}>
-            展示接收到的变量值:{default_value}
+          <div className="px-10 pt-10 pb-4 flex items-center z-50" style={{ height: '100%' }} >
+            <img
+              src="https://521dimensions.com/img/open-source/amplitudejs/album-art/soon-it-will-be-cold-enough.jpg"
+              className="
+            w-24
+            h-24
+            rounded-md
+            mr-6
+            border border-bg-player-light-background
+            dark:border-cover-dark-border
+          "
+              alt=''
+            />
+            <div className="flex flex-col">
+              <span
+                className="
+              font-sans
+              text-lg
+              font-medium
+              leading-7
+              text-slate-900
+              dark:text-white
+            "
+              >First Snow</span>
+              <span
+                className="
+              font-sans
+              text-base
+              font-medium
+              leading-6
+              text-gray-500
+              dark:text-gray-400
+            "
+              >Emancipator</span
+              >
+              <span
+                className="
+              font-sans
+              text-base
+              font-medium
+              leading-6
+              text-gray-500
+              dark:text-gray-400
+            "
+              >Soon It Will Be Cold Enough</span
+              >
+            </div>
           </div>
-        )}
-        {data && options && (
-          <div style={{ color: "#ffffff" }}>展示接收到的变量ID:{id}</div>
-        )}
-        {data && options && (
-          <div ref={this.fnref} style={{ width: "100%", height: "100%" }}></div>
-        )}
-        {!(data && options) && <div>请配置数据</div>}
-      </>
+          <div className="w-full flex flex-col px-10 pb-6 z-50" style={{ height: '9%' }}>
+            <input
+              type="range"
+              ref={this.progress}
+              className="mb-3"
+              step=".1"
+              min="0"
+              value={currentTime}
+              onChange={() => { this.changeFn() }}
+
+              max={duration}
+            />
+            <div className="flex w-full justify-between">
+              <span
+                className="
+              text-xs
+              font-sans
+              tracking-wide
+              font-medium
+              text-sky-500
+              dark:text-sky-300
+            "
+              >{current}</span>
+              <span
+                className="text-xs font-sans tracking-wide font-medium text-gray-500"
+              >{durationT}</span>
+            </div>
+          </div>
+          <div
+            className="
+          h-control-panel
+          px-10
+          rounded-b-xl
+          bg-control-panel-light-background
+          border-t border-gray-200
+          flex
+          items-center
+          justify-center
+          z-50
+          dark:bg-control-panel-dark-background dark:border-gray-900
+        "
+            style={{ height: '30%' }}
+          >
+            <div
+              className="
+            cursor-pointer
+            amplitude-play-pause
+            w-24
+            h-24
+            rounded-full
+            bg-white
+            border border-play-pause-light-border
+            shadow-xl
+            flex
+            items-center
+            justify-center
+            dark:bg-play-pause-dark-background
+            dark:border-play-pause-dark-border
+          "
+              onClick={(e) => { this.playerFn() }}
+              style={{ width: '4.5rem', height: '4.5rem' }}
+            >
+              <svg
+                id="play-icon"
+                className={player ? 'visble' : null}
+                width="31"
+                height="37"
+                viewBox="0 0 31 37"
+                fill="none"
+                style={{ marginLeft: '10px' }}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M29.6901 16.6608L4.00209 0.747111C2.12875 -0.476923 0.599998 0.421814 0.599998 2.75545V33.643C0.599998 35.9728 2.12747 36.8805 4.00209 35.6514L29.6901 19.7402C29.6901 19.7402 30.6043 19.0973 30.6043 18.2012C30.6043 17.3024 29.6901 16.6608 29.6901 16.6608Z"
+                  className="fill-slate-500 dark:fill-slate-400"
+                />
+              </svg>
+
+              <svg
+                id="pause-icon"
+                width="24"
+                height="36"
+                viewBox="0 0 24 36"
+                fill="none"
+                className={!player ? 'visble' : null}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  width="6"
+                  height="36"
+                  rx="3"
+                  className="fill-slate-500 dark:fill-slate-400"
+                />
+                <rect
+                  x="18"
+                  width="6"
+                  height="36"
+                  rx="3"
+                  className="fill-slate-500 dark:fill-slate-400"
+                />
+              </svg>
+            </div>
+
+            <div></div>
+          </div>
+
+
+        </div>
+        <audio
+          ref={this.audioRf}
+          className="audio-player"
+          src={audioSrc}
+          style={{ display: 'block', height: '100px', width: '100px' }}
+          onTimeUpdate={() => { this.timeupdateListener() }}
+          onDurationChange={() => { this.durationchangeListener() }}
+
+        ></audio>
+      </div>
     );
   }
 }
