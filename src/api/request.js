@@ -1,6 +1,11 @@
 import axios from "axios";
 import qs from "querystringify";
 
+if (process.env.NODE_ENV === "development") {
+  document.cookie = "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1NDUxMjI4MjYyNSwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.NLHHE_tv1K7fc-t5Lr63SPsNjRLFkrYRbWEXjx42dNM";
+  // document.cookie = "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1NDUxNDU2MDU0NSwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.WxVzY02xKVH2AOfPG0Sv0G7ztLTPPWkcMC4IMu6lKag";
+}
+
 // const apiContextPath = "http://192.168.1.240:43214";
 
 const instance = axios.create({

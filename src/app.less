@@ -1,47 +1,44 @@
-.infoCard {
-  background-color: #0454f2;
-  color: white;
-  width: 24%;
-  height: 15.15vw;
-  border-radius: 16px;
-  padding: 2vw;
+.platform_home {
+  width: 100%;
+}
+.platform_title {
   position: relative;
-  top: 300px;
-  left: 500px;
-  .card-title {
-    position: relative;
-    font-weight: bold;
-    font-size: 28px;
-    line-height: 39px;
-    padding-bottom: 1vw;
-    margin-bottom: 1vw;
-    border-bottom: 1px solid #fff3;
-    z-index: 10;
-  }
-  .card-desc {
-    position: relative;
-    font-size: 14px;
-    line-height: 20px;
-    color: #ffffffb3;
-    margin-bottom: 1vw;
-    z-index: 10;
-  }
-  .card-bg {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    display: flex;
-    flex-direction: row-reverse;
-    z-index: 0;
-  }
-  .ant-btn-background-ghost {
-    border-color: #fff8;
-    width: 100px;
-  }
-  @media (max-width: 1680px) {
-    .card-title {
-      font-size: 26px;
-      line-height: 37px;
-    }
-  }
+  height: 55px;
+  background: url('./assets/img/header.jpg') no-repeat;
+}
+.platform_titleText {
+  position: absolute !important;
+  color: #FFF;
+  font-size: 20px;
+  top: 4px;
+  left: 52px;
+  font-weight: bolder;
+}
+.platform_titleButton {
+  position: absolute !important;
+  left: 73%;
+  top: 5px;
+  font-size: 1px;
+  color: #32AFEF !important;
+}
+
+.platform_content {
+  width: 100%;
+  height: 250px;
+  padding: 10px 0 0 40px;
+  text-align: left;
+  overflow: hidden;
+}
+.platform_contentDiv {
+  width: 100%;
+  font-size: 15px;
+  height: 40px !important;
+  line-height: 30px;
+  text-overflow: ellipsis;
+}
+.platform_contentDiv div {
+  cursor: pointer;
+}
+.platform_contentDiv div:hover {
+  color: #1890ff;
 }
