@@ -133,7 +133,6 @@ const actions = [
   {
     key: "setValue",
     name: "设值",
-    isSupportChild: true, // 是否支持子表(填报组件)
     params: [
       {
         key: "value",
@@ -145,7 +144,6 @@ const actions = [
   {
     key: "getValue",
     name: "取值",
-    isSupportChild: true, // 是否支持子表(填报组件)
     hasReturn: true,
     returns: [
       {
