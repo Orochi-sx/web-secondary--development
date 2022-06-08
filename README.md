@@ -237,7 +237,7 @@ export default new EventBus();
 ![](https://img.kancloud.cn/9f/1e/9f1ec451feaa81f2775220e9a75e1b90_3034x1838.png)
 
 5. 在新增插件弹窗中，输入插件信息。
-![](https://img.kancloud.cn/23/13/2313770bb2bac9c2ea9b3a413303710d_866x533.png)
+![](..\..\img\react-bigScreen.png)
 
 | 参数 | 参数说明 |
 | --- | --- |
@@ -248,64 +248,10 @@ export default new EventBus();
 | 前端插件包 | 在本地选择需要上传的前端插件包。 |
 | 图标 | 单击“选择图标”，根据需要选择面性或线性类型的图标，并且可以通过配置主题颜色，配置图标的颜色。也可以选择自定义，上传自定义图标，支持的自定义图标格式有jpg、jpeg、png、bmp和svg，且图片的大小不能超过128K。 |
 ### 插件使用
-#### 应用
-1. 新增插件已经上传Smartdata平台
 
-2. 登录 Smartdata 平台，单击“应用设计”，进入应用设计模块。
 
-![](https://img.kancloud.cn/98/d1/98d117ae593271d81cf9b58e99e3045d_1280x494.png)
-
-3. 单击“新增应用”。
-
-![](https://img.kancloud.cn/36/f7/36f717185b52ec6efc2224d0c0599beb_1884x873.png)
-4. 选择应用类型， 填写创建的应用名称，单击“创建”。
-
-![](https://img.kancloud.cn/7f/25/7f25d0a22e59fd099e8b091f7db0dc5f_1280x644.png)
-
-5. 选择插件。
-二次开发插件显示的名字由开放平台插件名称决定，图标依次取开放平台插件图标和config.json中的img字段。
- 注意：r3版本自定义插件显示的名字由插件源码里 pluginTemp/config.json 里的 name 字段决定。
-应用的二开插件分为3种： 自定义组件、顶栏和菜单插件。
-
-* **`应用二开组件`**
-
-在顶部插入菜单下，系统组件下拉列表 的最下方找到通过应用插件创建的二次开发组件。
-
-![](https://img.kancloud.cn/0c/2d/0c2d7942dc9005971a44453cea10ab0b_1915x879.png)
-
-![](https://img.kancloud.cn/f9/37/f9371a4b3598436545d7960b9cf4e48b_116x44.png)config.json中的props内的type字段为&quot;customize&quot;时，展现为自定义组件。
-
-* **`顶栏二开插件`**
-
-点击顶栏配置，右侧顶部选择二次开发。
-
-![](https://img.kancloud.cn/72/53/7253ce6bf765da39d084fe6e78a1a87f_1900x900.png)
-
-![](https://img.kancloud.cn/a5/7c/a57c8f3a669c6cb47b09e02b3a3ed24a_1911x774.png)
-
-![](https://img.kancloud.cn/f9/37/f9371a4b3598436545d7960b9cf4e48b_116x44.png)config.json中的props内的type字段为&quot;head&quot;时，展现为顶栏插件。
-
-* **`菜单二开插件`**
-
-点击菜单配置，右侧顶部选择二次开发。
-
-![](https://img.kancloud.cn/83/4e/834eceaf784a74d3e47d5633df34f289_1908x886.png)
-
-![](https://img.kancloud.cn/0a/28/0a28b6068ee1afe875bdce2ed9b8c850_1660x676.png)
-
-![](https://img.kancloud.cn/f9/37/f9371a4b3598436545d7960b9cf4e48b_116x44.png)config.json中的props内的type字段为&quot;navigation&quot;时，展现为菜单插件。
-
-6. 单击选择插件，将插件组件加入页面。选中组件，页面右侧会弹出“组件配置”窗口。
-
-![](https://img.kancloud.cn/1f/be/1fbef56117039cf5052e8ce52bd0e2d4_1648x765.png)
-
-7. 在窗口中输入外部自定义配置参数。
-
-![](https://img.kancloud.cn/be/1f/be1f09789475970eb479b4fffbee4933_1684x705.png)
-
-![](https://img.kancloud.cn/f9/37/f9371a4b3598436545d7960b9cf4e48b_116x44.png)插件源码里“../pluginTemp/config.json”里的customconf字段决定了用户的配置项。
 #### 大屏
-1. 新增插件已经上传Smartdata平台，具体步骤可参见[上传插件](../%E4%B8%8A%E4%BC%A0%E6%8F%92%E4%BB%B6.md)。
+1. 新增插件已经上传Smartdata平台。
 
 2. 登录数睿企业级无代码平台，单击“![](https://img.kancloud.cn/06/f8/06f830a879acad5a56b443985af69ea9_33x36.png)”，选择数据大屏进入数据大屏模块。
 3. 选择目录，新增或者编辑一个大屏。
@@ -316,61 +262,6 @@ export default new EventBus();
 5. 选择新创建的二次开发组件，选择插件，进行数据和显示字段的配置。
 
 ![](https://img.kancloud.cn/81/03/8103a1a57db3190d916f85be87ab1dc0_2944x1404.png)
-
-#### 分析仪
-1. 新增插件已经上传Smartdata平台，具体步骤可参见[上传插件](../%E4%B8%8A%E4%BC%A0%E6%8F%92%E4%BB%B6.md)。
-
-2. 进入首页，在菜单栏中选择分析仪模块。
-
-![](https://img.kancloud.cn/7b/40/7b40bc84e374247ecf07a54674e3b811_1116x553.png)
-
-3. 选择一个目录，随后点进新增或者编辑数据分析仪。
-
-![](https://img.kancloud.cn/b5/24/b524e43bf900093edb56fa8b400f9e03_1270x573.png)
-
-4. 填写创建的分析仪名称，开始分析设计。
-
-5. 在左侧菜单栏选择想要分析的数据资产，单击新增工作区。
-
-![](https://img.kancloud.cn/ec/b6/ecb6f45eb57038ade7da97e650d0f5a7_1233x569.png)
-
-6. 拖拽左侧所需要的字段到中间画布区，生成如图所示表格
-
-![](https://img.kancloud.cn/c1/45/c1459b0e2284f958983cf99201b1d5b3_1246x504.png)
-
-7. 点击其他，选择新创建的二次开发插件
-
-![](https://img.kancloud.cn/f0/68/f06822370cc50469091ec5e9a8022d5c_1285x792.png)
-
-8. 点击右侧配置栏，如果插件所需要变量则在这里输入
-
-![](https://img.kancloud.cn/4e/77/4e774c6931707660548ba9b08a1b4858_768x1082.png =591x)
-
-#### 填报
-1. 新增插件已经上传Smartdata平台，具体步骤可参见[上传插件](../%E4%B8%8A%E4%BC%A0%E6%8F%92%E4%BB%B6.md)。
-
-2. 在填报设计页选择“插入&gt; 自定义组件”，单击&quot;插入&quot;，分别将自定义组件添加到主表与子表中，单击“保存”。
-
-![](https://img.kancloud.cn/b3/9e/b39e32f30b8cefdbb241ce2649041d43_1077x291.png)
-
-![](https://img.kancloud.cn/e2/4e/e24e9e36398fb3279e7631ef2854a567_1299x324.png)
-
-3. 打开填报列表页，单击“”新增”。
-
-主表和子表都有自定义组件。
-
-4. 单击“保存”。
-
-![](https://img.kancloud.cn/d2/0d/d20d87d78800fb2dd98b45b7f191a95d_1855x371.png)
-
-5. 返回到列表页。
-![](https://img.kancloud.cn/7a/0c/7a0cdab1fc27b5b4d8295caa96a3c31f_772x166.png)
-6. 单击“编辑页”。
-![](https://img.kancloud.cn/d2/0d/d20d87d78800fb2dd98b45b7f191a95d_1855x371.png)
-
-7. 单击“详情页”。
-
-![](https://img.kancloud.cn/6d/6c/6d6cfb1594d3987fc2f37826fb39f0d9_1821x329.png)
 
 ## 功能验证
 + 上传二开插件包到验证环境上，写入对应的配置字段即可。基本的功能验证与本地调试基本一致
