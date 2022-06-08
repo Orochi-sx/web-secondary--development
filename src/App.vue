@@ -310,6 +310,11 @@ export default {
             value: selectDataItem[displayMappingItem["valueField"]],
           });
         });
+        let hash = {}
+        selectList = selectList.reduce((preVal,curVal) =>{
+          hash[curVal.value] ? '' : hash[curVal.value] = true && preVal.push(curVal)
+          return preVal
+        },[])
         this.selectSearchArr.push(selectList);
       });
       console.log("this.this.selectSearchArr===", this.selectSearchArr);
