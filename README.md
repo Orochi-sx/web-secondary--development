@@ -257,7 +257,7 @@ export default new EventBus();
 
   ![上传插件](images/上传插件.png)
 
-  
+
 
 | 参数 | 参数说明 |
 | --- | --- |
@@ -268,26 +268,30 @@ export default new EventBus();
 | 前端插件包 | 在本地选择需要上传的前端插件包。 |
 | 图标 | 单击“选择图标”，根据需要选择面性或线性类型的图标，并且可以通过配置主题颜色，配置图标的颜色。也可以选择自定义，上传自定义图标，支持的自定义图标格式有jpg、jpeg、png、bmp和svg，且图片的大小不能超过128K。 |
 ### 插件使用
-2. 在填报设计页选择“插入&gt; 自定义组件”，单击&quot;插入&quot;，分别将自定义组件添加到主表中，单击“保存”。
 
-![](https://img.kancloud.cn/b3/9e/b39e32f30b8cefdbb241ce2649041d43_1077x291.png)
+1. 在填报设计页选择“插入&gt; 自定义组件”，单击&quot;插入&quot;，分别将自定义组件添加到主表中，单击“保存”
+
+   ![](https://img.kancloud.cn/b3/9e/b39e32f30b8cefdbb241ce2649041d43_1077x291.png)
 
 2. 在填报设计页选择“开始&gt; 表格> 子表控件> 插入> 自定义组件”，单击&quot;插入&quot;，分别将自定义组件添加到子表中，单击“保存”。
 
-![](https://img.kancloud.cn/e2/4e/e24e9e36398fb3279e7631ef2854a567_1299x324.png)
+   ![](https://img.kancloud.cn/e2/4e/e24e9e36398fb3279e7631ef2854a567_1299x324.png)
 
 3. 打开填报列表页，单击“”新增”，添加玩数据后点击保存
 
    ![上传插件](images/添加数据.png)
 
 4. 返回到列表页，这里就是添加的数据
+
    ![](https://img.kancloud.cn/7a/0c/7a0cdab1fc27b5b4d8295caa96a3c31f_772x166.png)
 
 5. 单击“编辑”，可对已添加数据进行修改
 
    ![](https://img.kancloud.cn/d2/0d/d20d87d78800fb2dd98b45b7f191a95d_1855x371.png)
 
-6. 单击“详情页”，展示点击数据的所有信息
+6. 单击“详情”，展示点击数据的所有信息
+
+   
 
    ![](https://img.kancloud.cn/6d/6c/6d6cfb1594d3987fc2f37826fb39f0d9_1821x329.png)
 
