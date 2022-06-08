@@ -84,17 +84,10 @@
 designConfiguration组件
 
 **`接收用户输入`**
-* vue version
-  
-  this.customConfig?.configuration
-* react version
-  
-  this.props?.customConfig?.configuration
+
+this.props?.customConfig?.configuration
 
 ## 数据源的获取
-**`props.datasource`**
-代码中使用props.datasource获取（分析仪独有）
-
 **`字符串形式`**
 
 使用JSON.stringify()转化数据
@@ -105,7 +98,7 @@ designConfiguration组件
 
 **`用户配置`**
 
-通过customConfig.configuration获得（填报独有）
+通过customConfig.configuration获得
 
 ## 行为交互（逻辑控制）
 ### 概念引入
@@ -133,7 +126,6 @@ EventBus.triggerEvent(eventName,params)
 #### 原理说明
 逻辑控制指的将组件事件与动作开放，通过配置事件触发驱动动作的执行，将配置信息集中存储到事件中心，组件事件触发通知事件中心，事件中心按照配置分发执行组件动作，最终实现完全独立的组件之间建立逻辑通信。例如：下拉框组件的内容改变事件关联Input组件动作的显示隐藏，当下拉框内容改变的时候，通过事件中心，触发Input组件显示隐藏动作。
 
-此处的逻辑控制的对象包括应用、大屏、分析仪、填报。
 #### 功能说明
 逻辑控制的流程的关键组件中心和事件中心。注册中心指的是将所有开放的组件事件与动作集中缓存，输出相关API逻辑控制供配置页面获取相关组件配置信息。事件中心指的是通过逻辑控制配置页面保存下来的配置信息，通过统一的查询接口，暂存到事件中心，所有组件的事件触发全部通知到事件中心，由事件中心统一分发，两者相互配合，实现插件的逻辑控制。
 #### 代码演示
@@ -244,14 +236,9 @@ class EventBus {
 export default new EventBus();
 ```
 ## 远程调试
-+ react版本
-  1. 修改proxy.js的target字段为代理地址
-  2. 修改src/api/request.js中document.cookie的token和refreshToken字段为代理地址请求头的相应字段
-  3. npm run start
-+ vue版本
-  1. 修改vue.config.js的target字段为代理地址，
-  2. 修改src/api/request.js中document.cookie的token和refreshToken字段为代理地址请求头的相应字段
-  3. npm run serve
+1. 修改proxy.js的target字段为代理地址
+2. 修改src/api/request.js中document.cookie的token和refreshToken字段为代理地址请求头的相应字段
+3. npm run start
 
 ## 插件的上传及使用
 ### 插件上传
@@ -282,49 +269,32 @@ export default new EventBus();
 | 前端插件包 | 在本地选择需要上传的前端插件包。 |
 | 图标 | 单击“选择图标”，根据需要选择面性或线性类型的图标，并且可以通过配置主题颜色，配置图标的颜色。也可以选择自定义，上传自定义图标，支持的自定义图标格式有jpg、jpeg、png、bmp和svg，且图片的大小不能超过128K。 |
 ### 插件使用
-#### 应用
-1. 新增插件已经上传Smartdata平台
 
-2. 登录 Smartdata 平台，单击“应用设计”，进入应用设计模块。
+1. 在填报设计页选择“插入&gt; 自定义组件”，单击&quot;插入&quot;，分别将自定义组件添加到主表中，单击“保存”
 
-![](https://img.kancloud.cn/98/d1/98d117ae593271d81cf9b58e99e3045d_1280x494.png)
+   ![](https://img.kancloud.cn/b3/9e/b39e32f30b8cefdbb241ce2649041d43_1077x291.png)
 
-3. 单击“新增应用”。
+2. 在填报设计页选择“开始&gt; 表格> 子表控件> 插入> 自定义组件”，单击&quot;插入&quot;，分别将自定义组件添加到子表中，单击“保存”。
 
-![](https://img.kancloud.cn/36/f7/36f717185b52ec6efc2224d0c0599beb_1884x873.png)
-4. 选择应用类型， 填写创建的应用名称，单击“创建”。
+   ![](https://img.kancloud.cn/e2/4e/e24e9e36398fb3279e7631ef2854a567_1299x324.png)
 
-![](https://img.kancloud.cn/7f/25/7f25d0a22e59fd099e8b091f7db0dc5f_1280x644.png)
+3. 打开填报列表页，单击“”新增”，添加完数据后点击保存
 
-5. 选择插件。
-二次开发插件显示的名字由开放平台插件名称决定，图标依次取开放平台插件图标和config.json中的img字段。
- 注意：r3版本自定义插件显示的名字由插件源码里 pluginTemp/config.json 里的 name 字段决定。
+   
 
-#### 填报
-1. 新增插件已经上传Smartdata平台，具体步骤可参见[上传插件](../%E4%B8%8A%E4%BC%A0%E6%8F%92%E4%BB%B6.md)。
+   ![上传插件](/images/添加数据.png)
 
-2. 在填报设计页选择“插入&gt; 自定义组件”，单击&quot;插入&quot;，分别将自定义组件添加到主表与子表中，单击“保存”。
+4. 返回到列表页，这里就是添加的数据
 
-![](https://img.kancloud.cn/b3/9e/b39e32f30b8cefdbb241ce2649041d43_1077x291.png)
+   ![](https://img.kancloud.cn/7a/0c/7a0cdab1fc27b5b4d8295caa96a3c31f_772x166.png)
 
-![](https://img.kancloud.cn/e2/4e/e24e9e36398fb3279e7631ef2854a567_1299x324.png)
+5. 单击“编辑”，可对已添加数据进行修改
 
-3. 打开填报列表页，单击“”新增”。
+   ![](https://img.kancloud.cn/d2/0d/d20d87d78800fb2dd98b45b7f191a95d_1855x371.png)
 
-主表和子表都有自定义组件。
+6. 单击“详情”，展示点击数据的所有信息
 
-4. 单击“保存”。
-
-![](https://img.kancloud.cn/d2/0d/d20d87d78800fb2dd98b45b7f191a95d_1855x371.png)
-
-5. 返回到列表页。
-![](https://img.kancloud.cn/7a/0c/7a0cdab1fc27b5b4d8295caa96a3c31f_772x166.png)
-6. 单击“编辑页”。
-![](https://img.kancloud.cn/d2/0d/d20d87d78800fb2dd98b45b7f191a95d_1855x371.png)
-
-7. 单击“详情页”。
-
-![](https://img.kancloud.cn/6d/6c/6d6cfb1594d3987fc2f37826fb39f0d9_1821x329.png)
+   ![](https://img.kancloud.cn/6d/6c/6d6cfb1594d3987fc2f37826fb39f0d9_1821x329.png)
 
 ## 功能验证
 + 上传二开插件包到验证环境上，写入对应的配置字段即可。基本的功能验证与本地调试基本一致
