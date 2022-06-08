@@ -79,10 +79,6 @@ this.customConfig?.variable.default_value
 
 调用queryAssetById接口，使用数据图书馆资产
 
-**`用户配置`**
-
-通过customConfig.configuration获得（填报独有）
-
 ## 行为交互（逻辑控制）
 ### 概念引入
 
@@ -134,7 +130,6 @@ const actions = [
   {
     key: "setValue",
     name: "设值",
-    isSupportChild: true, // 是否支持子表(填报组件)
     params: [
       {
         key: "value",
@@ -146,7 +141,6 @@ const actions = [
   {
     key: "getValue",
     name: "取值",
-    isSupportChild: true, // 是否支持子表(填报组件)
     hasReturn: true,
     returns: [
       {
