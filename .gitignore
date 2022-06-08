@@ -21,7 +21,9 @@ lib
 .env.development.local
 .env.test.local
 .env.production.local
+.env
 .env.development
+.env.test
 .env.production
 # npm 依赖
 npm-debug.log*
@@ -33,12 +35,7 @@ pluginTemp/js/*
 pluginTemp/libs/*
 plugin-*.zip
 
-pnpm-lock.yaml
-package-lock.json
-
 .umi
-
-yarn.lock
 
 .history
 temp
