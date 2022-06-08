@@ -43,7 +43,7 @@
 | src/api | src/api下的文件是接口层，可以添加自己需要的Http 接口。                                                                                                |
 | src/App.vue | src/App.js 是插件组件的主文件，用于开发插件的 react 组件。                                                                                           |
 | src/main.js | src/index.js 是加载入口，除了构造开发的 mock 数据外一般不需要修改。                                                                                      |
-| vue.confing,js | webpack proxy 配置，在开发时如果需要调用 http 请求，可以在这里配置代理，可以参考示例或者 [webpack 官方文档](https://webpack.docschina.org/configuration/dev-server/) 。 |
+| vue.config.js | webpack proxy 配置，在开发时如果需要调用 http 请求，可以在这里配置代理，可以参考示例或者 [webpack 官方文档](https://webpack.docschina.org/configuration/dev-server/) 。 |
 
 ## config.json配置文件字段说明
 
@@ -127,7 +127,6 @@ const actions = [
   {
     key: "setValue",
     name: "设值",
-    isSupportChild: true, // 是否支持子表(填报组件)
     params: [
       {
         key: "value",
@@ -139,7 +138,6 @@ const actions = [
   {
     key: "getValue",
     name: "取值",
-    isSupportChild: true, // 是否支持子表(填报组件)
     hasReturn: true,
     returns: [
       {
@@ -213,7 +211,6 @@ class EventBus {
 export default new EventBus();
 ```
 ## 远程调试
-vue版本
   1. 修改vue.config.js的target字段为代理地址，
   2. 修改src/api/request.js中document.cookie的token和refreshToken字段为代理地址请求头的相应字段
   3. npm run serve
