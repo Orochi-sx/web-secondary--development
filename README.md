@@ -26,11 +26,11 @@
     npm i sdata-cli -g
   ```
   3. 安装完成后，运行scli i，选择对应模块及框架
-  4. npm i或者yarn install安装相关依赖项，运行npm run serve(Vue版本)/npm run start(React版本)即可开始进行开发
+  4. npm i或者yarn install安装相关依赖项，运行npm run start即可开始进行开发
 + github方式
   1. 本地下载github仓库[https://github.com/Orochi-sx/web-secondary--development](https://github.com/Orochi-sx/web-secondary--development/)
   2. 切换对应的分支及插件类型.
-  3. npm i或者yarn install安装相关依赖项，npm run start(React版本)即可开始进行开发
+  3. npm i或者yarn install安装相关依赖项，npm run start即可开始进行开发
 
 ## 插件包文件说明
 | 文件名 | 说明                                                                                                                               |
