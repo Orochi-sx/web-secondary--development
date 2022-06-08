@@ -27,17 +27,18 @@ if (process.env.NODE_ENV !== "production") {
   let customConfig = {
     title: "技术服务委托",
     buttonTitle: '新增委托',
-    tableDisplayFieldName: "name,age",
-    assetId: "db5d25a6-b167-4ead-b7eb-ef6510f3b7ee",
-    selectAssetId: "3ff309d4-1b34-498d-9c60-8d478f1f43a7",
+    tableDisplayFieldName: "name,age,sex",
+    assetId: "f8ccf4c3-48ad-41c8-8b02-83f58afddc84",
+    selectAssetId: "96d5b7f6-f457-4e74-b44e-ce83ec102313",
+    // cbc4108d-3f83-46cc-a349-8ab22ca2da5f
     sortConfig:'age',//排序字段配置
     sortType:'ascending',
     inputSelectConfig: JSON.stringify({
-      input: ['name', 'age'], select: [
+      input: ['age'], select: [
         {
-          displayField: 'sex', valueField: 'sex'
+          displayField: 'sex', valueField: 'sex',selectAssetId: "96d5b7f6-f457-4e74-b44e-ce83ec102313",
         }, {
-          displayField: 'name', valueField: 'name'
+          displayField: 'name', valueField: 'name',selectAssetId:'cbc4108d-3f83-46cc-a349-8ab22ca2da5f'
         }
       ]
     }),

@@ -96,6 +96,7 @@ export default {
       sortConfig: [],
       firstRowInfo: {},
       componentId: "",
+      selectArr: [],
     };
   },
   computed: {
@@ -142,8 +143,13 @@ export default {
     this.inputSelectConfig = JSON.parse(inputSelectConfig);
     this.originTableData = await queryAssetById(assetId);
     let originSelectData = await queryAssetById(selectAssetId);
+    console.log("originSelectData===", originSelectData);
+
     // this.handleTableData(this.originTableData);
-    this.handleSelectData(originSelectData);
+    //  this.getSelectInfo()
+    console.log("this,selecArr==", this.selectArr);
+    this.handleSelectData();
+
     this.load();
     for (let i = 0; i < this.inputSelectConfig.input.length; i++) {
       this.inputSearchArr.push({ value: "" });
@@ -160,6 +166,12 @@ export default {
       );
   },
   methods: {
+    getSelectInfo() {
+      // this.inputSelectConfig.select.forEach(async (item,index)=>{
+      //   this.selectArr.push(await queryAssetById(item.selectAssetId))
+      // })
+      // console.log('selectArr==',this.selectArr);
+    },
     formDate(date) {
       let bzDate = new Date(date);
       let Y = bzDate.getFullYear() + "-";
@@ -294,30 +306,33 @@ export default {
       let tableData = this.translatePlatformDataToJsonArray(originTableData);
       this.allTableList = tableData;
     },
-    handleSelectData(originSelectData) {
-      let selectData = this.translatePlatformDataToJsonArray(originSelectData);
+    async handleSelectData() {
+      for (let i = 0; i < this.inputSelectConfig.select.length; i++) {
+        this.selectArr.push(
+          await queryAssetById(this.inputSelectConfig.select[i].selectAssetId)
+        );
+      }
+      console.log("this.selectArr==1111", this.selectArr);
+      var flagArr = []
+      this.selectArr.forEach(item=>{
+        flagArr.push(this.translatePlatformDataToJsonArray(item))
+      })
       let displayMapping;
       try {
         displayMapping = this.inputSelectConfig.select;
       } catch (error) {
         console.log("传入的数据不合法");
       }
-      displayMapping.forEach((displayMappingItem) => {
+      displayMapping.forEach((displayMappingItem,index) => {
         let selectList = [];
-        selectData.forEach((selectDataItem) => {
+        flagArr[index].forEach((selectDataItem) => {
           selectList.push({
             label: selectDataItem[displayMappingItem["displayField"]],
             value: selectDataItem[displayMappingItem["valueField"]],
           });
         });
-        let hash = {}
-        selectList = selectList.reduce((preVal,curVal) =>{
-          hash[curVal.value] ? '' : hash[curVal.value] = true && preVal.push(curVal)
-          return preVal
-        },[])
         this.selectSearchArr.push(selectList);
       });
-      console.log("this.this.selectSearchArr===", this.selectSearchArr);
     },
     filterDataBypagination(data) {
       this.total = data.length;
