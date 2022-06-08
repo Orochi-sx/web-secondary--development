@@ -229,45 +229,7 @@ export default class App extends Component {
             )
           }
         </div>
-        {/* <Carousel dots={false} autoplay autoplaySpeed={rotationTime}>
-          {
-            listD.map((item, ix) => {
 
-              return (
-                <div className={`${lineNum < 5 ? 'carousel_item' : null}`} key={ix}>
-                  {
-                    item.map((item2, i) => {
-                      return (<div
-                        className={` chkj_lscreen ${lineNum < 5 ? 'chkj_lscreB' : null}`}
-
-                        key={i}
-                        style={{ height }
-
-                        }
-                      >
-                        <img src={imgUrl} alt='' width='100%' height='100%'></img>
-                        <div className="chkj_circular">
-                          <span>{item2[0]}</span>
-                        </div>
-
-                        <div className="chkj_span">
-                          <span>{item2[1]}</span>
-                        </div>
-                      </div>)
-
-                    })
-                  }
-                </div>
-
-
-              )
-            })
-
-
-          }
-
-
-        </Carousel > */}
       </div >
     );
   }
