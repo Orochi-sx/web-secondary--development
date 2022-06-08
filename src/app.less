@@ -1,0 +1,215 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.app-container {
+    width: 80%;
+    height: 300px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.app-container>.components {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.app-container>.components>.title {
+    font-size: 18px;
+    color: cornflowerblue;
+    black-space: nowrap;
+    width: 220px;
+}
+
+
+.chkj_lunbo {
+    width: 100% !important;
+    height: 100%;
+    transform-origin: 0 0;
+
+    transition: 0.3s;
+
+    .chkj_title {
+        font-size: 32px;
+        line-height: 40px;
+        font-weight: 800;
+        color: black;
+        font-style: italic;
+        font-family: "楷体";
+    }
+
+    .pageCenter {
+        width: 100%;
+        height: calc(100% - 40px);
+        overflow: hidden;
+        // display: flex;
+        // flex-direction: column;
+
+        .Iitem {
+            height: 100%;
+        }
+
+        .def {
+            // display: inline-block;
+            position: relative;
+            // margin-bottom: -3%;
+            // height: 43%;
+            // margin-top: -4%;
+
+            .sp_title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 19%;
+                height: 58%;
+                line-height: 40px;
+                position: absolute;
+                left: 3.5%;
+                top: 18%;
+                margin-top: 5px;
+                font-weight: 400;
+                font-size: 14px;
+                text-align: center;
+                color: black;
+                // background: url("assets/btn.png") no-repeat 0 0;
+                cursor: pointer;
+            }
+
+            .sp_title2 {
+                display: inline-block;
+                width: 71.5%;
+                // height: 40px;
+                // line-height: 40px;
+                position: absolute;
+                left: 27.5%;
+                top: 58%;
+                margin-top: 5px;
+                font-weight: 400;
+                font-size: 14px;
+                text-align: center;
+                color: black;
+                // background: url("assets/btn.png") no-repeat 0 0;
+                cursor: pointer;
+            }
+
+        }
+
+        &>.five {
+            height: 27%;
+            // margin-top: -3%;
+        }
+
+        &>.six {
+            height: 19%;
+        }
+
+        // &>div:nth-child(2) {
+        //     margin: 0;
+        // }
+
+        .vive {
+            width: 100%;
+            height: 100%;
+            // padding: 10px;
+            box-sizing: border-box;
+
+            // border: 1px solid rgb(9, 74, 119);
+        }
+
+
+    }
+
+    // .ant-carousel {
+    //     // height: 80%;
+
+    //     .slick-slider {
+    //         height: 100%;
+    //     }
+
+    //     .slick-list {
+    //         height: 100%;
+    //     }
+
+    //     .slick-track {
+    //         height: 100%;
+    //     }
+
+    // }
+
+    .carousel_item {
+        display: flex !important;
+        flex-direction: column;
+        height: 100%;
+
+    }
+
+    .slick-dots-bottom {
+        display: none;
+    }
+
+    .chkj_lscreen {
+        width: 100%;
+        // background-size: contain;
+        // background-image: url('./img/BK.png');
+        // background-repeat: no-repeat;
+
+        position: relative;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        // background-size: 100%;
+        .chkj_circular {
+            position: absolute;
+
+            left: 12%;
+            color: black;
+            top: 44%;
+            // width: 30%;
+            // height: 100%;
+
+            text-align: center;
+            border-radius: 50%;
+
+            span {
+                margin-top: 5px;
+            }
+        }
+
+        .chkj_span {
+            width: 73%;
+
+            position: absolute;
+            left: 27%;
+            top: 70%;
+            text-align: center;
+            color: black;
+        }
+    }
+
+    // .chkj_lscreB {
+    //     transform: scaleY(0.8);
+    //     margin-top: -54px;
+    // }
+
+    // .chkj_lscreB:nth-of-type(1) {
+    //     margin-top: -29px;
+    // }
+
+
+
+}
