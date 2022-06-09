@@ -323,7 +323,6 @@ export default {
       } catch (error) {
         console.log("传入的数据不合法");
       }
-      console.log("displayMapping==", displayMapping);
       displayMapping.forEach((displayMappingItem, index) => {
         let selectList = [];
         flagArr[index].forEach((selectDataItem) => {
