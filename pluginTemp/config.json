@@ -1,7 +1,7 @@
 {
   "id": "01cd35b6-eb5d-4d01-98df-ac3ce74aa7b3",
   "type": "app",
-  "main": "app.4b542ea9.js",
+  "main": "app.e0a9c2f4.js",
   "version": "2",
   "props": {
     "type": "customize",
@@ -15,7 +15,6 @@
       "buttonTitle",
       "tableDisplayFieldName",
       "assetId",
-      "selectAssetId",
       "inputSelectConfig",
       "sortConfig",
       "sortType"

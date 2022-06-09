@@ -127,7 +127,6 @@ export default {
       buttonTitle,
       tableDisplayFieldName,
       assetId,
-      selectAssetId,
       inputSelectConfig,
       sortConfig,
       sortType,
@@ -142,12 +141,8 @@ export default {
     this.buttonTitle = buttonTitle;
     this.inputSelectConfig = JSON.parse(inputSelectConfig);
     this.originTableData = await queryAssetById(assetId);
-    let originSelectData = await queryAssetById(selectAssetId);
-    console.log("originSelectData===", originSelectData);
 
     // this.handleTableData(this.originTableData);
-    //  this.getSelectInfo()
-    console.log("this,selecArr==", this.selectArr);
     this.handleSelectData();
 
     this.load();
@@ -166,12 +161,6 @@ export default {
       );
   },
   methods: {
-    getSelectInfo() {
-      // this.inputSelectConfig.select.forEach(async (item,index)=>{
-      //   this.selectArr.push(await queryAssetById(item.selectAssetId))
-      // })
-      // console.log('selectArr==',this.selectArr);
-    },
     formDate(date) {
       let bzDate = new Date(date);
       let Y = bzDate.getFullYear() + "-";
