@@ -194,7 +194,6 @@ export default {
       return result;
     },
     async load() {
-      console.log(11223);
 
       let { componentId } = this.customConfig || {};
 
@@ -204,8 +203,6 @@ export default {
       this.displayTableList = this.filterDataBySearchAndSelect(
         this.allTableList
       );
-      console.log("displayTableList>>>", this.displayTableList);
-
       if (this.sortConfig[1] && this.sortConfig[1] === "dateTime") {
         this.displayTableList.forEach((d) => {
           d[this.sortConfig[0]] = new Date(d[this.sortConfig[0]]).getTime();
@@ -323,7 +320,6 @@ export default {
       } catch (error) {
         console.log("传入的数据不合法");
       }
-      console.log("displayMapping==", displayMapping);
       displayMapping.forEach((displayMappingItem, index) => {
         let selectList = [];
         flagArr[index].forEach((selectDataItem) => {
