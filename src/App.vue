@@ -97,6 +97,7 @@ export default {
       firstRowInfo: {},
       componentId: "",
       selectArr: [],
+      isMap: Boolean,
     };
   },
   computed: {
@@ -104,11 +105,12 @@ export default {
       let inputFilterCondition = [];
       let selectFilterCondition = [];
       try {
-        // let selectFilterCondition = []
         this.inputSelectConfig.select.forEach((item, index) => {
           let selectFilterConditionItem = {};
           selectFilterConditionItem[item.displayField] =
             this.selectValueArr[index];
+          selectFilterConditionItem.mapField =
+            this.inputSelectConfig.select[index].mapField;
           selectFilterCondition.push(selectFilterConditionItem);
         });
         // let inputFilterCondition = []
@@ -175,26 +177,35 @@ export default {
       return Y + M + D + h + m + s;
     },
     filterDataBySearchAndSelect(allTableList) {
+      console.log("this.allFilterCondition==", this.allFilterCondition);
       let result = [];
-      //result为对应关系从总数据里多字段筛选出来的数据
       result = allTableList.filter((item) => {
         return this.allFilterCondition.every((filterCondition) => {
           let filterConditionKey = Object.keys(filterCondition)[0];
           let filterConditionValue = filterCondition[filterConditionKey] || "";
-          return item[filterConditionKey].indexOf(filterConditionValue) > -1;
+          if (filterCondition.mapField) {
+            return item[filterCondition.mapField].indexOf(filterConditionValue) > -1;
+          } else {
+            return item[filterConditionKey].indexOf(filterConditionValue) > -1;
+          }
         });
       });
-
+      debugger;
       return result;
     },
     async load() {
+      console.log(11223);
+
       let { componentId } = this.customConfig || {};
 
       this.originTableData = await queryAssetById(this.assetId);
       this.handleTableData(this.originTableData);
+      console.log("this,allTableList==", this.allTableList);
       this.displayTableList = this.filterDataBySearchAndSelect(
         this.allTableList
       );
+      console.log("displayTableList>>>", this.displayTableList);
+
       if (this.sortConfig[1] && this.sortConfig[1] === "dateTime") {
         this.displayTableList.forEach((d) => {
           d[this.sortConfig[0]] = new Date(d[this.sortConfig[0]]).getTime();
@@ -302,17 +313,18 @@ export default {
         );
       }
       console.log("this.selectArr==1111", this.selectArr);
-      var flagArr = []
-      this.selectArr.forEach(item=>{
-        flagArr.push(this.translatePlatformDataToJsonArray(item))
-      })
+      var flagArr = [];
+      this.selectArr.forEach((item) => {
+        flagArr.push(this.translatePlatformDataToJsonArray(item));
+      });
       let displayMapping;
       try {
         displayMapping = this.inputSelectConfig.select;
       } catch (error) {
         console.log("传入的数据不合法");
       }
-      displayMapping.forEach((displayMappingItem,index) => {
+      console.log("displayMapping==", displayMapping);
+      displayMapping.forEach((displayMappingItem, index) => {
         let selectList = [];
         flagArr[index].forEach((selectDataItem) => {
           selectList.push({

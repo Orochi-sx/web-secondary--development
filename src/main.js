@@ -34,9 +34,9 @@ if (process.env.NODE_ENV !== "production") {
     inputSelectConfig: JSON.stringify({
       input: ['age'], select: [
         {
-          displayField: 'sex', valueField: 'sex',selectAssetId: "96d5b7f6-f457-4e74-b44e-ce83ec102313",
+          displayField: 'sex11', valueField: 'sex',selectAssetId: "96d5b7f6-f457-4e74-b44e-ce83ec102313",mapField:'sex'
         }, {
-          displayField: 'name', valueField: 'name',selectAssetId:'cbc4108d-3f83-46cc-a349-8ab22ca2da5f'
+          displayField: 'name111', valueField: 'name',selectAssetId:'cbc4108d-3f83-46cc-a349-8ab22ca2da5f',mapField:'name'
         }
       ]
     }),
