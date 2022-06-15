@@ -3,7 +3,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       "/api": {
-        target: "http://10.15.111.9:12245",
+        target: "http://10.15.111.9:12857",
         changeOrigin: true,
         pathRewrite: {
           "/api": "",
@@ -11,13 +11,13 @@ module.exports = {
       },
     },
   },
-  chainWebpack: config => {
-    config.when(process.env.NODE_ENV === "production", config => {
+  chainWebpack: (config) => {
+    config.when(process.env.NODE_ENV === "production", (config) => {
       config.optimization.splitChunks(false);
       config.plugins.delete("extract-css");
 
-      ["postcss", "scss", "css", "sass", "less", "stylus"].forEach(element => {
-        ["vue-modules", "vue", "normal-modules", "normal"].forEach(m => {
+      ["postcss", "scss", "css", "sass", "less", "stylus"].forEach((element) => {
+        ["vue-modules", "vue", "normal-modules", "normal"].forEach((m) => {
           config.module
             .rule(element)
             .oneOf(m)

@@ -1,8 +1,9 @@
 {
-  "id": "e58d249f-703c-4918-9e0d-892936394f78",
+  "id": "e13c5314-aa34-49b5-ae4f-da869e5e7d70",
   "type": "app",
-  "main": "app.9439dbc9.js",
+  "main": "app.c3bf777d.js",
   "version": "2",
+  "baseVersion": "V8R4C50SPC210_DMXT_0614",
   "props": {
     "type": "customize",
     "img": "APP_0001.png",
@@ -11,10 +12,7 @@
     "lib": [],
     "css_script": [],
     "customconf": [
-      "title",
-      "url",
-      "desc",
-      "imgUrl"
+      "chooseList"
     ]
   }
 }
