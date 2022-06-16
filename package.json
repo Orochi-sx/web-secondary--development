@@ -21,6 +21,7 @@
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.6",
+    "moment": "^2.29.3",
     "querystringify": "^2.2.0",
     "vue": "^2.6.11"
   },
