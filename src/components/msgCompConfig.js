@@ -1,23 +1,19 @@
 // 组件可派发事件
-export const events = [
-  {
-    key: "onImgClick",
-    name: "图片点击",
-    payload: [
-      {
-        name: "内容",
-        key: "value",
-        dataType: "string",
-      },
-    ],
-  },
-];
+export const events = [{}];
 
 // 组件可接收事件
 export const actions = [
   {
-    key: "messageSuccess",
-    name: "成功提示",
+    key: "searchElectricInfo",
+    name: "代收费月账单报表查询",
+    isSupportChild: false,
+    params: [
+      {
+        name: "电站",
+        key: "electricId",
+        dataType: "string,number,objectArray",
+      },
+    ],
   },
 ];
 
