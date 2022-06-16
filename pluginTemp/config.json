@@ -1,7 +1,7 @@
 {
-  "id": "e58d249f-703c-4918-9e0d-892936394f78",
+  "id": "14fdb376-a8a0-4a7d-b79d-fd42d375a372",
   "type": "app",
-  "main": "app.9439dbc9.js",
+  "main": "app.cff1794b.js",
   "version": "2",
   "props": {
     "type": "customize",
@@ -10,11 +10,6 @@
     "loadStyle": 0,
     "lib": [],
     "css_script": [],
-    "customconf": [
-      "title",
-      "url",
-      "desc",
-      "imgUrl"
-    ]
+    "customconf": []
   }
 }
