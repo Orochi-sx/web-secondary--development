@@ -1,42 +1,26 @@
 <template>
   <div class="tree">
-    <!-- 应用右边 -->
+    <!-- 树形控件 -->
     <el-card class="tree_left">
-      <div class="tree_button">
-        <el-button
-          icon="el-icon-plus"
-          size="mini"
-          class="background: #F5F7FA;"
-          @click="append"
-          :disabled="addDisabledButton"
-          >新增</el-button
-        >
-        <el-button
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="disabledButton"
-          @click="edit"
-          >编辑</el-button
-        >
-        <el-button
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="disabledButton"
-          @click="remove"
-          >删除</el-button
-        >
+      <div class="button_group">
+        <div class="tree_button">
+          <el-button icon="el-icon-plus" size="mini" :disabled="addDisabledButton" @click="append">新增</el-button>
+          <el-button icon="el-icon-edit" size="mini" :disabled="disabledButton" @click="edit">编辑</el-button>
+          <el-button icon="el-icon-delete" size="mini" :disabled="disabledButton" @click="remove">删除</el-button>
+        </div>
       </div>
       <div>
         <el-tree
+          ref="tree"
           :data="treeList"
-          default-expand-all
           @node-click="handleNodeClick"
           :props="defaultProps"
           :expand-on-click-node="false"
-        ></el-tree>
+          default-expand-all>
+        </el-tree>
       </div>
     </el-card>
-    <!-- 应用右边 -->
+    <!-- 表格组件 -->
     <el-card class="tree_right">
       <el-table :data="tableData" style="width: 100%" stripe>
         <el-table-column prop="sample" label="样品位置"></el-table-column>
@@ -49,26 +33,36 @@
 // import appService from "@njsdata/app-sdk";
 import eventActionDefine from "./components/msgCompConfig";
 import "./index.css";
-import { queryAssetById } from './api/asset'
+import { queryAssetById, createTbSample, updateTbSample, deleteTbSample } from './api/asset'
 
 export default {
   name: "App",
+
   props: {
     customConfig: Object,
     info: Object,
   },
+
   data() {
     return {
-      disabledButton: true,
-      addDisabledButton: true,
-      treeNode: {},
-      treeData: {},
+      // 树控件默认格式
       defaultProps: {
         children: 'children',
         label: 'name'
       },
+      // 按钮禁用
+      disabledButton: true,
+      // 新增按钮禁用
+      addDisabledButton: true,
+      // 选中数据
+      treeData: {},
+      // 选中节点
+      treeNode: {},
+      // 树控件数据列表
       treeList: [],
+      // 表格数据
       tableData: [],
+      // 表格行数据
       labelList: [],
     };
   },
@@ -81,28 +75,28 @@ export default {
         this,
         eventActionDefine
       );
+    
     this.getTreeData()
   },
+
   methods: {
+    // 请求资产并处理数据格式, 渲染页面
     getTreeData() {
       let { assetId } = this.customConfig
-      queryAssetById(assetId).then( (res) => {
-        if(res.status == 200) {
-          const nest = (items, data_id = '') => items.filter(item => item['parent_id'] == data_id).map(item => ({ ...item, children: nest(items, item.data_id) }));
 
-          let treeList = this.translatePlatformDataToJsonArray(res)
-          
-          this.treeList = nest(treeList)
-          
+      queryAssetById({assetId: assetId}).then( (res) => {
+          const nest = (items, id = '') => items.filter(item => item['parentId'] == id).map(item => ({ ...item, children: nest(items, item.id) }));
+
+          this.treeList = nest(res.data)
+
           this.$nextTick(() => {
             this.labelList = [];
             this.createTableData(this.treeList);
             this.refreshTableData();
           });
-        }
-
       })
     },
+
     // 数据转换
     translatePlatformDataToJsonArray(originTableData) {
       let originTableHeader = originTableData.data[0];
@@ -115,51 +109,39 @@ export default {
       tableBody.forEach((tableItem) => {
         let temp = {};
         tableItem.forEach((item, index) => {
-          console.log(item,index)
           temp[tableHeader[index]] = item;
         });
         tableData.push(temp);
       });
       return tableData;
     },
+
     // 节点选中
-    handleNodeClick(node, data) {
-      this.treeNode = node;
+    handleNodeClick(data, node) {
       this.treeData = data;
-      this.disabledButton = true;
-      if(node.name == "样品位置") {
-        this.disabledButton = true
-        this.addDisabledButton = false
-      } else {
-        this.disabledButton = false
-        this.addDisabledButton = false
-      }
+      this.treeNode = node;
+
+      this.addDisabledButton = false;
+
+      data.name != "样品位置" ? this.disabledButton = false : this.disabledButton = true;
     },
-    // 更新DOM
-    updateTreeDom() {
-      let element = document.getElementsByClassName("el-tree-node__content");
-      for (let i = 0; i < element.length; i++) {
-        let stylePadding = window.getComputedStyle(element[i], null);
-        let paddingLeft = parseFloat(
-          stylePadding.getPropertyValue("padding-left")
-        );
-        element[i].style.cssText = `margin-left: ${paddingLeft}px !important;`;
-      }
-    },
+
     // 创建表格数据
     createTableData(arr, temp = "") {
       if (arr.length) arr = arr[0];
-      arr.children.forEach((element) => {
-        temp += `${element.name}-`;
-        if (element.children.length) {
-          this.createTableData(element, temp);
-          temp = temp.substring(0, temp.length - (element.name.length + 1));
+
+      arr.children.forEach( (e) => {
+        temp += `${e.name}-`;
+        if (e.children.length) {
+          this.createTableData(e, temp);
+          temp = temp.substring(0, temp.length - (e.name.length + 1));
         } else {
           this.labelList.push(temp);
-          temp = temp.substring(0, temp.length - (element.name.length + 1));
+          temp = temp.substring(0, temp.length - (e.name.length + 1));
         }
       });
     },
+
     // 刷新表格数据
     refreshTableData() {
       this.tableData = [];
@@ -169,84 +151,63 @@ export default {
         });
       });
     },
+
     // 新增节点
     append() {
-      this.$prompt("请输入节点名称", "新增", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      }).then((e) => {
-        this.treeNode.children.push({
+      this.$prompt("请输入节点名称", "新增", { confirmButtonText: "确定", cancelButtonText: "取消", }).then( (e) => {
+        let { assetId } = this.customConfig
+        let dataForm = {
+          assetId: assetId,
           name: e.value || "节点",
-          children: [],
-        });
-        this.$nextTick(() => {
-          this.labelList = [];
-          this.createTableData(this.treeList);
-          this.refreshTableData();
-        });
+          parentId: this.treeData.id,
+          tierName: this.treeData.tierName,
+        }
+
+        createTbSample(dataForm).then( (res) => {
+          this.getTreeData()
+        })
+        
       }).catch(() => {});
     },
+
     // 修改节点
     edit() {
-      this.$prompt("请输入节点名称", "编辑", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      })
-        .then((e) => {
-          this.treeNode.name = e.value;
-          this.$nextTick(() => {
-            this.labelList = [];
-            this.createTableData(this.treeList);
-            this.refreshTableData();
-          });
-        })
-        .catch(() => {});
+      this.$prompt("请输入节点名称", "编辑", { confirmButtonText: "确定", cancelButtonText: "取消", }).then((e) => {
+          let { assetId } = this.customConfig
+          let dataForm = {
+            assetId: assetId,
+            name: e.value || "节点",
+            id: this.treeData.id,
+          }
+
+          updateTbSample(dataForm).then( (res) => {
+            this.getTreeData()
+          })
+
+      }).catch(() => {});
     },
+
     // 删除节点
     remove() {
-      this.$confirm("此操作将永久删除该节点, 是否继续?", "删除", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          let childrenNode = this.treeData.parent.data.children;
-
-          for (let i = 0; i < childrenNode.length; i++) {
-            if (this.treeNode.name == childrenNode[i].name) {
-              childrenNode.splice(i, 1);
-            }
+      this.$confirm("此操作将永久删除该节点, 是否继续?", "删除", { confirmButtonText: "确定", cancelButtonText: "取消", type: "warning", }).then(() => {
+          let { assetId } = this.customConfig
+          let dataForm = {
+            assetId: assetId,
+            id: this.treeData.id,
           }
-          this.$nextTick(() => {
-            this.labelList = [];
-            this.createTableData(this.treeList);
-            this.refreshTableData();
-          });
-        })
-        .catch(() => {});
+
+          deleteTbSample(dataForm).then( (res) => {
+            this.getTreeData()
+          })
+
+      }).catch(() => {});
     },
 
-    triggerEvent() {
-      let { componentId, appId } = this.customConfig || {};
-      componentId &&
-        appId &&
-        window.eventCenter?.triggerEventNew({
-          objectId: appId,
-          componentId: componentId,
-          type: "app",
-          event: "onImgClick",
-          payload: {
-            value: "sasdasd",
-          },
-        });
-    },
-    do_EventCenter_messageSuccess() {
-      alert("动作执行成功！");
-    },
     Event_Center_getName() {
-      return "应用二开测试";
+      return "树形控件";
     },
   },
+
   destroyed() {
     window.componentCenter?.removeInstance(this.customConfig?.componentId);
   },
@@ -265,6 +226,9 @@ export default {
 .tree_right {
   width: 49%;
   margin-left: 1%;
+}
+.button_group {
+  display: flex;
 }
 .tree_button {
   width: 100%;
