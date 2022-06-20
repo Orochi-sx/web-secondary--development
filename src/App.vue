@@ -1,10 +1,11 @@
 <template>
   <div class="mian">
     <div v-for="(item, index) in searchDataList" class="choose" :key="index">
-      <div >
+      <div v-show="item.showList.length > 0">
         <p>{{ item.level }}<i></i></p>
         :
         <el-checkbox-group
+          v-if="item.selectLimit && item.selectLimit > 1"
           fill="transparent"
           text-color="#0BA0F0"
           v-model="radioArray[index]"
@@ -19,6 +20,23 @@
             >{{ itemSon.labelName }}</el-checkbox-button
           >
         </el-checkbox-group>
+        <el-radio-group
+          v-else
+          @change="checkboxChange($event, index)"
+          fill="transparent"
+          text-color="#0BA0F0"
+          v-model="singleArray[index]"
+          size="mini"
+          :max="item.selectLimit"
+        >
+          <el-radio-button
+            v-for="itemSon in item.showList"
+            :key="itemSon.data_id"
+            :label="itemSon"
+            >{{ itemSon.labelName }}</el-radio-button
+          >
+          ></el-radio-group
+        >
       </div>
       <div
         class="divider"
@@ -44,6 +62,7 @@ export default {
       optionDate: [],
       searchDataList: [],
       radioArray: [],
+      singleArray: [],
       indexArray: [],
       allLabel: [],
       sendField: {},
@@ -56,8 +75,10 @@ export default {
     });
     this.indexArray.forEach((item, index) => {
       this.radioArray[index] = [];
+      this.singleArray[index] = "";
       this.solveArray(item, index);
     });
+    console.log(this.searchDataList);
   },
   mounted() {
     let { componentId } = this.customConfig || {};
@@ -70,9 +91,10 @@ export default {
       );
   },
   methods: {
-    translatePlatformDataToJsonArray(originTableData, label) {
+    translatePlatformDataToJsonArray(originTableData, label, type) {
       let originTableHeader = originTableData.data[0];
       let tableHeader = [];
+      let tableDataFor = [];
       originTableHeader.forEach((item) => {
         tableHeader.push(item.col_name);
       });
@@ -84,7 +106,16 @@ export default {
           temp[tableHeader[index]] = item;
           temp.level = label;
         });
-        tableData.push(temp);
+        tableDataFor.push(temp);
+      });
+      tableDataFor.forEach((forItem, forIndex) => {
+        if (type) {
+          if (forItem.type && forItem.type == type) {
+            tableData.push(forItem);
+          }
+        } else {
+          tableData = tableDataFor;
+        }
       });
       return tableData;
     },
@@ -106,7 +137,8 @@ export default {
       queryAssetById(item.assertsId).then((res) => {
         message.storageList = this.translatePlatformDataToJsonArray(
           res,
-          item.filterLabel
+          item.filterLabel,
+          item.type
         );
         message.storageList.forEach((item2, index2) => {
           item2.labelName = item2[item.displayField];
@@ -120,9 +152,16 @@ export default {
       this.$set(this.searchDataList, [index], message);
     },
     checkboxChange(val, index) {
+      let receive = [];
+      if (Array.isArray(val)) {
+        receive = val;
+      } else {
+        receive[0] = val;
+        this.radioArray[index][0] = val;
+      }
       let message = [];
       this.allLabel.forEach((item, allLabelIndex) => {
-        val.forEach((valItem, valIndex) => {
+        receive.forEach((valItem, valIndex) => {
           if (valItem.data_id == item.parent_id) {
             message.push(item);
           }
@@ -205,10 +244,12 @@ export default {
     }
   }
 }
-/deep/.is-checked span {
+/deep/.is-checked span,
+/deep/.is-active .el-radio-button__inner {
   font-weight: 700 !important;
 }
-/deep/.el-checkbox-button__inner {
+/deep/.el-checkbox-button__inner,
+/deep/.el-radio-button__inner {
   border: 0px !important;
   font-size: 14px;
   background-color: transparent !important;
@@ -217,6 +258,6 @@ export default {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #F0F1F3;
+  border-bottom: 1px solid #f0f1f3;
 }
 </style>
