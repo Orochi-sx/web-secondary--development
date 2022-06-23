@@ -3,14 +3,22 @@ import qs from "querystringify";
 
 let apiContextPath = "";
 if (process.env.NODE_ENV === "development") {
-  document.cookie =
-    "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY0NjcyMjI2ODY4NSwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.F8wr84ha-dW18J9wZOQeTXj55mXTdqKfLBeNlNueoLY";
-  document.cookie =
-    "refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY0NjcyMjI2ODY4Nn0.TEVE_nopHNZlvSQM_RUZrLcCzkaERiHo8nz0q-ksL3E";
+  // document.cookie =
+  //   "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1NTk1MjA5NTE1OCwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.os_lzxdJWA4GAPozXUB09wrvEDJ0Ed3hGcTcEN_isdk";
+  // document.cookie =
+  //   "refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1NTk1MjA5NTE3Mn0.tylsUCOFSgMImTPNAuOIJb3Ds9wSOxaHabETBM_vcE8";
   document.cookie = "username=admin";
   document.cookie = "windowOnline=true";
   apiContextPath = "/api";
 }
+
+// eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1NTk1MjA5NTE1OCwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.os_lzxdJWA4GAPozXUB09wrvEDJ0Ed3hGcTcEN_isdk
+
+// eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1NTg4NDE5MjAxOH0.CVsNy2UgWs-hSJ3RtWgSSmIb4XCFaAYHwjeffJBoYQc
+
+// eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1NTk1MjA5NTE3Mn0.tylsUCOFSgMImTPNAuOIJb3Ds9wSOxaHabETBM_vcE8
+
+
 
 const instance = axios.create({
   baseURL: `${apiContextPath}/sdata/rest`,

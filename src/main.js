@@ -9,11 +9,22 @@
 import Vue from "vue";
 import App from "./App.vue";
 
-import { Table, TableColumn } from "element-ui";
+import { Table, TableColumn, Dialog, Button,Pagination,Select,Option} from "element-ui";
+import './index.css'
 
 Vue.config.productionTip = false;
 Vue.use(Table);
 Vue.use(TableColumn);
+Vue.use(Dialog);
+Vue.use(Button);
+Vue.use(Pagination);
+Vue.use(Select);
+Vue.use(Option);
+
+
+
+
+
 
 import config from "../pluginTemp/config.json";
 
@@ -37,11 +48,15 @@ if (dom) {
 } else {
   if (process.env.NODE_ENV !== "production") {
     const dataSource = JSON.parse(
-      '[["衬衫","高跟鞋","裤子","袜子","雪纺衫","羊毛衫"],[5,10,10,17,36,20]]'
+      '[["order","xm","xb","yddh","事件数","人群分类","sfzh","zz","id"],[1,"王小虎","男","13777777777",1,"","320322************","南京**********",1],[1,"王小虎","男","13777777777",1,"","320322************","南京**********",1]]'
     );
     const options = {
       externalVariables: {
-        fontSize: "20px",
+        echartsAssId:'16c91d9f-a606-4a81-9117-d1b3e0f72855',//关联的echats表id
+        dioTableAssId:'2c491a44-d835-4794-9224-5b4d7f48d3b6',//关联的涉及事件表id
+        mapValue:'sjid',//echart表映射字段
+        tableMapValue:'sjid',//涉及事表里的映射字段
+        filterStr:'事件类型'//筛选字段，目前没用
       },
     };
     const props = {
