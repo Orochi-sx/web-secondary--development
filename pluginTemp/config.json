@@ -1,7 +1,7 @@
 {
-  "id": "62f8c3e3-aa94-4907-88fa-145dc4944664",
+  "id": "0b60de90-5c02-4a6a-ba01-fbc6bc25b870",
   "type": "analyzers",
-  "main": "app.342d4535.js",
+  "main": "app.b05301d6.js",
   "version": "2",
   "baseVersion": "V8R4C50SPC210",
   "props": {
@@ -17,6 +17,10 @@
     "vars": [
       "riqiAssetid",
       "renyunAssetid",
+      "sjryAssetid",
+      "sjztAssetid",
+      "sjdjAssetid",
+      "sjldAssetid",
       "fontColor"
     ]
   }

@@ -6,7 +6,7 @@
     <ul class="item">
       <li v-for="(item, index) in listData" :key="index" :i="index" class="sjjd">
         <div class="ident">{{ index + 1 }}</div>
-        <div :class="{ lx_type: true, qt_type: item.sjlx == '群体' }"> {{ item.sjlx }}
+        <div :class="{ lx_type: true, qt_type: item.sjlx == '群体' }"> [{{ item.sjlx }} {{ item.sjbq }}]
         </div>
         <div class="title" :style="{ color: fontColor }">{{ item.sjnr }}</div>
         <div class="sj_num" :style="{ color: fontColor }">{{ item.sj_num }}件</div>
@@ -14,7 +14,10 @@
     </ul>
 
 
-    <Dlog :dialogVisible="show" :Assetid="Assetid" :gt="fl" :sj="sj" @close="show = false"></Dlog>
+    <Dlog :dialogVisible="show" :Assetid="Assetid" :gt="fl" :sj="sj" @close="show = false" @tabk="tabkFn"></Dlog>
+    <el-dialog title="" :visible.sync="dialogTableVisible" width="800px">
+      <iframe style="height: 800px;width: 100%" src="" ref="bigscreeniframe"></iframe>
+    </el-dialog>
   </div>
 
 
@@ -58,6 +61,7 @@ export default {
   data() {
     return {
       fl: '',
+      dialogTableVisible: false,
       sj: {},
       show: false,
       listData: [
@@ -79,7 +83,14 @@ export default {
     },
 
     Assetid() {
-      return { rqid: (this.options && this.options.externalVariables && this.options.externalVariables.riqiAssetid) || '4113f95d-32d7-42d6-8a19-46fa4b5388a0', ryid: (this.options && this.options.externalVariables && this.options.externalVariables.renyunAssetid) || '6094c1bc-230e-486f-baad-6583dbac7fd5' }
+      return {
+        rqid: (this.options && this.options.externalVariables && this.options.externalVariables.riqiAssetid) || '0a445748-3995-4fff-9035-65d3fc707c83',
+        ryid: (this.options && this.options.externalVariables && this.options.externalVariables.renyunAssetid) || 'a7cdbd73-35f9-4d03-9d5e-7585eaa64760',
+        sjryid: (this.options && this.options.externalVariables && this.options.externalVariables.sjryAssetid) || '52936235-3d1b-400f-9674-3d948204eb1d',
+        sjztid: (this.options && this.options.externalVariables && this.options.externalVariables.sjztAssetid) || '4009cd7e-0ed3-4715-a08b-ffe222678c09',
+        sjdjid: (this.options && this.options.externalVariables && this.options.externalVariables.sjdjAssetid) || 'aec40cbb-574e-4db5-b754-22b265a2ecf5',
+        sjldid: (this.options && this.options.externalVariables && this.options.externalVariables.sjldAssetid) || 'cef9f08d-d3f7-4b9c-a3fd-bda34a09a7a4',
+      }
     },
     fontColor() {
       return this.options.externalVariables.fontColor ? this.options.externalVariables.fontColor : 'black'
@@ -87,7 +98,7 @@ export default {
   },
   created() {
     this.listData = this.tableData
-    // axios.queryAssetById('3020211c-1f0e-407e-a432-5ab9b2c789cd', []).then(res => {
+    // axios.queryAssetById('5056ec11-a1ac-4230-861f-64cf588c3c56', []).then(res => {
     //   this.listData = this.translatePlatformDataToJsonArray(res)
     //   // this.translatePlatformDataToJsonArray(res).forEach(x => {
     //   //   this.listData.push(x)
@@ -97,7 +108,15 @@ export default {
 
 
   },
+  mounted() {
+    window._eventjd = this
+  },
   methods: {
+    tabkFn(row) {
+      let name = row.subjectName;
+      this.dialogTableVisible = true
+      this.$refs.bigscreeniframe.src = `bigscreenv3/viewer/8d529a2c-a0c9-4d30-a218-b53c206a5ddc?name=${name}`
+    },
     tempFn(e) {
       let target = e.target
       if (target.tagName == 'LI' || target.parentNode.tagName == 'LI') {
@@ -106,6 +125,7 @@ export default {
         this.sj = this.listData[i]
         this.sj.sjgl = 0
         this.sj.sjqt = 0
+
         this.show = true
       }
     },
@@ -151,7 +171,12 @@ export default {
   width: 100%;
 }
 
-
+/deep/ .el-dialog {
+  background: #103260;
+  margin: 5vh auto 50px !important;
+  z-index: 2500;
+  width: 1300px !important;
+}
 
 .sjjd {
   display: flex;
@@ -166,31 +191,32 @@ export default {
     background: #4286fb;
     color: white;
     width: 30px;
+    height: 20px;
     text-align: center;
     border-radius: 8px 0 8px 0;
   }
 
   .lx_type {
-    background: rgba(63, 129, 244, .3) url('./img/geren.png') no-repeat 0 50%;
-    background-size: 14px;
+    // background: rgba(63, 129, 244, .3) url('./img/geren.png') no-repeat 0 50%;
+    // background-size: 14px;
     color: #4084f7;
-    border: 1px solid rgb(66, 134, 251);
+    // border: 1px solid rgb(66, 134, 251);
     border-radius: 3px;
     font-size: 14px;
     box-sizing: border-box;
     padding-left: 14px;
-    width: 45px;
+    width: 70px;
   }
 
   .qt_type {
     color: #63d9f1;
-    border: 1px solid #63d9f1;
-    background: rgba(107, 231, 255, .3) url('./img/qunz.png') no-repeat 0 50%;
-    background-size: 14px;
+    // border: 1px solid #63d9f1;
+    // background: rgba(107, 231, 255, .3) url('./img/qunz.png') no-repeat 0 50%;
+    // background-size: 14px;
   }
 
   .title {
-    width: calc(100% - 150px);
+    width: calc(100% - 180px);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
