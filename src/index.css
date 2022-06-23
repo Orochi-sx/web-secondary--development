@@ -10,9 +10,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.app-container {
+
+li {
+  list-style-type: none;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+.River {
   width: 80%;
-  height: 300px;
+  height: 100%;
   margin: auto;
   position: absolute;
   top: 0;
@@ -20,13 +31,15 @@ body {
   right: 0;
   bottom: 0;
 }
-.app-container > .components {
+
+/* .app-container>.components {
   margin-bottom: 15px;
   display: flex;
 }
-.app-container > .components > .title {
+
+.app-container>.components>.title {
   font-size: 18px;
   color: cornflowerblue;
   white-space: nowrap;
   width: 220px;
-}
+} */

@@ -1,8 +1,9 @@
 {
-  "id": "35ef2da7-8d40-4b63-a3f2-c8b240b02ee2",
+  "id": "62f8c3e3-aa94-4907-88fa-145dc4944664",
   "type": "analyzers",
-  "main": "app.66ff22af.js",
+  "main": "app.342d4535.js",
   "version": "2",
+  "baseVersion": "V8R4C50SPC210",
   "props": {
     "img": "custom_table.png",
     "type": "k23dasd547",
@@ -14,7 +15,9 @@
     "scriptName": "app.a515a2e6.js",
     "optionModules": [],
     "vars": [
-      "fontSize"
+      "riqiAssetid",
+      "renyunAssetid",
+      "fontColor"
     ]
   }
 }

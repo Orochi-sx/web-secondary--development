@@ -18,14 +18,19 @@
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-jsx": "^1.2.4",
     "axios": "^0.23.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.5",
+    "cache-loader": "^4.1.0",
     "core-js": "^3.6.5",
-    "echarts": "^5.1.2",
+    "echarts": "^5.3.2",
     "element-ui": "^2.15.6",
+    "moment": "^2.29.3",
     "querystringify": "^2.2.0",
     "vue": "^2.6.11",
-    "vue-echarts": "^6.0.0"
+    "vue-seamless-scroll": "^1.1.23"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.17.12",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "adm-zip": "^0.5.9",
