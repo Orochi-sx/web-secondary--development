@@ -17,17 +17,7 @@ function printZip(zip) {
     console.log(zipEntry.name || zipEntry.entryName); // outputs zip entries information
   });
 }
-function generateUUID(){
-  var d = new Date().getTime();
-  var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-      var r = (d + Math.random() * 16) % 16 | 0;
-      d = Math.floor(d / 16);
-      return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
-  });
-  return uuid;
-};
 let configJson = require("../pluginTemp/config.json");
-configJson.id = generateUUID();
 // 删除老的文件
 glob.sync(path.resolve(__dirname, "../pluginTemp/js/*")).map((file) => {
   console.log("file:", file);

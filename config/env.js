@@ -5,6 +5,22 @@ const path = require("path");
 const paths = require("./paths");
 const pluginTempConfig = require("../pluginTemp/config.json");
 
+function generateUUID() {
+  var d = new Date().getTime();
+  var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = (d + Math.random() * 16) % 16 | 0;
+    d = Math.floor(d / 16);
+    return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
+  return uuid;
+};
+pluginTempConfig.id = generateUUID();
+fs.writeFileSync(
+  path.resolve(__dirname, "../pluginTemp/config.json"),
+  JSON.stringify(pluginTempConfig, null, 2),
+  "utf8"
+);
+
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve("./paths")];
 
