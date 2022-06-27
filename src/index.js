@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== "production") {
   let customConfig = {
     appId: "",
     dataSouce:
-      '[{"label":"开发插件","key":"item-1-7"},{"label":"逻辑切面","key":"item-1","children":[{"label":"开发插件","key":"item-1-1"},{"label":"使用插件","key":"item-1-2"},{"label":"JAVA SDK使用说明","key":"item-1-3"}]},{"label":"业务流开放","key":"item-2","children":[{"label":"开发插件","key":"item-2-1"},{"label":"使用插件","key":"item-2-2"},{"label":"JAVA SDK使用说明","key":"item-2-3"}]}]',
+      '[{"label":"开发插件","key":"item-1-7","roleList":["系统管理员","部门管理员"]},{"label":"逻辑切面","key":"item-1","roleList":["系统管理员","部门管理员"],"children":[{"label":"开发插件","key":"item-1-1","roleList":["超级管理员","部门管理员2"]},{"label":"使用插件","key":"item-1-2","roleList":["超级管理员","部门管理员"]},{"label":"JAVA SDK使用说明","key":"item-1-3","roleList":["超级管理员","部门管理员"]}]},{"label":"业务流开放","key":"item-2","roleList":["超级管理员","部门管理员"],"children":[{"label":"开发插件","key":"item-2-1","roleList":["超级管理员","部门管理员"]},{"label":"使用插件","key":"item-2-2","roleList":["超级管理员","部门管理员"]},{"label":"JAVA SDK使用说明","key":"item-2-3","roleList":["超级管理员","部门管理员"]}]}]',
   };
   ReactDOM.render(<App customConfig={customConfig} />, document.getElementById("root"));
 } else {
