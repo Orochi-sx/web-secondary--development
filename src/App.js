@@ -1,25 +1,31 @@
 import React, { Component } from "react";
 import { Button, Card } from "antd";
 import { PoweroffOutlined } from "@ant-design/icons";
-import { logout } from "./api/asset";
+import { logout, queryByProperty } from "./api/asset";
 // import appService from "@njsdata/app-sdk";
 import "./app.less";
 const logoutSystem = () => {
-  logout().then((res) => {
-    if(res.status ==200){
-      window.location.reload()
-    }
-  });
+  logout()
+    .then((res) => {
+      if (res.status == 200) {
+        if (res.data) {
+          console.log("res.data");
+          window.location.replace(res.data);
+        } else {
+          console.log("Nores.data");
+          window.location.reload();
+        }
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 export default class App extends Component {
   componentDidMount() {
-    const events = [
-     
-    ];
+    const events = [];
 
-    const actions = [
-     
-    ];
+    const actions = [];
     this.props?.customConfig?.componentId &&
       window.componentCenter?.register(this.props?.customConfig?.componentId, "", this, {
         events,
@@ -35,7 +41,6 @@ export default class App extends Component {
     //   }
     // );
   }
-
 
   render() {
     const { customConfig } = this.props;

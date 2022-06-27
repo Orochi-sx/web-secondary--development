@@ -1,7 +1,7 @@
 {
   "id": "8155a4b7-b0d4-4cb5-b7b4-2b22e7171056",
   "type": "head",
-  "main": "main.2bbba69c.js",
+  "main": "main.fbeb0f74.js",
   "version": "2",
   "props": {
     "type": "head",
@@ -13,7 +13,8 @@
     "customconf": [
       "title",
       "logoUrl",
-      "mainHeight"
+      "mainHeight",
+      "logoutUrl"
     ]
   }
 }
