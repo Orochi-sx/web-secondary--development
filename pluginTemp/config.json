@@ -1,8 +1,9 @@
 {
-  "id": "e58d249f-703c-4918-9e0d-892936394f78",
+  "id": "6f1fd01e-cd05-45a9-af23-869f0d405e9d",
   "type": "app",
-  "main": "app.9439dbc9.js",
+  "main": "app.6637a901.js",
   "version": "2",
+  "baseVersion": "V8R4C50SPC210_RYKJ_v01",
   "props": {
     "type": "customize",
     "img": "APP_0001.png",
@@ -10,11 +11,6 @@
     "loadStyle": 0,
     "lib": [],
     "css_script": [],
-    "customconf": [
-      "title",
-      "url",
-      "desc",
-      "imgUrl"
-    ]
+    "customconf": []
   }
 }

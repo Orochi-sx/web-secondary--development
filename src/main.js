@@ -1,15 +1,27 @@
 import Vue from "vue";
 import App from "./App.vue";
 // 按需引入组件，引入方式见https://element.eleme.cn/#/zh-CN/component/quickstart#an-xu-yin-ru
-import { Input, Select, Option, Button, Avatar } from "element-ui";
-
+import { Input, Select, Option, Button, Avatar, Menu, Submenu, MenuItem, MenuItemGroup, Table, TableColumn, Dialog, Form, FormItem ,Checkbox ,Message,MessageBox} from "element-ui";
+import VueContextMenu from "@xunlei/vue-context-menu";
+Vue.use(VueContextMenu);
 Vue.config.productionTip = false;
 Vue.use(Input);
 Vue.use(Select);
 Vue.use(Option);
 Vue.use(Button);
 Vue.use(Avatar);
-
+Vue.use(Menu);
+Vue.use(Submenu);
+Vue.use(MenuItem);
+Vue.use(MenuItemGroup);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Dialog);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Checkbox);
+Vue.prototype.$message=Message
+Vue.prototype.$confirm=MessageBox.confirm
 // import * as appService from "@njsdata/app-sdk";
 
 if (process.env.NODE_ENV !== "production") {
@@ -18,12 +30,11 @@ if (process.env.NODE_ENV !== "production") {
     title: "数据构建",
     desc: "无码化应用搭建，弹指间即完成数据从无到有到收集和使用",
     url: "http://baidu.com",
-    imgUrl:
-      "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+    imgUrl: "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
   };
 
   new Vue({
-    render: h => {
+    render: (h) => {
       return <App customConfig={customConfig} />;
     },
   }).$mount("#app");
@@ -32,17 +43,14 @@ if (process.env.NODE_ENV !== "production") {
     window.CUSTOM_PLUGIN = new Map();
   }
 
-  window.CUSTOM_PLUGIN.set(
-    process.env.VUE_APP_CUSTOM_PLUGIN_ID,
-    (dom, props) => {
-      if (dom.childNodes.length > 0) {
-        dom.removeChild(dom.childNodes[0]);
-      }
-      const div = document.createElement("div");
-      dom.appendChild(div);
-      new Vue({
-        render: h => <App {...{ props }} />,
-      }).$mount(div);
+  window.CUSTOM_PLUGIN.set(process.env.VUE_APP_CUSTOM_PLUGIN_ID, (dom, props) => {
+    if (dom.childNodes.length > 0) {
+      dom.removeChild(dom.childNodes[0]);
     }
-  );
+    const div = document.createElement("div");
+    dom.appendChild(div);
+    new Vue({
+      render: (h) => <App {...{ props }} />,
+    }).$mount(div);
+  });
 }

@@ -18,7 +18,6 @@ export default {
   name: "App",
   props: {
     customConfig: Object,
-    info: Object,
   },
   computed: {
     title() {
