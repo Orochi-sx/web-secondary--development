@@ -1,0 +1,23 @@
+{
+  "id": "c057f9a3-27f1-447c-ba9a-94c86699ca47",
+  "type": "analyzers",
+  "main": "app.5cfde5b8.js",
+  "version": "2",
+  "baseVersion": "V8R4C50SPC210",
+  "props": {
+    "img": "custom_table.png",
+    "type": "k23dasd547",
+    "disableimg": "disabled_custom_table.png",
+    "name": "vue实现测试",
+    "domId": "ex_custom_table_15",
+    "lib": [],
+    "cssDep": [],
+    "scriptName": "app.a515a2e6.js",
+    "optionModules": [],
+    "vars": [
+      "riqiAssetid",
+      "renyunAssetid",
+      "fontColor"
+    ]
+  }
+}
