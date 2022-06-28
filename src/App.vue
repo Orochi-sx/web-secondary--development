@@ -97,12 +97,12 @@ export default {
     }
   },
   created() {
-    this.listData = this.tableData
-    // axios.queryAssetById('5056ec11-a1ac-4230-861f-64cf588c3c56', []).then(res => {
-    //   this.listData = this.translatePlatformDataToJsonArray(res)
-    //   // this.translatePlatformDataToJsonArray(res).forEach(x => {
-    //   //   this.listData.push(x)
-    //   // })
+    // this.listData = this.tableData
+    axios.queryAssetById('5056ec11-a1ac-4230-861f-64cf588c3c56', []).then(res => {
+      this.listData = this.translatePlatformDataToJsonArray(res)
+      //   // this.translatePlatformDataToJsonArray(res).forEach(x => {
+      //   //   this.listData.push(x)
+    })
     // })
     // console.log(this.listData, '==================');
 

@@ -13,7 +13,7 @@ import './index.css'
 import scroll from 'vue-seamless-scroll'
 Vue.use(scroll)
 
-import { Table, TableColumn, Dialog, MessageBox, Pagination, Select, Option } from "element-ui";
+import { Table, TableColumn, Dialog, MessageBox, Pagination, Select, Option, DatePicker } from "element-ui";
 import * as echarts from 'echarts'
 import moment from "moment";
 Vue.prototype.moment = moment
@@ -23,6 +23,7 @@ Vue.use(TableColumn);
 Vue.use(Dialog);
 Vue.use(Pagination);
 Vue.use(Select);
+Vue.use(DatePicker);
 Vue.use(Option);
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$confirm = MessageBox.confirm;
