@@ -27,7 +27,6 @@ if (process.env.NODE_ENV !== "production") {
       colorConfig:'red,blue,yellow,aqua,brown,blueviolet,chartreuse',
       sectorName:'高排低效1,低排低效1,低排高效1,高排高效1',
       sectorColor:'[{"color":"blue","opacity":0.3},{"color":"red","opacity":0.3},{"color":"blue","opacity":0.3},{"color":"red","opacity":0.3}]',
-      centerNum:'50,40',
       centerColor:'blue',
       yMax:100,
       yMin:0,

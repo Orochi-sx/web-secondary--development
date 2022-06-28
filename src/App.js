@@ -72,18 +72,24 @@ export default class App extends Component {
     })
     allXnum.sort()
     allYnum.sort()
-    let YmaxNum = allYnum[allYnum.length -1]
-    let YminNum = allYnum[0]
+    console.log('allXnum==',allXnum);
+    console.log('allYnum==',allYnum);
+    // let YmaxNum = allYnum[allYnum.length -1]
+    // let YminNum = allYnum[0]
+    let Xmax = allXnum[allXnum.length -1]
+    let Xmin = allXnum[0]
     let colorConfigArr = this.props.options.externalVariables.colorConfig.split(',')
     let sectorNameConfigArr = this.props.options.externalVariables.sectorName.split(',')
     let sectorBackgroundColorConfigArr = JSON.parse(this.props.options.externalVariables.sectorColor) 
-    let centerNumConfigArr = this.props.options.externalVariables.centerNum.split(',')
     let centerLineColor = this.props.options.externalVariables.centerColor
     let yMax = this.props.options.externalVariables.yMax
     let ymin = this.props.options.externalVariables.yMin
     let titleColor = this.props.options.externalVariables.titleColor
     let titleSize = this.props.options.externalVariables.titleSize
     let titleText = this.props.options.externalVariables.titleText
+    let middleYNum = (yMax&ymin) + ((yMax^ymin)>>1)
+    let middleXNum = (Xmax&Xmin) + ((Xmax^Xmin)>>1)
+    // console.log('middleXNum==',middleXNum);
     dataInfo.forEach((item,index) => {
       marksData.push({
         name: item[0],
@@ -107,11 +113,11 @@ export default class App extends Component {
     let centerLine = [
       {
         name: '',
-        xAxis: centerNumConfigArr[0],//50
+        xAxis: middleXNum,//50
       },
       {
         name: '',
-        yAxis: centerNumConfigArr[1],//40
+        yAxis: middleYNum,//40
       },
     ];
     // 中心点
@@ -212,7 +218,7 @@ export default class App extends Component {
                 //第一象限
                 {
                   name: sectorNameConfigArr[0],
-                  xAxis: centerNumConfigArr[0], // x 轴开始位置
+                  xAxis: middleXNum, // x 轴开始位置
                   yAxis: yMax, // y 轴结束位置(直接取最大值)
                   backgroundColor: 'blue',
                   itemStyle: sectorBackgroundColorConfigArr[0],
@@ -221,7 +227,7 @@ export default class App extends Component {
                   },
                 },
                 {
-                  yAxis: centerNumConfigArr[1], // y轴开始位置
+                  yAxis:middleYNum, // y轴开始位置
                 },
               ],
               [
@@ -236,22 +242,22 @@ export default class App extends Component {
                   },
                 },
                 {
-                  xAxis: centerNumConfigArr[0], // x 轴结束位置
-                  yAxis: centerNumConfigArr[1], // y轴开始位置
+                  xAxis: middleXNum, // x 轴结束位置
+                  yAxis: middleYNum, // y轴开始位置
                 },
               ],
               [
                 //第三象限
                 {
                   name: sectorNameConfigArr[2],
-                  yAxis: centerNumConfigArr[1], // y 轴结束位置
+                  yAxis: middleYNum, // y 轴结束位置
                   itemStyle: sectorBackgroundColorConfigArr[2],
                   label: {
                     position: 'insideTopLeft',
                   },
                 },
                 {
-                  xAxis: centerNumConfigArr[0], // x 轴结束位置
+                  xAxis: middleXNum, // x 轴结束位置
                   yAxis: ymin, // y轴开始位置
                 },
               ],
@@ -259,8 +265,8 @@ export default class App extends Component {
               [
                 {
                   name: sectorNameConfigArr[3],
-                  xAxis: centerNumConfigArr[0], // x 轴开始位置
-                  yAxis: centerNumConfigArr[1], // y 轴结束位置
+                  xAxis: middleXNum, // x 轴开始位置
+                  yAxis: middleYNum, // y 轴结束位置
                   itemStyle: sectorBackgroundColorConfigArr[3],
                   label: {
                     position: 'insideTopRight',

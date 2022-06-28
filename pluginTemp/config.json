@@ -1,7 +1,7 @@
 {
-  "id": "48554ed0-3721-46ed-91bb-11d45fba687a",
+  "id": "88594497-448e-4d43-84f2-36e55379f994",
   "type": "analyzer",
-  "main": "main.b9244644.js",
+  "main": "main.06479125.js",
   "version": "2",
   "props": {
     "img": "custom_table.png",
@@ -17,7 +17,6 @@
       "colorConfig",
       "sectorName",
       "sectorColor",
-      "centerNum",
       "centerColor",
       "yMax",
       "yMin",
