@@ -1,6 +1,6 @@
 module.exports = {
   '/api': {
-    'target': 'http://10.15.111.9:7251/',
+    'target': 'http://69.230.205.12:18080/',
     'changeOrigin': true,
     'pathRewrite': { '^/api' : '' },
   },

@@ -104,8 +104,17 @@ if (process.env.NODE_ENV !== "production") {
       //   context,
       //   eventBus,
       // };
+
+      props.setSetPluginProps((props:any)=>{
+        console.log('new props', props);
+        ReactDOM.render(<App {...context} {...props} />, dom);
+      })
+      // window.pubSub.subscribe(props.pluginId+ '_' + props.type, (props:any) => {
+      //   console.log('new props', props);
+      //   ReactDOM.render(<App {...context} {...props} />, dom);
+      // } )
       ReactDOM.render(<App {...context} {...props} />, dom);
-      // ReactDOM.render(ResponseDataHoc(pluginProps)(App), dom); // 响应式能力
+      // window.ReactDOM.render(ResponseDataHoc(pluginProps)(App), dom); // 响应式能力
     }
   );
 }
