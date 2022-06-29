@@ -125,7 +125,6 @@ export default {
         this.sj = this.listData[i]
         this.sj.sjgl = 0
         this.sj.sjqt = 0
-
         this.show = true
       }
     },
