@@ -1,8 +1,9 @@
 {
-  "id": "35ef2da7-8d40-4b63-a3f2-c8b240b02ee2",
+  "id": "8c08f7f4-5d60-40ae-b12c-70816b456c31",
   "type": "analyzers",
-  "main": "app.66ff22af.js",
+  "main": "app.b1f47bcb.js",
   "version": "2",
+  "baseVersion": "V8R4C50SPC210",
   "props": {
     "img": "custom_table.png",
     "type": "k23dasd547",
@@ -14,7 +15,7 @@
     "scriptName": "app.a515a2e6.js",
     "optionModules": [],
     "vars": [
-      "fontSize"
+      "assetId"
     ]
   }
 }

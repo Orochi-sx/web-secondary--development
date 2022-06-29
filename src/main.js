@@ -8,13 +8,14 @@
  */
 import Vue from "vue";
 import App from "./App.vue";
-
+import SmcaiotGl from "smcaiot-gl"
+import 'smcaiot-gl/dist/index.css'
 import { Table, TableColumn } from "element-ui";
 
 Vue.config.productionTip = false;
 Vue.use(Table);
 Vue.use(TableColumn);
-
+Vue.use(SmcaiotGl);
 import config from "../pluginTemp/config.json";
 
 let { domId } = Object.values(config)[0];
@@ -40,9 +41,7 @@ if (dom) {
       '[["衬衫","高跟鞋","裤子","袜子","雪纺衫","羊毛衫"],[5,10,10,17,36,20]]'
     );
     const options = {
-      externalVariables: {
-        fontSize: "20px",
-      },
+      externalVariables: {},
     };
     const props = {
       dataSource,
