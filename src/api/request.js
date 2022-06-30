@@ -4,11 +4,11 @@ import qs from "querystringify";
 let apiContextPath = "";
 if (process.env.NODE_ENV === "development") {
   document.cookie =
-    "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY0NjcyMjI2ODY4NSwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.F8wr84ha-dW18J9wZOQeTXj55mXTdqKfLBeNlNueoLY";
-  document.cookie =
-    "refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY0NjcyMjI2ODY4Nn0.TEVE_nopHNZlvSQM_RUZrLcCzkaERiHo8nz0q-ksL3E";
-  document.cookie = "username=admin";
-  document.cookie = "windowOnline=true";
+    "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1NjU1NjA4NjI1MSwidXNlcklkIjoiMThkZDcwYzUtNzZhZi00MjNkLTg2ODUtM2EyZGEyYjdiZTVmIn0.2P1vwsfnvpRHfGJ78Z-BArFJQm0DUlGqnOXua3VqEEU";
+  // document.cookie =
+  //   "refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY0NjcyMjI2ODY4Nn0.TEVE_nopHNZlvSQM_RUZrLcCzkaERiHo8nz0q-ksL3E";
+  // document.cookie = "username=admin";
+  // document.cookie = "windowOnline=true";
   apiContextPath = "/api";
 }
 
@@ -20,7 +20,7 @@ const instance = axios.create({
   },
   headers:
     (window.location.search && qs.parse(window.location.search).token) ||
-    window.token
+      window.token
       ? { token: qs.parse(window.location.search).token || window.token }
       : {},
 });

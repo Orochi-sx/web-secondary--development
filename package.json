@@ -21,8 +21,12 @@
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.6",
+    "file-saver": "^2.0.5",
+    "moment": "^2.29.3",
     "querystringify": "^2.2.0",
-    "vue": "^2.6.11"
+    "screenfull": "^5.2.0",
+    "vue": "^2.6.11",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
