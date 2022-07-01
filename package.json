@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "node ./scripts/envId.js && vue-cli-service build",
+    "build": "vue-cli-service build",
     "preplugin": "npm run build",
     "plugin": "node scripts/genPlugin.js",
     "serve": "node ./scripts/envId.js && vue-cli-service serve",

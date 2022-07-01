@@ -13,7 +13,7 @@ Vue.use(TableColumn);
 Vue.use(Pagination);
 Vue.prototype.moment = moment
 // import * as appService from "@njsdata/app-sdk";
-
+let wrapId = window._appData?.id;
 if (process.env.NODE_ENV !== "production") {
   // 添加 customConfig 进行测试
   let customConfig = {
@@ -30,21 +30,15 @@ if (process.env.NODE_ENV !== "production") {
     },
   }).$mount("#app");
 } else {
-  if (!window.CUSTOM_PLUGIN) {
-    window.CUSTOM_PLUGIN = new Map();
+  let wrapDiv = document.getElementsByClassName(wrapId)[0];
+  let dataOption = window._appData?.detail;
+  let customConfig = dataOption?.customizeDetail || {};
+  // console.log(wrapId, customConfig, 'customConfig')
+  if (wrapDiv) {
+    new Vue({
+      render: h => {
+        return <App customConfig={customConfig} />;
+      },
+    }).$mount(wrapDiv);;
   }
-
-  window.CUSTOM_PLUGIN.set(
-    process.env.VUE_APP_CUSTOM_PLUGIN_ID,
-    (dom, props) => {
-      if (dom.childNodes.length > 0) {
-        dom.removeChild(dom.childNodes[0]);
-      }
-      const div = document.createElement("div");
-      dom.appendChild(div);
-      new Vue({
-        render: h => <App {...{ props }} />,
-      }).$mount(div);
-    }
-  );
 }

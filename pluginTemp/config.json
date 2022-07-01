@@ -1,20 +1,12 @@
 {
-  "id": "86825f28-94e8-48cd-a936-81bac2ff9e5d",
-  "type": "app",
-  "main": "app.9ee3f69d.js",
-  "version": "2",
-  "props": {
-    "type": "customize",
-    "img": "APP_0001.png",
-    "name": "应用二开_vue",
-    "loadStyle": 0,
-    "lib": [],
-    "css_script": [],
-    "customconf": [
-      "title",
-      "url",
-      "desc",
-      "imgUrl"
-    ]
-  }
+  "code": "97dffe29-22f6-4ec3-95e0-6e2a439cb081",
+  "type": "customize",
+  "img": "APP_0001.png",
+  "name": "productiMission",
+  "lib": [],
+  "css_script": [],
+  "js_script": "app.0e729327.js",
+  "loadStyle": 0,
+  "customconf": [],
+  "main": "app.0e729327.js"
 }

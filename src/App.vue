@@ -135,7 +135,8 @@ export default {
         address: '上海市普陀区金沙江路 1516 弄'
       }],
       tableDataSon: [
-      ]
+      ],
+      pageNum: 1,
     }
   },
   computed: {
@@ -165,9 +166,13 @@ export default {
   methods: {
     handleCurrentChange(val) {
       this.queryAll(val)
+      this.pageNum = val
     },
     exeportFn() {
-      axios1.get(`productiveTask/exportProdInstruction`, { responseType: "blob" }).then(res => {
+      let planStartTime = this.value1.length > 0 ? this.value1[0].getTime().toString() : ''
+
+      let planEndTime = this.value1.length > 0 ? (this.value1[1].getTime() + 24 * 60 * 60 * 1000).toString() : ''
+      axios1.get(`productiveTask/exportProdInstruction?ordCode=${this.orderid}&compCode=${this.partsid}&planStartTime=${planStartTime}&planEndTime=${planEndTime}&pageNum=${this.pageNum}&pageSize=10`, { responseType: "blob" }).then(res => {
         var blob = res.data
         //  FileReader主要用于将文件内容读入内存
         var reader = new FileReader()
@@ -215,7 +220,8 @@ export default {
     },
     queryAll(pageNum = 1, pageSize = 10) {
       let planStartTime = this.value1.length > 0 ? this.value1[0].getTime().toString() : ''
-      let planEndTime = this.value1.length > 0 ? this.value1[1].getTime().toString() : ''
+
+      let planEndTime = this.value1.length > 0 ? (this.value1[1].getTime() + 24 * 60 * 60 * 1000).toString() : ''
       let params = {
         ordCode: this.orderid,
         compCode: this.partsid,
@@ -294,6 +300,10 @@ export default {
         margin-right: 20px;
         white-space: nowrap;
         align-items: center;
+
+        /deep/ .el-date-editor .el-range-input {
+          margin-left: 5px;
+        }
       }
 
     }
