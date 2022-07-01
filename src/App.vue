@@ -35,7 +35,7 @@
         <el-table :data="tableData" ref="elTable" id="exportTab" border>
           <el-table-column type="index" label="序号" header-align="center" align="center">
           </el-table-column>
-          <el-table-column prop="insId" label="策划号" width="300" header-align="center" align="center">
+          <el-table-column prop="ordPrograme" label="策划号" width="300" header-align="center" align="center">
           </el-table-column>
           <el-table-column prop="ordCode" label="订单编号" width="200" header-align="center" align="center">
           </el-table-column>
@@ -233,6 +233,7 @@ export default {
       }
       axios.queryProdInstruction(params).then(res => {
         this.tableData = res
+
       })
     },
     restFn() {
@@ -249,20 +250,20 @@ export default {
       //   console.log(appService.getPageData(), "页面");
       //   console.log(appService.getVariable(), "变量");
     },
-    triggerEvent() {
-      let { componentId, appId } = this.customConfig || {};
-      componentId &&
-        appId &&
-        window.eventCenter?.triggerEventNew({
-          objectId: appId,
-          componentId: componentId,
-          type: "app",
-          event: "onImgClick",
-          payload: {
-            value: "sasdasd",
-          },
-        });
-    },
+    // triggerEvent() {
+    //   let { componentId, appId } = this.customConfig || {};
+    //   componentId &&
+    //     appId &&
+    //     window.eventCenter?.triggerEventNew({
+    //       objectId: appId,
+    //       componentId: componentId,
+    //       type: "app",
+    //       event: "onImgClick",
+    //       payload: {
+    //         value: "sasdasd",
+    //       },
+    //     });
+    // },
     // do_EventCenter_messageSuccess() {
     //   alert("动作执行成功！");
     // },
