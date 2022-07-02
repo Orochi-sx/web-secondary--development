@@ -6,8 +6,6 @@ import "./index.less";
 const sourceObj = {
   beginDrag(props, monitor, component) {
     props.onDragItem(props.proInfo);
-    console.log(props, "工序的信息");
-
     return {
       proInfo: props.proInfo,
       instInfo: props.instInfo,
@@ -39,7 +37,10 @@ class DragItem extends Component {
   render() {
     const { proInfo, connectDragSource, isDragging } = this.props;
     return connectDragSource(
-      <div key={proInfo.processId} className={`side-list-row${isDragging ? " row-isDrag" : ""}`}>
+      <div
+        key={proInfo.processId}
+        className={`side-list-row${isDragging ? " row-isDrag" : ""}`}
+      >
         <span>{proInfo.processName}</span>
         <span>{proInfo.processCode}</span>
       </div>

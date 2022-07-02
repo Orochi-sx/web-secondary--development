@@ -5,7 +5,7 @@ import { Layout, Collapse, Button, Select } from "antd";
 import "./index.less";
 import EditArea from "./editarea/edit-area";
 import SelectViewModal from "./modal";
-import { queryProsByInsId, queryInstruction } from "../api/index";
+import { prodInsById, prodInsNoId } from "../api/index";
 import qs from "querystringify";
 import DragItem from "./dragItem";
 const { Sider, Content } = Layout;
@@ -28,9 +28,11 @@ class WorkOrders extends Component {
   myRef = React.createRef();
 
   componentDidMount() {
-    if (!this.search.insId) {
+    // if (this.search.insId) {
+    if (!this.search.insId) {//这里方便调试用的
       this.queryData([]);
-      this.getData([{ dataId: '226263f61b56bb2ed4077f58fc9fdfdb'}]);
+      // this.getData([{ dataId: this.search.insId }]);
+      this.getData([{ dataId:'226263f61b56bb2ed4077f58fc9fdfdb' }]);//这里方便调试用的
     }
   }
   queryData(queryParams) {
@@ -41,7 +43,7 @@ class WorkOrders extends Component {
       orderSort: "DESC",
       queryParams: queryParams || [],
     };
-    queryInstruction(params, (data) => {
+    prodInsNoId(params, (data) => {
       let newData = [];
       data?.forEach((item, index) => {
         newData.push({ ...item, key: index });
@@ -58,7 +60,7 @@ class WorkOrders extends Component {
     selectedRows?.forEach((item) => {
       list.push(item.dataId);
     });
-    queryProsByInsId(list, (data) => {
+    prodInsById(list, (data) => {
       this.setState({
         sideListData: data || {},
       });
@@ -66,8 +68,10 @@ class WorkOrders extends Component {
   }
   relayoutSideList({ addInfo, delInfo }) {
     const { sideListData, sideListFilter } = this.state;
-    console.log(sideListData, sideListFilter);
-    sideListFilter.find((item, index) => item.processId === delInfo?.processId && sideListFilter.splice(index, 1));
+    sideListFilter.find(
+      (item, index) =>
+        item.processId === delInfo?.processId && sideListFilter.splice(index, 1)
+    );
     // eslint-disable-next-line array-callback-return
     Object.keys(sideListData).forEach((item, i) => {
       // eslint-disable-next-line array-callback-return
@@ -93,30 +97,40 @@ class WorkOrders extends Component {
 
     const defaultActiveKey = [];
     Object.keys(sideListData)?.forEach((item) => defaultActiveKey.push(item));
-    if (this.search?.insId && defaultActiveKey.length === 0) {
+    if(this.search?.insId && defaultActiveKey.length === 0) {
       return;
     }
     return (
       <div className="left-side-content">
-        <Collapse expandIconPosition="right" defaultActiveKey={defaultActiveKey}>
+        <Collapse
+          expandIconPosition="right"
+          defaultActiveKey={defaultActiveKey}
+        >
           {Object.keys(sideListData).map((item, i) => {
             return (
               <Panel header={header(sideListData[item])} key={item}>
                 {sideListData[item]?.map((obj, index) => {
-                  let flag = sideListFilter.find((filterItem) => filterItem.processId === obj.processId) !== undefined;
+                  let flag =
+                    sideListFilter.find(
+                      (filterItem) => filterItem.processId === obj.processId
+                    ) !== undefined;
                   return flag ? (
                     false
                   ) : (
                     <DragItem
                       proInfo={obj}
                       key={index}
-                      instInfo={selectedRows.find((row) => row.dataId === obj.insId)}
+                      instInfo={selectedRows.find(
+                        (row) => row.dataId === obj.insId
+                      )}
                       onDragItem={(source) => {
                         this.setState({
                           dragRow: source,
                         });
                       }}
-                      isDraging={this.state.dragRow?.processId === obj?.processId}
+                      isDraging={
+                        this.state.dragRow?.processId === obj?.processId
+                      }
                     />
                   );
                 })}
@@ -128,7 +142,9 @@ class WorkOrders extends Component {
     );
   }
   stationChange(valArr, optArr) {
-    this.setState({ selectedStation: optArr || [], sideListFilter: [] }, () => this.myRef.current.loadData());
+    this.setState({ selectedStation: optArr || [], sideListFilter: [] }, () =>
+      this.myRef.current.loadData()
+    );
   }
   submit() {
     this.myRef.current.submitAll();
@@ -137,14 +153,20 @@ class WorkOrders extends Component {
   render() {
     const { stationInfo, modalVisible, selectedStation } = this.state;
     return (
-      <Layout className={"work-orders-components-wrapper"} style={{ height: `${this.props.height}px` }}>
+      <Layout
+        className={"work-orders-components-wrapper"}
+        style={{ height: `${this.props.height}px` }}
+      >
         <Sider theme={"light"} width={280}>
           <div className={"left-side-wrap"}>
             {this.search.insId ? (
               <></>
             ) : (
               <div className={"side-header-top"}>
-                <Button type="primary" onClick={() => this.setState({ modalVisible: true })}>
+                <Button
+                  type="primary"
+                  onClick={() => this.setState({ modalVisible: true })}
+                >
                   请选择
                 </Button>
               </div>
@@ -165,7 +187,10 @@ class WorkOrders extends Component {
               >
                 {stationInfo.map((item) => {
                   return (
-                    <Select.Option value={item?.stationName} key={item?.stationId}>
+                    <Select.Option
+                      value={item?.stationName}
+                      key={item?.stationId}
+                    >
                       {item?.stationName}
                     </Select.Option>
                   );

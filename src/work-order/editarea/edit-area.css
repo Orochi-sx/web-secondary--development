@@ -14,7 +14,7 @@
   width: 100%;
 }
 .work-orders-edit-area-wrapper .left-area {
-  z-index: 300;
+  z-index: 101;
   border-right: 1px solid #dedfe0;
   width: 100px;
   background-color: white;

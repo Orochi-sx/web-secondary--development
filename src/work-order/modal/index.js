@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Modal, Table, Form, Input, Button, DatePicker } from "antd";
-import { queryInstruction } from "../../api/index";
+import { prodInsNoId } from "../../api/index";
 import moment from "moment";
 
 import "./index.less";
@@ -15,17 +15,12 @@ const columns = [
   {
     title: "生产订单编号",
     dataIndex: "ordCode",
-    key: "ordCode",
-  },
-  {
-    title: "工作订单编号",
-    dataIndex: "insCode",
-    key: "insCode",
+    key: "protName",
   },
   {
     title: "下料任务编号",
     dataIndex: "mattskCode",
-    key: "mattskCode",
+    key: "protCode",
   },
   {
     title: "零件编号",
@@ -74,7 +69,7 @@ class SelectViewModal extends Component {
       orderSort: "DESC",
       queryParams: queryParams || [],
     };
-    queryInstruction(params, (data) => {
+    prodInsNoId(params, (data) => {
       let newData = [];
       data?.forEach((item, index) => {
         newData.push({ ...item, key: index });
@@ -99,6 +94,7 @@ class SelectViewModal extends Component {
           type: 0,
           value: formData[item],
         });
+
       }
     })
     this.queryData(queryParams);
@@ -139,7 +135,7 @@ class SelectViewModal extends Component {
         onCancel={onClose}
         destroyOnClose={true}
         width={1200}
-        title="工作订单"
+        title="生产任务"
       >
         <Form
           {...layout}
