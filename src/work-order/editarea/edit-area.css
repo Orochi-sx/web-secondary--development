@@ -1,0 +1,129 @@
+.work-orders-edit-area-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  border: 1px solid #dedfe0;
+  overflow-y: auto;
+  position: relative;
+}
+.work-orders-edit-area-wrapper .ccc {
+  opacity: 0.2;
+}
+.work-orders-edit-area-wrapper .ant-input-number {
+  width: 100%;
+}
+.work-orders-edit-area-wrapper .left-area {
+  z-index: 300;
+  border-right: 1px solid #dedfe0;
+  width: 100px;
+  background-color: white;
+  opacity: 1;
+  position: sticky;
+  left: 0;
+}
+.work-orders-edit-area-wrapper .left-area .title {
+  background: #fff;
+  z-index: 100;
+  top: 0;
+}
+.work-orders-edit-area-wrapper .left-area .title,
+.work-orders-edit-area-wrapper .left-area .station-title {
+  position: sticky;
+  left: 0;
+  width: 100px;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-right: 1px solid #dedfe0;
+  border-bottom: 1px solid #dedfe0;
+}
+.work-orders-edit-area-wrapper .left-area .station-title-hovered {
+  background-color: #1890ff;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row:first-child {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 220;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block-header {
+  height: 50px;
+  line-height: 50px;
+  border-right: 1px solid #dedfe0;
+  border-bottom: 1px solid #dedfe0;
+  text-align: center;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block-header-hover {
+  background-color: #1890ff;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block {
+  height: 50px;
+  line-height: 50px;
+  border-right: 1px solid #dedfe0;
+  border-bottom: 1px solid #dedfe0;
+  text-align: center;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block .block-used-message {
+  height: 25px;
+  line-height: 25px;
+  width: 80px;
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block.block-used {
+  position: relative;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block.block-used .schedule-block {
+  border: none;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block.block-used .schedule-block:hover ~ .operator-layer-hover {
+  opacity: 1;
+  z-index: 200;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block.block-used .operator-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transition: all 600ms ease;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block.block-used .operator-layer .operator {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  width: 40px;
+  margin: 10px;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block.block-used .operator-layer-hover {
+  opacity: 0;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block.block-used .operator-layer-hover:hover {
+  opacity: 1;
+  z-index: 200;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .schedule-block.block-used .operator-layer-hidden > div {
+  display: none;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .show-schedule-block {
+  background-color: #1890ff;
+}
+.work-orders-edit-area-wrapper .area-content .schedule-row .zzzindex {
+  z-index: 100;
+}

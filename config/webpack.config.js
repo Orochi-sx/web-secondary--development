@@ -1,4 +1,4 @@
-
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
@@ -204,8 +204,8 @@ module.exports = function (webpackEnv) {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProduction
-        ? "static/js/main.[contenthash:8].js"
-        : isEnvDevelopment && "static/js/bundle.js",
+        ? 'static/js/[name].[contenthash:8].js'
+        : isEnvDevelopment && 'static/js/bundle.js',
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
       // There are also additional JS chunk files if you use code splitting.
@@ -409,7 +409,7 @@ module.exports = function (webpackEnv) {
                     },
                   ],
                 ],
-
+                
                 plugins: [
                   [
                     require.resolve('babel-plugin-named-asset-import'),
@@ -454,7 +454,7 @@ module.exports = function (webpackEnv) {
                 cacheDirectory: true,
                 // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
-
+                
                 // Babel sourcemaps are needed for debugging into node_modules
                 // code.  Without the options below, debuggers like VSCode
                 // show incorrect code and set breakpoints on the wrong lines.

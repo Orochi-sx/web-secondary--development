@@ -1,0 +1,70 @@
+.work-orders-components-wrapper {
+  width: 100%;
+  padding: 16px;
+  background-color: #fff !important;
+  .left-side-wrap {
+    height: 100%;
+    padding-right: 30px;
+    border-right: 1px solid #dedfe0;
+    .side-header-top {
+      text-align: right;
+      border-bottom: 1px solid #dedfe0;
+      padding: 16px 0;
+      height: 80px;
+      .ant-btn {
+        width: 100%;
+      }
+    }
+    .ant-collapse {
+      background-color: #fff;
+      border: none;
+      .ant-collapse-content {
+        border: none;
+      }
+      .ant-collapse-content-box {
+        background: #f5f6fa;
+        border: none;
+        padding-left: 32px;
+        .side-list-row {
+          border-radius: 4px;
+          padding: 0 8px;
+          margin-bottom: 8px;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+    .side-list-row {
+      height: 32px;
+      line-height: 32px;
+      // margin-bottom: 8px;
+      font-size: 12px;
+      color: #555;
+      cursor: pointer;
+    }
+    .row-isDrag {
+      color: #1890ff;
+    }
+    //去全局污染
+    .ant-layout-sider {
+      border-top: none;
+    }
+  }
+
+  .content-wrap {
+    padding-left: 30px;
+    .content-side-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      height: 80px;
+      border-bottom: 1px solid #dedfe0;
+    }
+    .content-main {
+      height: calc(100% - 80px);
+      position: relative;
+    }
+  }
+}

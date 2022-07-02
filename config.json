@@ -1,0 +1,13 @@
+{
+  "code": "d534fdf9-8ea2-4b66-ba6e-f3cc619683fb",
+  "type": "customize",
+  "img": "APP_0001.png",
+  "name": "zq-派工单1",
+  "lib": [],
+  "css_script": [],
+  "js_script": "main.b26f81ac.js",
+  "loadStyle": 0,
+  "customconf": [
+    "height",
+  ]
+}

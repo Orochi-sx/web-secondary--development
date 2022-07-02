@@ -1,19 +1,13 @@
 {
-  "id": "bc17c674-42a6-4794-92bd-9425ac81e910",
-  "type": "head",
-  "main": "main.30dcaf4f.js",
-  "version": "2",
-  "props": {
-    "type": "head",
-    "img": "APP_0001.png",
-    "name": "dsadq",
-    "loadStyle": 0,
-    "lib": [],
-    "css_script": [],
-    "customconf": [
-      "title",
-      "url",
-      "desc"
-    ]
-  }
+  "code": "97dffe29-22f6-4ec3-95e0-6e2a439cb083",
+  "type": "customize",
+  "img": "APP_0001.png",
+  "name": "om-app-plugin-react-boilerplate_45",
+  "lib": [],
+  "css_script": [],
+  "js_script": "main.894cc38e.js",
+  "loadStyle": 0,
+  "customconf": [
+    "height"
+  ]
 }
