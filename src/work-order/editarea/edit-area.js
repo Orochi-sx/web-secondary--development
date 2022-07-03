@@ -724,6 +724,7 @@ class EditArea extends Component {
   }
   handleOk() {
     const { readyBlockInfo, durtionInput, personInput, nowStation, workTypeInput, isEditing } = this.state;
+    console.log(readyBlockInfo);
     if (this.validateFormValues()) {
       readyBlockInfo.droptarget.machiningTime = durtionInput;
       readyBlockInfo.droptarget.dispDoMemberId = personInput.key;
@@ -743,7 +744,6 @@ class EditArea extends Component {
       );
     }
     let message = {
-      ins_id: readyBlockInfo.dragsource.instInfo.insId, //好像在这里拿不到
       disp_do_member_id: personInput.key,
       disp_do_member: personInput.value,
       disp_work_Station_id: readyBlockInfo.droptarget.stationId,
@@ -761,7 +761,6 @@ class EditArea extends Component {
       // 是否编辑
       if (isEditing) {
         message.dataId = readyBlockInfo.droptarget.dataId;
-
         message.compCode = readyBlockInfo.droptarget.compCode;
         message.compName = readyBlockInfo.droptarget.compName;
         message.processNo = readyBlockInfo.droptarget.processNo;
@@ -774,6 +773,8 @@ class EditArea extends Component {
         });
         return this.loadData();
       } else {
+        message.dataId = readyBlockInfo.dragsource.proInfo.dataId;
+        message.ins_id = readyBlockInfo.dragsource.proInfo.insId;
         message.compCode = readyBlockInfo.dragsource.proInfo.compCode;
         message.compName = readyBlockInfo.dragsource.proInfo.compName;
         message.processNo = readyBlockInfo.dragsource.proInfo.processCode;
@@ -782,7 +783,7 @@ class EditArea extends Component {
         message.disp_status = 18;
         message.disp_type = "0";
         console.log("=====》内部派工新增出参", message);
-        insideDispatchInsert(message, (data) => {
+        updateDispatchDate(message, (data) => {
           console.log(data);
         });
         return this.loadData();
@@ -805,6 +806,8 @@ class EditArea extends Component {
         });
         return this.loadData();
       } else {
+        message.dataId = readyBlockInfo.dragsource.proInfo.dataId;
+        message.ins_id = readyBlockInfo.dragsource.proInfo.insId;
         message.compCode = readyBlockInfo.dragsource.proInfo.compCode;
         message.compName = readyBlockInfo.dragsource.proInfo.compName;
         message.processNo = readyBlockInfo.dragsource.proInfo.processCode;
@@ -1037,7 +1040,7 @@ class EditArea extends Component {
     const { editblockInfoVisible, durtionInput, personInput, stationInfo, workTime, workTypeInput, sourceInfo, isEditing } = this.state;
     const workTypeOption = [
       { key: 0, name: "内部派工" },
-      { key: 1, name: "委托派工" },
+      // { key: 1, name: "委托派工" },
     ];
     const workTypeOptionOnly = [{ key: 1, name: "委托派工" }];
     return (

@@ -1,11 +1,11 @@
 {
-  "code": "97dffe29-22f6-4ec3-95e0-6e2a439cb083",
+  "code": "e662f8cd-3d94-493b-9130-059f24d6b246",
   "type": "customize",
   "img": "APP_0001.png",
-  "name": "om-app-plugin-react-boilerplate_45",
+  "name": "om-app-plugin-react-boilerplate_48",
   "lib": [],
   "css_script": [],
-  "js_script": "main.894cc38e.js",
+  "js_script": "main.34ae1d4e.js",
   "loadStyle": 0,
   "customconf": [
     "height"

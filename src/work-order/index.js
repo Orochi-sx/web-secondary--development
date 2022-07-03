@@ -28,11 +28,11 @@ class WorkOrders extends Component {
   myRef = React.createRef();
 
   componentDidMount() {
-    // if (this.search.insId) {
-    if (!this.search.insId) {//这里方便调试用的
+    if (this.search.insId) {
+    // if (!this.search.insId) {//这里方便调试用的
       this.queryData([]);
-      // this.getData([{ dataId: this.search.insId }]);
-      this.getData([{ dataId:'226263f61b56bb2ed4077f58fc9fdfdb' }]);//这里方便调试用的
+      this.getData([{ dataId: this.search.insId }]);
+      // this.getData([{ dataId:'226263f61b56bb2ed4077f58fc9fdfdb' }]);//这里方便调试用的
     }
   }
   queryData(queryParams) {

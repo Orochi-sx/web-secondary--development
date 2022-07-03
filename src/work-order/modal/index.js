@@ -15,12 +15,17 @@ const columns = [
   {
     title: "生产订单编号",
     dataIndex: "ordCode",
-    key: "protName",
+    key: "ordCode",
+  },
+  {
+    title: "工作订单编号",
+    dataIndex: "insCode",
+    key: "insCode",
   },
   {
     title: "下料任务编号",
     dataIndex: "mattskCode",
-    key: "protCode",
+    key: "mattskCode",
   },
   {
     title: "零件编号",
@@ -135,7 +140,7 @@ class SelectViewModal extends Component {
         onCancel={onClose}
         destroyOnClose={true}
         width={1200}
-        title="生产任务"
+        title="工作订单"
       >
         <Form
           {...layout}

@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-node_modules
+/node_modules
 /.pnp
 .pnp.js
 
@@ -9,11 +9,7 @@ node_modules
 /coverage
 
 # production
-build
-dist
-docs-dist
-es
-lib
+/build
 
 # misc
 .DS_Store
@@ -21,31 +17,11 @@ lib
 .env.development.local
 .env.test.local
 .env.production.local
-.env
-.env.development
-.env.test
-.env.production
-# npm 依赖
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 pluginTemp/js/*
-**/pluginTemp/js/*.js
 pluginTemp/libs/*
 plugin-*.zip
-
-.umi
-
-.history
-temp
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-temp
-.env

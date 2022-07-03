@@ -6,7 +6,7 @@ const FetchApi = (e, callback, errCallback) => {
   let urlArg = "/sdata/rest/" + e.url;
   if (process.env.NODE_ENV === "development") {
     document.cookie =
-      "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1Njc5NDY0MDAwNywidXNlcklkIjoiMThkZDcwYzUtNzZhZi00MjNkLTg2ODUtM2EyZGEyYjdiZTVmIn0.xwhAOR_TFczTgEmbCPAyqoPoX0yhHeBiSFobWCignHI";
+      "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1Njg2ODg1MTU4OCwidXNlcklkIjoiMThkZDcwYzUtNzZhZi00MjNkLTg2ODUtM2EyZGEyYjdiZTVmIn0.9hwOkMCV4KveTQm1MI3maekB7ufsmpx2HvegBgUI3gk";
     document.cookie = "username=18952038519";
     document.cookie = "JSESSIONID=A6F15C2F5DB80A4967CA8452E32E4973";
     document.cookie = "authPicKey=30b7e977542e499390e9b6addc65d18d";
