@@ -33,6 +33,7 @@ fs.copySync(
 console.log("新文件拷贝完成");
 
 configJson.main = mainFileName;
+configJson.js_script = mainFileName;
 
 fs.writeFileSync(
   path.resolve(__dirname, "../pluginTemp/config.json"),

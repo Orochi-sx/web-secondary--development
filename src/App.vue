@@ -2,11 +2,12 @@
   <div class="infoCard" ref="fullscreen">
     <div class="production_top">
       <div class="productiont_button">
+        <el-button class="production_export" type="primary" @click="goBackFn">返回</el-button>
         <el-button class="production_full" type="primary" @click="fullscreenHandle(fullStatus)">
           {{ !fullStatus ? '全屏打开' : '退出全屏' }} </el-button>
         <el-button class="production_export" type="primary" @click="exeportFn">Excel导出</el-button>
       </div>
-      <div class="productiont_screen">
+      <div class="productiont_screen" v-if="!fullStatus">
         <div class="productiont_orderid  productiont_public">
           <div class="orderid_title ">订单编号：</div>
           <el-input type="text" v-model="orderid" />
@@ -14,6 +15,10 @@
         <div class="productiont_partsid productiont_public">
           <div class="orderid_title">零件代号：</div>
           <el-input type="text" v-model="partsid" />
+        </div>
+        <div class="productiont_partsid productiont_public">
+          <div class="orderid_title">作业订单编号：</div>
+          <el-input type="text" v-model="inscode" />
         </div>
         <div class="productiont_finisheddate productiont_public">
           <div class="orderid_title">计划完工日期：</div>
@@ -32,56 +37,59 @@
     <div class="production_table">
       <h1 class="prodtable_title">生产执行进度表</h1>
       <div class="prodtble_body">
-        <el-table :data="tableData" ref="elTable" id="exportTab" border>
-          <el-table-column type="index" label="序号" header-align="center" align="center">
+        <el-table :data="tableData" ref="elTable" style="width: 100%" id="exportTab" border
+          :header-cell-style="{ fontSize: '16px', color: '#333' }">
+          <el-table-column type="index" label="序号" header-align="center" align="center" fixed>
           </el-table-column>
-          <el-table-column prop="ordPrograme" label="策划号" width="300" header-align="center" align="center">
+          <el-table-column prop="ordPrograme" label="策划号" width="300" header-align="center" align="center" fixed>
+
           </el-table-column>
-          <el-table-column prop="ordCode" label="订单编号" width="200" header-align="center" align="center">
+          <el-table-column prop="ordCode" label="订单编号" width="180" header-align="center" align="center" fixed>
           </el-table-column>
-          <el-table-column prop="insCode" label="任务编号" width="200" header-align="center" align="center">
+          <el-table-column prop="insCode" label="作业订单编号" width="180" header-align="center" align="center" fixed>
           </el-table-column>
-          <el-table-column prop="reqTime" label="需求时间" width="180" header-align="center" align="center">
+          <el-table-column prop="reqTime" label="需求时间" width="120" header-align="center" align="center" fixed>
           </el-table-column>
-          <el-table-column prop="compCode" label="零件代号" header-align="center" align="center">
+          <el-table-column prop="compCode" label="零件代号" width="100" header-align="center" align="center" fixed>
           </el-table-column>
-          <el-table-column prop="compName" label="零件名称" header-align="center" align="center">
+          <el-table-column prop="compName" label="零件名称" header-align="center" align="center" fixed>
           </el-table-column>
-          <el-table-column prop="compNum" label="零件数量" header-align="center" align="center">
+          <el-table-column prop="compNum" label="零件数量" header-align="center" align="center" fixed>
           </el-table-column>
-          <el-table-column prop="planOrdEndtime" label="计划完工时间" width="180" header-align="center" align="center">
+          <el-table-column prop="planOrdEndtime" label="计划完工时间" width="120" header-align="center" align="center" fixed>
           </el-table-column>
-          <el-table-column prop="status" label="执行状态" header-align="center" align="center">
+          <el-table-column prop="status" label="执行状态" header-align="center" align="center" fixed>
             <template slot-scope="scope">
-              <div :style="{ color: scope.row.status == '延迟' ? 'red' : 'green' }">{{ scope.row.status }}</div>
+              <div v-if="scope.row.status"
+                :style="{ backgroundColor: scope.row.status == '正常' ? 'green' : 'red', width: '24px', height: '24px', borderRadius: '50%', margin: 'auto' }">
+              </div>
             </template>
+            <!-- <template slot-scope="scope">
+              <div :style="{ color: scope.row.status == '正常' ? 'green' : 'red', }">
+                {{
+                    scope.row.status
+                
+                }}</div>
+            </template> -->
           </el-table-column>
 
-          <el-table-column prop="detail" label="工序路线" class-name="address" header-align="center" align="center"
-            width="500" :show-overflow-tooltip="true">
+          <el-table-column prop="detail" label="工序路线" class-name="prd_address" header-align="center" align="center"
+            :width="tablelength * 130">
             <template slot-scope="scope">
               <div class="flexbox">
                 <div class="prodtable_column" v-for="item in scope.row.detail" :key="item.processNo">
+                  <!-- :style="{ height: !(item.processNo && item.processName) ? '23px' : '' }" -->
                   <div class="title">{{ item.processNo }}{{ item.processName }}</div>
-                  <div class="value" :style="{ backgroundColor: item.color }">
+                  <div class="value" :style="{ backgroundColor: item.color ? item.color : 'transparent' }">
                     <div>{{ item.dispDoMember }}</div>
                     <!-- <div>{{ item.dispDoMember }}</div> -->
-                    <div> {{
-                        moment(item.actStarttime).format('YY-MM-DD')
-                    }}~{{ moment(item.actEndtime).format('YY-MM-DD') }}</div>
+                    <div> {{ item.actStarttime ?
+                        `${moment(item.actStarttime).format('YY-MM-DD hh:mm:ss')}
+                                          ~ ${item.actEndtime ? moment(item.actEndtime).format('YY-MM-DD hh:mm:ss') : ''}` : ''
+                    }}</div>
                   </div>
                 </div>
               </div>
-              <!-- <el-table :data="scope.row.detail" border>
-                <el-table-column prop="actStarttime" :label="`${processNo}${processName}`" width="180"
-                  header-align="center" align="center">
-                </el-table-column>
-                <el-table-column prop="planOrdEndtime" label="计划完工时间" width="180" header-align="center" align="center">
-          </el-table-column>
-              </el-table> -->
-
-
-
             </template>
 
 
@@ -115,6 +123,7 @@ export default {
       value1: '',
       orderid: '',
       partsid: '',
+      inscode: '',
       total: null,
       fullStatus: false,
       tableData: [{
@@ -134,11 +143,23 @@ export default {
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
       }],
-      tableDataSon: [
-      ],
+      tablecc: [],
       pageNum: 1,
     }
   },
+  // watch: {
+  //   // tablecc: {
+  //   //   handler() {
+  //   //     console.log(this.tablecc);
+  //   //     // this.tablecc.forEach(x => {
+  //   //     let temp = document.querySelector('.prd_address')[3].clienHeight
+  //   //     document.querySelector('.prd_address')[3].style.height = `${temp}px`
+  //   //     console.log(document.querySelector('.prd_address')[3].style.height);
+  //   //     // })
+  //   //   },
+  //   //   deep: true
+  //   // }
+  // },
   computed: {
     title() {
       return this.customConfig?.title || "数据构建";
@@ -146,24 +167,29 @@ export default {
     desc() {
       return this.customConfig?.desc || "描述";
     },
+    tablelength() {
+      let arr = []
+      this.tableData.forEach((x, i) => {
+        if (arr.length < x.detail.length) {
+          arr = x.detail
+        }
+      })
+
+      return arr.length
+    },
+
   },
   mounted() {
     axios.queryProdInstruction({}).then(res => {
       this.total = res.length
-      // this.tableDataSon = res.detail
-      //    console.log(res, '=====================================res');
     })
     this.queryAll()
-    let { componentId } = this.customConfig || {};
-    componentId &&
-      window.componentCenter?.register(
-        componentId,
-        "comp",
-        this,
-        eventActionDefine
-      );
+
   },
   methods: {
+    goBackFn() {
+      window.history.go(-1)
+    },
     handleCurrentChange(val) {
       this.queryAll(val)
       this.pageNum = val
@@ -225,6 +251,7 @@ export default {
       let params = {
         ordCode: this.orderid,
         compCode: this.partsid,
+        insCode: this.inscode,
         planStartTime,
         planEndTime,
         pageNum,
@@ -233,22 +260,14 @@ export default {
       }
       axios.queryProdInstruction(params).then(res => {
         this.tableData = res
-
       })
     },
     restFn() {
       this.value1 = ''
       this.orderid = ''
       this.partsid = ''
+      this.inscode = ''
       this.queryAll()
-    },
-    goToStudy() {
-      window.open(this.customConfig?.url || "http://baidu.com");
-    },
-    getData() {
-      //   console.log(appService.getMenuData(), "菜单");
-      //   console.log(appService.getPageData(), "页面");
-      //   console.log(appService.getVariable(), "变量");
     },
     // triggerEvent() {
     //   let { componentId, appId } = this.customConfig || {};
@@ -278,6 +297,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/deep/ .el-pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/deep/ .el-button {
+  background: #5182e4;
+  border-color: #5182e4;
+}
+
 .infoCard {
   padding: 20px 30px;
   background: #fff;
@@ -325,13 +354,15 @@ export default {
 
 
 
-/deep/ td.address {
-
+/deep/ td.prd_address {
+  display: flex;
+  height: auto;
   padding: 0 !important;
 
   .cell {
+    flex: 1;
     padding: 0 !important;
-    height: 71px;
+    // height: 71px;
 
     .flexbox {
       display: flex;
@@ -341,19 +372,24 @@ export default {
       .prodtable_column {
         display: flex;
         flex-direction: column;
-        width: 124px;
+        width: 130px;
         // flex: 1;
         flex-shrink: 0;
 
         .title {
           background: #f2f2f2;
-          flex: 1;
+
+          // flex: 1;
+          font-size: 16px;
+          font-weight: 900;
         }
 
         .value {
           // height: 69px;
-          flex: 1;
+          flex: auto;
           color: #000;
+
+          div {}
         }
       }
     }
