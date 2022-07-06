@@ -1,0 +1,13 @@
+{
+  "code": "97dffe29-22f6-4ec3-95e0-6e2a439ca081",
+  "type": "customize",
+  "img": "APP_0001.png",
+  "name": "dome",
+  "lib": [],
+  "css_script": [],
+  "js_script": "app.2e368de8.js",
+  "loadStyle": 0,
+  "customconf": [],
+  "main": "app.2e368de8.js",
+  "id": "d666e1c3-fb93-458b-8bb5-8981fb07083f"
+}

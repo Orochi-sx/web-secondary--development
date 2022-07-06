@@ -1,0 +1,80 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.app-container {
+  width: 80%;
+  height: 300px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.app-container > .components {
+  margin-bottom: 15px;
+  display: flex;
+}
+.app-container > .components > .title {
+  font-size: 18px;
+  color: cornflowerblue;
+  white-space: nowrap;
+  width: 220px;
+}
+.infoCard {
+  background-color: #0454f2;
+  color: white;
+  width: 24%;
+  height: 15.15vw;
+  border-radius: 16px;
+  padding: 2vw;
+  position: relative;
+}
+
+.card-title {
+  position: relative;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 39px;
+  padding-bottom: 1vw;
+  margin-bottom: 1vw;
+  border-bottom: 1px solid #fff3;
+  z-index: 10;
+}
+.card-desc {
+  position: relative;
+  font-size: 14px;
+  line-height: 20px;
+  color: #ffffffb3;
+  margin-bottom: 1vw;
+  z-index: 10;
+}
+.card-bg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  z-index: 0;
+  width: 50%;
+  height: 50%;
+}
+.ant-btn-background-ghost {
+  border-color: #fff8;
+  width: 100px;
+}
+@media (max-width: 1680px) {
+  .card-title {
+    font-size: 26px;
+    line-height: 37px;
+  }
+}
