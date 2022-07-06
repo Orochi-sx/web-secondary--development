@@ -19,18 +19,18 @@
 ## 开发前准备
 
 + scli方式
-  1. 本地运行cmd命令，打开运行窗口。
-  2. 执行以下命令全局安装sdata-cli服务。
+1. 本地运行cmd命令，打开运行窗口。
+2. 执行以下命令全局安装sdata-cli服务。
 
-  ```js
-    npm i sdata-cli -g
-  ```
-  3. 安装完成后，运行scli i，选择对应模块及框架
-  4. npm i或者yarn install安装相关依赖项，运行npm run serve(Vue版本)/npm run start(React版本)即可开始进行开发
+```js
+  npm i sdata-cli -g
+```
+3. 安装完成后，运行scli i，选择对应模块及框架
+4. npm i或者yarn install安装相关依赖项，运行npm run serve(Vue版本)/npm run start(React版本)即可开始进行开发
 + github方式
-  1. 本地下载github仓库[https://github.com/Orochi-sx/web-secondary--development](https://github.com/Orochi-sx/web-secondary--development/)
-  2. 切换对应的分支及插件类型，如vue版本的应用插件为vue-version-app
-  3. npm i或者yarn install安装相关依赖项，运行npm run serve(Vue版本)/npm run start(React版本)即可开始进行开发
+1. 本地下载github仓库[https://github.com/Orochi-sx/web-secondary--development](https://github.com/Orochi-sx/web-secondary--development/)
+2. 切换对应的分支及插件类型，如vue版本的应用插件为vue-version-app
+3. npm i或者yarn install安装相关依赖项，运行npm run serve(Vue版本)/npm run start(React版本)即可开始进行开发
 
 ## 插件包文件说明
 | 文件名 | 说明                                                                                                                               |
@@ -62,24 +62,24 @@
 
 填报二开通常有六个文件需要编写,分别为designConfiguration,set,add,child,table,preview
 * designConfiguration
-  
-  填报配置页面的配置项区域
+
+填报配置页面的配置项区域
 * set
-  
-  填报的配置页面组件展示区域
+
+填报的配置页面组件展示区域
 
 * add
-  
-  填报增删改页面展示
+
+填报增删改页面展示
 * child
-  
-  填报插入字表组件页面展示
+
+填报插入字表组件页面展示
 * table
-  
-  填报在列表页中的展示
+
+填报在列表页中的展示
 * preview
-  
-  填报详情页页面展示
+
+填报详情页页面展示
 
 ## 数据交互
 ### 应用
@@ -89,11 +89,11 @@ config.json,customconf配置项
 
 **`接收用户输入`**
 * react version
-  
-  this.props.customConfig
+
+this.props.customConfig
 * vue version
-  
-  this.customConfig
+
+this.customConfig
 ### 分析仪
 **`定义用户输入`**
 
@@ -101,11 +101,11 @@ config.json,vars配置项
 
 **`接收用户输入`**
 * react version
-  
-  this.props.options?.externalVariables
+
+this.props.options?.externalVariables
 * vue version
-  
-  this.options?.externalVariables
+
+this.options?.externalVariables
 
 ### 大屏
 **`定义用户输入`**
@@ -114,11 +114,11 @@ config.json,vars配置项
 
 **`接收用户输入`**
 * vue version
-  
-  this.customConfig?.variable.default_value
+
+this.customConfig?.variable.default_value
 * react version
-  
-  this.props.variable?.default_value
+
+this.props.variable?.default_value
 
 ### 填报
 **`定义用户输入`**
@@ -127,11 +127,11 @@ designConfiguration组件
 
 **`接收用户输入`**
 * vue version
-  
-  this.customConfig?.configuration
+
+this.customConfig?.configuration
 * react version
-  
-  this.props?.customConfig?.configuration
+
+this.props?.customConfig?.configuration
 
 ## 数据源的获取
 **`props.datasource`**
@@ -157,7 +157,7 @@ designConfiguration组件
 ```js
 //原生的点击事件，鼠标点击的时候，浏览器会触发点击事件（浏览器内部提供），开发者只用书写注册代码即可在用户点击时进行交互
 document.addEventListener("click",function(e){
-  console.log(e.clientX)
+console.log(e.clientX)
 })
 ```
 
@@ -165,7 +165,7 @@ document.addEventListener("click",function(e){
 ```js
 //EventBus使用register注册事件
 EventBus.register(eventName,function(e){
-  console.log(e)
+console.log(e)
 });
 
 //EventBus使用triggerEvent触发事件，并可对外暴露相关参数
@@ -182,60 +182,60 @@ EventBus.triggerEvent(eventName,params)
 ```js
 //组件挂载完成时，注册对应的事件与动作
 const events = [
-  {
-    key: "selectedValueChange", name: "过滤条件变化", payload: [
-      {
-        key: "selectedValue", name: "过滤条件", dataType: "string"
-      }
-    ],
-  }, {
-    key: "searchValueChange", name: "搜索条件变化", payload: [
-      {
-        key: "searchValue", name: "搜索条件", dataType: "string"
-      }
-    ],
-  }
+{
+  key: "selectedValueChange", name: "过滤条件变化", payload: [
+    {
+      key: "selectedValue", name: "过滤条件", dataType: "string"
+    }
+  ],
+}, {
+  key: "searchValueChange", name: "搜索条件变化", payload: [
+    {
+      key: "searchValue", name: "搜索条件", dataType: "string"
+    }
+  ],
+}
 ];
 const actions = [
-  {
-    key: "setValue",
-    name: "设值",
-    isSupportChild: true, // 是否支持子表(填报组件)
-    params: [
-      {
-        key: "value",
-        name: "值",
-        dataType: "string"
-      },
-    ],
-  },
-  {
-    key: "getValue",
-    name: "取值",
-    isSupportChild: true, // 是否支持子表(填报组件)
-    hasReturn: true,
-    returns: [
-      {
-        key: "value",
-        name: "值",
-        dataType: "string"
-      },
-    ],
-  }
+{
+  key: "setValue",
+  name: "设值",
+  isSupportChild: true, // 是否支持子表(填报组件)
+  params: [
+    {
+      key: "value",
+      name: "值",
+      dataType: "string"
+    },
+  ],
+},
+{
+  key: "getValue",
+  name: "取值",
+  isSupportChild: true, // 是否支持子表(填报组件)
+  hasReturn: true,
+  returns: [
+    {
+      key: "value",
+      name: "值",
+      dataType: "string"
+    },
+  ],
+}
 ]
 //组件注册
 this.props?.customConfig?.componentId && window.componentCenter?.register(this.props?.customConfig?.componentId, "comp", this, {
-      events, actions
-    });
+    events, actions
+  });
 
 //动作声明
 do_EventCenter_setValue({ value }) {
-  this.data = value;
+this.data = value;
 },
 
 //组件销毁
 destroyed() {
-    window?.componentCenter?.removeInstance(this.customConfig.componentId);
+  window?.componentCenter?.removeInstance(this.customConfig.componentId);
 }
 ```
 
@@ -263,37 +263,37 @@ window.eventCenter?.triggerEvent(this.props?.customConfig?.componentId,"searchVa
 
 ```js
 class EventBus {
-  constructor() {
-    this.listeners = {};
-  }
-  register(eventName, callback) {
-    this.listeners[eventName] = this.listeners[eventName] || [];
-    this.listeners[eventName].push({
-      callback
-    });
-  }
-  triggerEvent(eventName, context) {
-    let callbacks = this.listeners[eventName] || [];
-    callbacks.forEach((callbackObj)=>{
-      let callback = callbackObj.callback
-      callback.call(null, context);
-    })
-  }
-  clear(){
-    this.listeners = {};
-  }
+constructor() {
+  this.listeners = {};
+}
+register(eventName, callback) {
+  this.listeners[eventName] = this.listeners[eventName] || [];
+  this.listeners[eventName].push({
+    callback
+  });
+}
+triggerEvent(eventName, context) {
+  let callbacks = this.listeners[eventName] || [];
+  callbacks.forEach((callbackObj)=>{
+    let callback = callbackObj.callback
+    callback.call(null, context);
+  })
+}
+clear(){
+  this.listeners = {};
+}
 }
 export default new EventBus();
 ```
 ## 远程调试
 + react版本
-  1. 修改proxy.js的target字段为代理地址
-  2. 修改src/api/request.js中document.cookie的token和refreshToken字段为代理地址请求头的相应字段
-  3. npm run start
+1. 修改proxy.js的target字段为代理地址
+2. 修改src/api/request.js中document.cookie的token和refreshToken字段为代理地址请求头的相应字段
+3. npm run start
 + vue版本
-  1. 修改vue.config.js的target字段为代理地址，
-  2. 修改src/api/request.js中document.cookie的token和refreshToken字段为代理地址请求头的相应字段
-  3. npm run serve
+1. 修改vue.config.js的target字段为代理地址，
+2. 修改src/api/request.js中document.cookie的token和refreshToken字段为代理地址请求头的相应字段
+3. npm run serve
 
 ## 插件的上传及使用
 ### 插件上传
@@ -454,10 +454,10 @@ export default new EventBus();
 + 因为二开插件外层布局由配置人员通过平台布局组件实现，四种类型的前端二开组件，除非特殊要求，理论上都应该将最外层的宽高设置为100%。
 + 二开组件代码中，如果需要获取dom元素并进行操作，react版本或vue版本都应通过ref去获取dom元素而非通过选择器，以防止组件复用时造成冲突
 + 分析仪二开通常对图表类进行二次开发，所以应加上窗口监听事件，并在其中写入图表重绘方法
-  eg.
-  ```js
-  let chart= echarts.init(this.refs.chart)
-  window.addEventListener("resize",function(){
-    chart.resize()
-  })
-  ```
+eg.
+```js
+let chart= echarts.init(this.refs.chart)
+window.addEventListener("resize",function(){
+  chart.resize()
+})
+```
