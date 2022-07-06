@@ -1,13 +1,13 @@
 <template>
-  <div class="infoCard">
-    <div class="card-title" @click="triggerEvent">
-      {{ title }}
+  <div class="drag-container">
+    <div class="slider">
+      <div class="cpn" draggable="true" @dragstart="ondragstart" id="组件 1">组件 1</div>
+      <div class="cpn" draggable="true" @dragstart="ondragstart" id="组件 2">组件 2</div>
     </div>
-    <div class="card-desc">
-      {{ desc }}
+    <div class="ctn-box">
+      <div class="inner-box" @dragover.prevent="" @drop.stop="ondrop" id="模板框 1"></div>
+      <div class="inner-box" @dragover.prevent="" @drop.stop="ondrop" id="模板框 2"></div>
     </div>
-    <el-button ghost @click="goToStudy"> 去学习 </el-button>
-    <el-button ghost @click="getData"> 获取数据 </el-button>
   </div>
 </template>
 
@@ -40,13 +40,13 @@ export default {
       );
   },
   methods: {
-    goToStudy() {
-      window.open(this.customConfig?.url || "http://baidu.com");
+    ondragstart(e) {
+      const id = e.target.getAttribute('id')
+      console.log('ondragstart', id)
     },
-    getData() {
-      //   console.log(appService.getMenuData(), "菜单");
-      //   console.log(appService.getPageData(), "页面");
-      //   console.log(appService.getVariable(), "变量");
+    ondrop(e) {
+      const id = e.target.getAttribute('id')
+      console.log('drop', id)
     },
     triggerEvent() {
       let { componentId, appId } = this.customConfig || {};
@@ -74,3 +74,42 @@ export default {
   },
 };
 </script>
+
+
+<style lang="less" scoped>
+.drag-container {
+  height: 100%;
+  display: flex;
+
+  .slider {
+    height: 100%;
+    width: 48%;
+    padding: 20px;
+    background-color: #b0b0b0;
+
+    .cpn {
+      width: 100px;
+      text-align: center;
+      font-size: 18px;
+      line-height: 40px;
+      background-color: #cacdca;
+      margin-bottom: 10px;
+    }
+  }
+
+  .ctn-box {
+    height: 100%;
+    width: 48%;
+    padding: 20px;
+    background-color: #ccc;
+
+    .inner-box {
+      width: 100%;
+      height: 49%;
+      margin-bottom: 10px;
+      background-color: #777777;
+    }
+
+  }
+}
+</style>

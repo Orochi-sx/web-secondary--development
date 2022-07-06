@@ -7,7 +7,7 @@ const AdmZip = require("adm-zip");
 
 function printZip(zip) {
   let zipEntries = zip.getEntries(); // an array of ZipEntry records
-  zipEntries.forEach(function(zipEntry) {
+  zipEntries.forEach(function (zipEntry) {
     console.log(zipEntry.name || zipEntry.entryName); // outputs zip entries information
   });
 }
@@ -33,7 +33,7 @@ fs.copySync(
 console.log("新文件拷贝完成");
 
 configJson.main = mainFileName;
-
+configJson.js_script = mainFileName;
 fs.writeFileSync(
   path.resolve(__dirname, "../pluginTemp/config.json"),
   JSON.stringify(configJson, null, 2),
