@@ -1,19 +1,44 @@
 <template>
-  <div class="infoCard">
-    <div class="card-title" @click="triggerEvent">
-      {{ title }}
-    </div>
-    <div class="card-desc">
-      {{ desc }}
-    </div>
-    <el-button ghost @click="goToStudy"> 去学习 </el-button>
-    <el-button ghost @click="getData"> 获取数据 </el-button>
+  <div class="main">
+    <el-card
+      shadow="hover"
+      v-for="(item, index) of stationData"
+      :key="index"
+      class="singleCard"
+    >
+      <div class="infoTop">
+        <span>{{ item.propertiesName }}</span>
+        <a>查看数据</a>
+      </div>
+      <div class="infoCenter">
+        <span>{{ item.identifierValue + " " }}</span>
+
+        <a class="unit">{{ item.unitSymbol }}</a>
+      </div>
+      <div class="infoBottom">
+        <span>
+          {{ item.createTime }}
+        </span>
+      </div>
+    </el-card>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="page"
+      :page-sizes="[10, 20, 30, 50]"
+      :page-size="limit"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="tatal"
+      class="pagination"
+    >
+    </el-pagination>
   </div>
 </template>
 
 <script>
 // import appService from "@njsdata/app-sdk";
 import eventActionDefine from "./components/msgCompConfig";
+import { queryDeviceModelData } from "./api/asset";
 import "./index.css";
 export default {
   name: "App",
@@ -21,14 +46,16 @@ export default {
     customConfig: Object,
     info: Object,
   },
-  computed: {
-    title() {
-      return this.customConfig?.title || "数据构建";
-    },
-    desc() {
-      return this.customConfig?.desc || "描述";
-    },
+  data() {
+    return {
+      stationData: [],
+      stationList: [],
+      tatal: 0,
+      limit: 10,
+      page: 1,
+    };
   },
+  computed: {},
   mounted() {
     let { componentId } = this.customConfig || {};
     componentId &&
@@ -38,35 +65,35 @@ export default {
         this,
         eventActionDefine
       );
+    let message = {
+      deviceId: "6b8e430d8be44b18af2d6c3123313688",
+      productId: "a2024d5c-6491-49e1-a37b-cb42d1d3bd7b",
+    };
+    queryDeviceModelData(message).then((res) => {
+      this.stationList = res.data;
+      this.tatal = res.data?.length;
+      this.pageList();
+    });
   },
   methods: {
-    goToStudy() {
-      window.open(this.customConfig?.url || "http://baidu.com");
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.limit = val;
+      this.pageList();
     },
-    getData() {
-      //   console.log(appService.getMenuData(), "菜单");
-      //   console.log(appService.getPageData(), "页面");
-      //   console.log(appService.getVariable(), "变量");
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.page = val;
+      this.pageList();
     },
-    triggerEvent() {
-      let { componentId, appId } = this.customConfig || {};
-      componentId &&
-        appId &&
-        window.eventCenter?.triggerEventNew({
-          objectId: appId,
-          componentId: componentId,
-          type: "app",
-          event: "onImgClick",
-          payload: {
-            value: "sasdasd",
-          },
-        });
-    },
-    do_EventCenter_messageSuccess() {
-      alert("动作执行成功！");
-    },
-    Event_Center_getName() {
-      return "应用二开测试";
+    // 具体分页操作
+    pageList() {
+      this.stationData = this.stationList.filter(
+        (item, index) =>
+          index < this.page * this.limit &&
+          index >= this.limit * (this.page - 1)
+      );
+      this.total = this.stationData.length;
     },
   },
   destroyed() {
@@ -74,3 +101,65 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+.main {
+  // height: 100%;
+  background: #f5f5f5;
+  display: flex;
+  flex-wrap: wrap;
+}
+.singleCard {
+  height: 160px;
+  width: 300px;
+  background: #fff;
+  margin: 15px;
+  .infoTop {
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 15px 0px 15px;
+    a {
+      color: #6380c6;
+      cursor: pointer;
+      &:hover {
+        color: #4169e1;
+      }
+    }
+  }
+  .infoCenter {
+    height: 40%;
+    margin: 0px 15px 0px 15px;
+    span {
+      font-size: 32px;
+      font-weight: 600;
+    }
+    .unit {
+      vertical-align: super;
+      font-weight: 500;
+      color: black;
+      cursor: default;
+    }
+  }
+  .infoBottom {
+    height: 30%;
+    margin: 0px 15px 0px 15px;
+    span {
+      color: #808080;
+    }
+  }
+}
+/deep/.el-card__body {
+  height: 160px;
+  width: 300px;
+  padding: 0 0px 0 0px;
+}
+.is-hover-shadow:hover {
+  box-shadow: 5px 5px 12px 0 rgb(0 0 0 / 25%);
+}
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+</style>
