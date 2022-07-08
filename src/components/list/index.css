@@ -1,0 +1,142 @@
+/* 日历单元格整体 */
+.tag_calendar {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    padding: 6px 0 0 14px;
+    font-size: 14px;
+    text-align: left;
+    border-top: 1px solid #EAEAEA;
+    border-left: 1px solid #EAEAEA;
+}
+/* 日历单元格 */
+.tag_date {
+    padding-bottom: 20px;
+}
+/* 小红点 */
+.tag_badge {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background-color: #FF4D4F;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+/* 请假 */
+.tag_rest {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background-color: #F59930;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    right: 15px;
+    font-size: 12px;
+    color: #ffffff;
+    transform: scale(0.8);
+}
+.tag_rest div{
+    margin-left: 2px;
+    margin-top: -0.5px;
+}
+/* 日历班表 */
+.tag_shift {
+    width: 100%;
+    text-align: left;
+    font-size: 12px;
+}
+/* 日历头部标题 */
+.ant-picker-content > thead {
+    text-align: center;
+    background: #F3F5F6;
+    height: 30px;
+    line-height: 30px;
+}
+.ant-picker-content > thead th{
+    padding: 0 !important;
+    border-right: 1px solid #EAEAEA;
+    border-top: 1px solid #EAEAEA;
+}
+.ant-picker-content > thead th:first-child{
+    border-left: 1px solid #EAEAEA;
+}
+/* 日历行 */
+.ant-picker-content > tbody tr{
+    border-right: 1px solid #EAEAEA;
+}
+.ant-picker-content > tbody tr:last-child{
+    border-bottom: 1px solid #EAEAEA;
+}
+/* 隐藏年月切换按钮 */
+.ant-radio-group {
+    display: none !important;
+}
+
+.ant-popover {
+    width: 250px;
+}
+.tabs_toady_top {
+    font-weight: bolder;
+    margin-bottom: 5px;
+}
+.tabs_toady_bottom {
+    font-weight: bolder;
+    margin-top: 25px;
+    margin-bottom: 5px;
+}
+.tabs_toady_workShift {
+    font-size: 12px;
+}
+.tabs_wroShift_content {
+    display: flex;
+    margin-bottom: 3px;
+}
+.tabs_wroShift_content div:first-child{
+   margin-right: 10px;
+}
+
+.notice {
+    border-bottom: 1px solid #EAEAEA;
+    margin: 7px 0;
+}
+.notice .notice_content1{
+    padding-top: 5px;
+    border-top: 1px solid #EAEAEA;
+}
+.notice_type {
+    background: #3A9FFF;
+    padding: 1px 3px;
+    color: #ffffff;
+}
+.notice_update {
+    display: flex;
+}
+.notice_newWorkShift {
+    color: red;
+}
+.notice_content2 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+.notice_content3 {
+    margin-top: 5px;
+    padding-bottom: 5px;
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+}
+.noNotice {
+    font-size: 14px;
+    color: #999;
+}
+.notice_to {
+    color: #7EA4FE;
+}
+
+.ant-tabs-tab .ant-tabs-tab-btn {
+    z-index: -99999999;
+}

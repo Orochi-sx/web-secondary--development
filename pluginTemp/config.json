@@ -1,19 +1,13 @@
 {
-  "id": "bc17c674-42a6-4794-92bd-9425ac81e910",
-  "type": "head",
-  "main": "main.30dcaf4f.js",
+  "id": "4519b44f-8f66-47ca-bdbf-75d655404b47-log",
+  "type": "data-form-list",
+  "main": "main.3cc3669f.js",
+  "baseVersion": "V8R4C50SPC210",
   "version": "2",
   "props": {
-    "type": "head",
-    "img": "APP_0001.png",
-    "name": "dsadq",
-    "loadStyle": 0,
-    "lib": [],
-    "css_script": [],
-    "customconf": [
-      "title",
-      "url",
-      "desc"
-    ]
+    "styleArr": "[\"title\",\"height\",\"key\", \"eventCenterConfig\"]",
+    "columnStyle": "{title:'自定义'}",
+    "componentAttributes": "{\"style\":[\"title\",\"height\"],\"data\":[\"key\"],\"interaction\":[\"eventCenterConfig\"]}",
+    "assetColumnList": "[{\"col_name\":\"自定义\",\"col_datatype\":0}]"
   }
 }
