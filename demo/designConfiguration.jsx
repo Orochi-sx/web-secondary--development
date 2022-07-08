@@ -8,8 +8,7 @@ const DesignConfiguration = (props) => {
     formConfig: {},
     component: {},
     changeConfiguration: (values) => console.log(values),
-    configuration:
-      '{"size":"middle", "placeholder": "123", "allowClear": true }',
+    configuration: '{"assetId":""}',
   };
   return <App {...customConfig} type="designConfiguration" />;
 };

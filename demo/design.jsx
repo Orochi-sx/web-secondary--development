@@ -12,7 +12,7 @@ const PreviewComponent = (props) => {
     componentCenter,
     eventCenter,
   };
-  return <App {...customConfig} type="set" />;
+  return <App {...customConfig} type="list" />;
 };
 
 PreviewComponent.propTypes = {};

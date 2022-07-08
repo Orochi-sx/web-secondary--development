@@ -1,7 +1,17 @@
 import axios from "axios";
 import qs from "querystringify";
 
-// const apiContextPath = "http://192.168.1.240:43214";
+const apiContextPath = "";
+if (process.env.NODE_ENV === "development") {
+  document.cookie =
+    "token=";
+  document.cookie =
+    "refreshToken=";
+  document.cookie = "username=admin";
+  document.cookie = "windowOnline=true";
+  apiContextPath = "/api";
+}
+
 
 const instance = axios.create({
   baseURL: `/sdata/rest`,
