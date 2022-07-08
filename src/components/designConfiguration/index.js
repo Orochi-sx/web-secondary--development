@@ -21,28 +21,7 @@ const DesignConfiguration = ({ changeConfiguration, configuration }) => {
   };
 
   return (
-    <>
-      <Form
-        {...formItemLayout}
-        layout="vertical"
-        form={form}
-        onValuesChange={onFormLayoutChange}
-      >
-        <Form.Item label="控件大小" name="size" de>
-          <Radio.Group>
-            <Radio.Button value="small">小</Radio.Button>
-            <Radio.Button value="middle">中 </Radio.Button>
-            <Radio.Button value="large">大</Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item label="占位符" name="placeholder">
-          <Input />
-        </Form.Item>
-        <Form.Item label="允许删除" name="allowClear" valuePropName="checked">
-          <Switch></Switch>
-        </Form.Item>
-      </Form>
-    </>
+    <></>
   );
 };
 

@@ -1,0 +1,19 @@
+.popover_background .ant-popover-inner{
+    background-color: #111 !important;
+}
+.popover_background .ant-popover-arrow-content{
+    background-color: #111 !important;
+}
+.popover_dialog {
+    font-size: 12px;
+    color: #fff;
+}
+.popover_dialog div {
+    margin: 5px 0;
+}
+.popover_dialog div:first-child {
+    margin-bottom: 20px;
+}
+.date_picker {
+    margin-bottom: 15px !important;
+}
