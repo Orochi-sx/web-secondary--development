@@ -35,6 +35,7 @@
             class="textClass"
             multiple
             collapse-tags
+            clearable
             :style="{ width: '200px', marginLeft: '10px' }"
           >
             <el-option
@@ -44,6 +45,12 @@
               v-for="t in tests"
             />
           </el-select>
+        </div>
+      </div>
+      <div class="content-row" style="margin-left: 60px">
+        <div class="row-left">接口地址：</div>
+        <div class="row-right">
+          <el-input v-model="apiSrcInput" placeholder="请输入地址" @change="srcChange"></el-input>
         </div>
       </div>
     </div>
@@ -69,6 +76,7 @@ export default {
     let currentfieldList = this.nodeFieldList[currentNodes] || {};
     let label = detail.label?.split(":")[1];
     let field = detail.data?.detail?.columns || [];
+    let getApiSrc = detail.data?.detail?.apiSrc || "";
     const tests = currentfieldList[currentNodes] || [];
     const newIcon = this.customIcon || {};
     return {
@@ -79,6 +87,7 @@ export default {
       currentfieldList,
       tests,
       selectCols: field.map(_ => _.col_name),
+      apiSrcInput: getApiSrc,
       icon: newIcon,
     };
   },
@@ -92,6 +101,7 @@ export default {
         code: this.currentNodes,
       };
       detail.data.detail.columns = newFields;
+      detail.data.detail.apiSrc = this.apiSrcInput;
       detail.label = this.currentNodes + ":" + newName;
       this.updateNode(detail);
     },
@@ -107,6 +117,9 @@ export default {
       this.fields = ele;
       this.updateNode1(this.nodeName, ele);
     },
+    srcChange(val){
+      this.updateNode1(this.nodeName, this.fields);
+    }
   },
   computed: {
     getIconUrl() {
@@ -133,6 +146,8 @@ export default {
   }
 
   .custom-node-content {
+    display: flex;
+    justify-content: space-around;
     height: 240px;
     padding: 20px 40px;
 
@@ -142,7 +157,7 @@ export default {
       align-items: center;
 
       .row-left {
-        width: 120px;
+        width: 100px;
         text-align: left;
       }
 

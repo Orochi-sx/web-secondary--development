@@ -40,9 +40,10 @@ if (process.env.NODE_ENV !== "production") {
         shape: "nodeDom",
         data: {
           basicattrs: {
-            classname: "com.sdata.customize.dataflow.CustomizeNode",
+            classname: "com.sdata.YZKJOperatorNode",
           },
           detail: {
+            apiSrc: "https://www.baudi.com",
             columns: [
               {
                 displayed: 1,
@@ -55,11 +56,11 @@ if (process.env.NODE_ENV !== "production") {
             ],
           },
           text: {
-            internalName: "书名提取",
+            internalName: "",
             code: "S2",
           },
         },
-        label: "S2:书名提取",
+        label: "S2:API服务调用",
         output: 999,
         input: 1,
         size: [55, 55],
