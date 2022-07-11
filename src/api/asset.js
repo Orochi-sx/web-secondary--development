@@ -1,8 +1,7 @@
-// import request from "./request";
+import request from "./request";
 
-// /**
-//  * 查询资产(新的)
-//  * @param {*} params
-//  */
-// export const getAssets = (cata, type, params2) =>
-//   request.post(`asset/queryList?cata=${cata}&type=${type}`, params2);
+/**
+ * 请求资产 支持条件查询
+ */
+ export const queryAssetById = (id, dataForm) =>
+    request.post(`/asset/getAssetData?asset_id=${id}`, dataForm ? dataForm : []);

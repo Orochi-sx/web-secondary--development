@@ -1,48 +1,43 @@
 <template>
-  <el-form ref="form"
-           :model="form"
-           label-width="80px">
-    <el-form-item label="占位符">
-      <el-input v-model="form.placeholder"></el-input>
+  <el-form ref="form" :model="form" inline>
+    <!-- 资产ID -->
+    <el-form-item label="资产ID">
+      <el-input v-model="form.assetId" size="small"></el-input>
     </el-form-item>
-
   </el-form>
 </template>
 
 <script>
 export default {
+  name: 'DesignConfiguration',
+  props: {
+    customConfig: Object,
+    platformProps: Object
+  },
   data() {
     return {
       form: {
-        placeholder: "",
+        assetId: "",
       },
-    };
+    }
   },
-
+  mounted() {
+    // 配置项信息
+    if(this.platformProps) {
+      this.form = JSON.parse(this.platformProps.configuration)
+    } else {
+      this.form = this.customConfig.configuration
+    }
+  },
   watch: {
-    "form.size": function (value, oldValue) {
+    "form.assetId": function (value, oldValue) {
       this.onFormLayoutChange();
     },
-    "form.placeholder": function (value, oldValue) {
-      this.onFormLayoutChange();
-    },
-    "form.allowClear": function (value, oldValue) {
-      this.onFormLayoutChange();
-    },
-  },
-
-  props: {
-    changeConfiguration: Function,
-    configuration: Object,
-    customConfig: Object,
   },
   methods: {
     onFormLayoutChange() {
-      this.customConfig.changeConfiguration(JSON.stringify(this.form));
-    },
-  },
-  mounted() {
-    this.form = JSON.parse(this.customConfig.configuration);
+      this.platformProps?.changeConfiguration(JSON.stringify(this.form));
+    }
   },
 };
 </script>

@@ -31,6 +31,9 @@ pluginTemp/js/*
 pluginTemp/libs/*
 plugin-*.zip
 
+pnpm-lock.yaml
+package-lock.json
+
 .umi
 
 yarn.lock
