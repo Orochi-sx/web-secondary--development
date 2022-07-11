@@ -1,7 +1,6 @@
 import axios from "axios";
 import qs from "querystringify";
 
-const apiContextPath = "";
 if (process.env.NODE_ENV === "development") {
   document.cookie =
     "token=";
