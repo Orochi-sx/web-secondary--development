@@ -2,6 +2,9 @@ import axios from "axios";
 import qs from "querystringify";
 
 // const apiContextPath = "http://192.168.1.240:43214";
+if (process.env.NODE_ENV === "development") {
+  document.cookie = "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1Nzc4NDM2NDc4OCwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.-QmRC5V0zbEkiUaLir9F-7NasXum8S3wyVXfQ01VRPo";
+}
 
 const instance = axios.create({
   baseURL: `/sdata/rest`,

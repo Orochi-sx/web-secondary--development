@@ -1,7 +1,7 @@
 import { defineConfig } from "dumi";
 import path from "path";
 
-const host = "http://10.15.111.9:7251"; // 本地Demo后台地址
+const host = "http://10.15.111.9:12892"; // 本地Demo后台地址
 
 export default defineConfig({
   title: "sdata-plugins",

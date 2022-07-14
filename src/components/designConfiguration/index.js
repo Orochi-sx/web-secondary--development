@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-const { Form, InputNumber } = window.antd;
+// const { Form, InputNumber } = window.antd || ;
+import {Form,Input} from 'antd'
 
 const DesignConfiguration = ({ changeConfiguration, configuration }) => {
   const [form] = Form.useForm();
@@ -12,12 +13,13 @@ const DesignConfiguration = ({ changeConfiguration, configuration }) => {
   }, []);
 
   const onFormLayoutChange = (changedValues, allValues) => {
+    console.log('allValues==',allValues);
     changeConfiguration(JSON.stringify(allValues));
   };
 
   const formItemLayout = {
     labelCol: { span: 6 },
-    wrapperCol: { span: 18 },
+    wrapperCol: { span: 12 },
   };
 
   return (
@@ -27,11 +29,8 @@ const DesignConfiguration = ({ changeConfiguration, configuration }) => {
         form={form}
         onValuesChange={onFormLayoutChange}
       >
-        <Form.Item label="宽度der：" name="width" initialValue={520}>
-          <InputNumber />
-        </Form.Item>
-        <Form.Item label="高度der：" name="height" initialValue={640}>
-          <InputNumber />
+        <Form.Item label="数据源ID" name="assetId" initialValue={''}>
+          <Input />
         </Form.Item>
       </Form>
     </>
