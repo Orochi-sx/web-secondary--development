@@ -1,12 +1,14 @@
 import Vue from "vue";
 import App from "./App.vue";
-import { Input, Select, Option } from "element-ui";
+import { Input, Select, Option ,Tooltip } from "element-ui";
 import "./index.css";
 
 Vue.config.productionTip = false;
 Vue.use(Input);
 Vue.use(Select);
 Vue.use(Option);
+Vue.use(Tooltip);
+
 
 if (process.env.NODE_ENV !== "production") {
   const props = {
@@ -43,23 +45,27 @@ if (process.env.NODE_ENV !== "production") {
             classname: "com.sdata.customize.dataflow.CustomizeNode",
           },
           detail: {
+            currentStr:'',
             columns: [
-              {
-                displayed: 1,
-                col_index: 1,
-                asset_id: "2fd81d3f-6993-0e78-c308-0b06ed7836a8",
-                col_name: "书名",
-                col_datatype: 0,
-                import_flag: false,
-              },
+              // {
+              //   displayed: 1,
+              //   col_index: 1,
+              //   asset_id: "2fd81d3f-6993-0e78-c308-0b06ed7836a8",
+              //   col_name: "书名",
+              //   col_datatype: 0,
+              //   import_flag: false,
+              // },
             ],
+            columns1:[
+              
+            ]
           },
           text: {
-            internalName: "书名提取",
+            internalName: "合并输出数据",
             code: "S2",
           },
         },
-        label: "S2:书名提取",
+        label: "S2:合并输出数据",
         output: 999,
         input: 1,
         size: [55, 55],
