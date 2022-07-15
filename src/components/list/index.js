@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import { queryAssetById } from '../../api/asset';
 import { Modal } from "antd";
 import "./index.less";
-import { MenuOutlined } from '@ant-design/icons'
+
+import { BellOutlined } from '@ant-design/icons'
+
 
 
 const List = ({ configuration }) => {
@@ -23,7 +25,7 @@ const List = ({ configuration }) => {
   const showModal = (title) => {
 
     let targetObject = assetInfo.filter(item => {
-      return item.title === title
+      return item.notice_title === title
     })
     // console.log('targetObject==', targetObject[0]);
 
@@ -143,22 +145,26 @@ const List = ({ configuration }) => {
 
 
     >
+
       <div className="titleHeader" ref={headerRef} style={donghua} onMouseEnter={() => mouseEnter()} onMouseLeave={() => mouseOut()}>
+
         {assetInfo.length != 0 ? assetInfo.map((item, index) => {
-          return <div className="itemBox" key={index} onClick={() => showModal(item.title)}>
-            <span>        <MenuOutlined style={{ color: 'green' }} /></span>
-            <span>{item.title}</span>
+          return <div className="itemBox" key={index} onClick={() => showModal(item.notice_title)}>
+            <span>       <BellOutlined />    </span>
+            {/* <i className="iconfont  icon-xiaoxi"></i> */}
+            {/* <MenuOutlined style={{ color: 'green' }} /> */}
+            <span>{item.notice_title}</span>
           </div>
-        }) : <div className="itemBox">暂无已发布信息</div>}
+        }) : <div className="itemBox">暂无已发布消息通知。</div>}
       </div>
 
 
 
     </div>
-      <Modal title={modelConfig.title} bodyStyle={{ height: '400px' }} width="50%" footer={null} height="500px" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title={modelConfig.notice_title} centered bodyStyle={{ height: '25.1%', borderRadius: '6px' }} width="25.7%" footer={null} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <div className="bgBox" >
           <div className="titleSpan">
-            {modelConfig.title}
+            {modelConfig.notice_title}
 
           </div>
           <div className="contantArea">
@@ -166,14 +172,14 @@ const List = ({ configuration }) => {
               <img src={require('../../assets/img/header.png').default} alt="" />
             </div>
             <div className="contantText">
-              {modelConfig.content}
+              {modelConfig.Inform_content}
             </div>
           </div>
           <div className="peopleBox">
             <div className="peopleBoxDetails">
-              <span >{modelConfig.people}</span>
-              <span style={{ "margin-left": '10px' }}>({modelConfig.address})</span>
-              <span style={{ "margin-left": '10px' }}>{modelConfig.time}</span>
+              <span >{modelConfig.name}</span>
+              <span style={{ "margin-left": '10px' }}>({modelConfig.subordinate_park})</span>
+              <span style={{ "margin-left": '10px' }}>{modelConfig.create_time}</span>
             </div>
 
           </div>
