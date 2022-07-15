@@ -1,0 +1,21 @@
+{
+  "id": "be50332e-a9cc-40f2-9d76-b06da72272c9",
+  "type": "app",
+  "main": "app.a1a35227.js",
+  "baseVersion": "V8R4C50SPC210",
+  "version": "2",
+  "props": {
+    "type": "login",
+    "img": "APP_0001.png",
+    "name": "应用二开_vue",
+    "loadStyle": 0,
+    "lib": [],
+    "css_script": [],
+    "customconf": [
+      "title",
+      "url",
+      "desc",
+      "imgUrl"
+    ]
+  }
+}

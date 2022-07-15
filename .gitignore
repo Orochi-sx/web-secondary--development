@@ -31,7 +31,12 @@ pluginTemp/js/*
 pluginTemp/libs/*
 plugin-*.zip
 
-/dumi/.umi/.cache/babel-loader
+pnpm-lock.yaml
+package-lock.json
+
+.umi
+
+yarn.lock
 
 .history
 temp
