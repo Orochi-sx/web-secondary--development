@@ -3,7 +3,7 @@ import qs from "querystringify";
 
 // const apiContextPath = "http://192.168.1.240:43214";
 if (process.env.NODE_ENV === "development") {
-  document.cookie = "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1Nzg3MjcxMzQxMSwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.1c1u6Qt_qk_r4PAISdOouMxUAMiWu6s5DorDKLptvt4";
+  document.cookie = "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1Nzg3OTI2ODkyOCwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.4NrYNdq6A15ePh41Vo6_VXehOz8aXlivtonjTivezcw";
 }
 
 const instance = axios.create({
