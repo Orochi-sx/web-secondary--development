@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 // const { Form, InputNumber } = window.antd || ;
-import {Form,Input} from 'antd'
+import { Form, Input } from 'antd'
 
 const DesignConfiguration = ({ changeConfiguration, configuration }) => {
   const [form] = Form.useForm();
@@ -13,7 +13,7 @@ const DesignConfiguration = ({ changeConfiguration, configuration }) => {
   }, []);
 
   const onFormLayoutChange = (changedValues, allValues) => {
-    console.log('allValues==',allValues);
+    // console.log('allValues==',allValues);
     changeConfiguration(JSON.stringify(allValues));
   };
 
