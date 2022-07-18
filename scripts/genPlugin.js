@@ -11,7 +11,7 @@ function printZip(zip) {
     console.log(zipEntry.name || zipEntry.entryName); // outputs zip entries information
   });
 }
-let configJson = require("../pluginTemp/config.json");
+
 // 删除老的文件
 glob.sync(path.resolve(__dirname, "../pluginTemp/js/*")).map(file => {
   console.log("file:", file);
@@ -31,6 +31,8 @@ fs.copySync(
   path.resolve(__dirname, `../pluginTemp/js/${mainFileName}`)
 );
 console.log("新文件拷贝完成");
+
+let configJson = require("../pluginTemp/config.json");
 
 configJson.main = mainFileName;
 

@@ -1,7 +1,8 @@
 {
-  "id": "e58d249f-703c-4918-9e0d-892936394f78",
+  "id": "653fef8c-762b-408e-b1bf-8f832e05ff25",
   "type": "app",
-  "main": "app.9439dbc9.js",
+  "main": "app.a99cc8d9.js",
+  "baseVersion": "V8R4C10_PNDL_v01",
   "version": "2",
   "props": {
     "type": "customize",
@@ -11,10 +12,18 @@
     "lib": [],
     "css_script": [],
     "customconf": [
-      "title",
-      "url",
-      "desc",
-      "imgUrl"
+      "oneAssetId",
+      "oneListId",
+      "twoAssetId",
+      "twoListId",
+      "threeAssetId",
+      "threeListId",
+      "fourAssetId",
+      "fourListId",
+      "fiveAssetId",
+      "fiveListId",
+      "rootDataId",
+      "rootListId"
     ]
   }
 }
