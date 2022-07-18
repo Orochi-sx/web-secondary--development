@@ -142,8 +142,6 @@ const List = ({ configuration }) => {
 
   return (
     <>    <div className="Header" ref={outBoxRef} dd={config.assetId}
-
-
     >
 
       <div className="titleHeader" ref={headerRef} style={donghua} onMouseEnter={() => mouseEnter()} onMouseLeave={() => mouseOut()}>
