@@ -1,8 +1,10 @@
 import request from "./request";
 
-/**
- * 查询资产
- * @param id 资产ID
- */
-export const getContentData = (obj) =>
-  request.post(`exportTemplate/provideThePathTest`, { dataId: obj.dataId, viewId: obj.viewId, formId: obj.formId });
+export const getAssetJSONForProduct = id =>
+  request.get(`iot/product/getAssetJSONForProduct?productId=${id}`);
+
+export const downloadAssetJSONForProduct = id =>
+  request.get(`iot/product/downloadAssetJSONForProduct?productId=${id}`);
+
+export const queryLiveing = id =>
+  request.get(`iot/video/queryLiveStreaming?deviceId=${id}`)

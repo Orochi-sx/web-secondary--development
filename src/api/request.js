@@ -2,9 +2,7 @@ import axios from "axios";
 import qs from "querystringify";
 
 // const apiContextPath = "http://192.168.1.240:43214";
-if (process.env.NODE_ENV === "development") {
-  document.cookie = "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1ODEyNDQ5NzgyMSwidXNlcklkIjoiMGFlMTlkZmUtYzIxZC00YWFjLWE0OGYtZjRkMDhhYWJlMmQzIn0.bTvfq3ajQOkDudGQF0GfU4YKauUm3UpB20WFKIz3LvA";
-}
+
 const instance = axios.create({
   baseURL: `/sdata/rest`,
   timeout: 60000,
@@ -13,7 +11,7 @@ const instance = axios.create({
   },
   headers:
     (window.location.search && qs.parse(window.location.search).token) ||
-      window.token
+    window.token
       ? { token: qs.parse(window.location.search).token || window.token }
       : {},
 });

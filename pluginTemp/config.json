@@ -1,7 +1,13 @@
 {
-  "id": "6546120d-9ea7-4b68-8fb0-cf104767f69a",
-  "type": "reporting",
-  "main": "main.0b435d82.js",
+  "id": "4519b44f-8f66-47ca-bdbf-75d655404b88-list-custom-btn",
+  "type": "list-custom-btn",
+  "main": "main.27ebc554.js",
+  "baseVersion": "V8R4C50SPC210",
   "version": "2",
-  "props": {}
+  "props": {
+    "styleArr": "[\"title\",\"height\",\"key\", \"eventCenterConfig\"]",
+    "columnStyle": "{title:'自定义'}",
+    "componentAttributes": "{\"style\":[\"title\",\"height\"],\"data\":[\"key\"],\"interaction\":[\"eventCenterConfig\"]}",
+    "assetColumnList": "[{\"col_name\":\"自定义\",\"col_datatype\":0}]"
+  }
 }
