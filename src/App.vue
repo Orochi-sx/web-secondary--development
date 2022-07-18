@@ -16,8 +16,11 @@
     </div>
     <div class="filterTable">
       <el-table :data="tableData" stripe border>
-        <el-table-column prop="sbsj" sortable label="上报时间"></el-table-column>
-        <el-table-column prop="ysz" sortable label="原始值"></el-table-column>
+        <el-table-column prop="reportTime" sortable label="上报时间"></el-table-column>
+        <el-table-column prop="remaining_watt_hour" sortable label="原始值">
+
+
+        </el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
         :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper"
@@ -30,7 +33,9 @@
 <script>
 // import appService from "@njsdata/app-sdk";
 import eventActionDefine from "./components/msgCompConfig";
+import { queryPropertiesHistoryData } from './api/asset'
 import "./index.css";
+
 export default {
 
   data() {
@@ -63,18 +68,18 @@ export default {
         }
       },
       tableData: [
-        { sbsj: '2', ysz: '3' },
-        { sbsj: '1', ysz: '5' },
-        { sbsj: '3', ysz: '9' },
-        { sbsj: '2', ysz: '3' },
-        { sbsj: '1', ysz: '5' },
-        { sbsj: '3', ysz: '9' },
-        { sbsj: '2', ysz: '3' },
-        { sbsj: '1', ysz: '5' },
-        { sbsj: '3', ysz: '9' },
-        { sbsj: '2', ysz: '3' },
-        { sbsj: '1', ysz: '5' },
-        { sbsj: '3', ysz: '9' },
+        { reportTime: '2', remaining_watt_hour: '3' },
+        { reportTime: '1', remaining_watt_hour: '5' },
+        { reportTime: '3', remaining_watt_hour: '9' },
+        { reportTime: '2', remaining_watt_hour: '3' },
+        { reportTime: '1', remaining_watt_hour: '5' },
+        { reportTime: '3', remaining_watt_hour: '9' },
+        { reportTime: '2', remaining_watt_hour: '3' },
+        { reportTime: '1', remaining_watt_hour: '5' },
+        { reportTime: '3', remaining_watt_hour: '9' },
+        { reportTime: '2', remaining_watt_hour: '3' },
+        { reportTime: '1', remaining_watt_hour: '5' },
+        { reportTime: '3', remaining_watt_hour: '9' },
       ]
     }
   },
@@ -95,6 +100,10 @@ export default {
 
   },
   mounted() {
+    queryPropertiesHistoryData({ deviceId: '11ab8e48592a4ad7aa300cb1b53f341a', productId: '71084667-e645-48b1-ab82-89ebb213fc49', identifier: 'remaining_watt_hour' }, { pageSize: 10, pageNum: 1, queryParams: [] }).then(res => {
+      console.log(res, '==============================ddd');
+      this.tableData = res.data.results
+    })
     let { componentId } = this.customConfig || {};
     componentId &&
       window.componentCenter?.register(

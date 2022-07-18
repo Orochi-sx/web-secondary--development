@@ -38,5 +38,10 @@ module.exports = {
     //   .use("url-loader")
     //   .loader("url-loader")
     //   .tap(options => Object.assign(options, { limit: 1 * 100 * 1024 * 1024 }));
+    config.module
+      .rule("iconts")
+      .use("url-loader")
+      .loader("url-loader")
+      .tap(options => Object.assign(options, { limit: 1 * 100 * 1024 * 1024 }));
   },
 };

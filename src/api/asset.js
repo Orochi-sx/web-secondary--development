@@ -6,3 +6,7 @@ import request from "./request";
  */
 export const queryAssetById = id =>
   request.post(`/asset/getAssetData?asset_id=${id}`, []);
+
+export const queryPropertiesHistoryData = (query, params) =>
+  request.post(`iot/device/queryPropertiesHistoryData?deviceId=${query.deviceId}&productId=${query.productId}&identifier=${query.identifier}`, params);
+
