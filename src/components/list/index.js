@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { queryAssetById } from '../../api/asset';
 import { Modal } from "antd";
 import "./index.less";
+import moment from "moment";
 
 import { BellOutlined } from '@ant-design/icons'
 
@@ -23,7 +24,6 @@ const List = ({ configuration }) => {
   const [bigwidth, setBigwidth] = useState(0)
 
   const showModal = (title) => {
-
     let targetObject = assetInfo.filter(item => {
       return item.notice_title === title
     })
@@ -179,7 +179,8 @@ const List = ({ configuration }) => {
             <div className="peopleBoxDetails">
               <span >{modelConfig.name}</span>
               <span style={{ "margin-left": '10px' }}>({modelConfig.subordinate_park})</span>
-              <span style={{ "margin-left": '10px' }}>{modelConfig.create_time}</span>
+              <span style={{ "margin-left": '10px' }}>{moment(modelConfig.create_time).format('YY-MM-DD hh:mm:ss')}</span>
+              {/* <span style={{ "margin-left": '10px' }}>{moment(new Date).format('YY-MM-DD hh:mm:ss')}</span> */}
             </div>
 
           </div>
