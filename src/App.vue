@@ -3,48 +3,69 @@
     <div class="filterHeader">
       <div class="filhead_left">筛选条件</div>
       <div class="filhead_right">
-        <el-button icon="el-icon-refresh-right">重置</el-button>
-        <el-button icon="el-icon-search" type="primary">筛选</el-button>
+        <el-button icon="el-icon-refresh-right" @click="restFn">重置</el-button>
+        <el-button icon="el-icon-search" @click="queryAll()" type="primary">筛选</el-button>
       </div>
 
     </div>
     <div class="filterTime"><span>上报时间</span>
-      <el-date-picker @focus="defalutStyleFn" popper-class="defalutP" v-model="value1" type="daterange"
-        :default-value="defvalue" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期"
-        end-placeholder="结束日期">
+      <el-date-picker popper-class="defalutP" v-model="value1" type="daterange" :default-value="defvalue"
+        :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
       </el-date-picker>
     </div>
     <div class="filterTable">
       <el-table :data="tableData" stripe border>
         <el-table-column prop="reportTime" sortable label="上报时间"></el-table-column>
         <el-table-column prop="remaining_watt_hour" sortable label="原始值">
+          <template slot-scope="scope">
+            <div class="tableFlex">
+              <div>
+                {{
+                    scope.row.remaining_watt_hour
+                
+                }}</div>
+              <div :class="{ tableTitle: true, requestFlag: !scope.row.requestFlag }"
+                @click="notificationFn(scope.row.deviceId)" :temp="scope.row.requestFlag"
+                :temp1="JSON.stringify(scope.row)">
+                弹框图片
+              </div>
+            </div>
 
+          </template>
 
         </el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper"
-        :total="400">
+        :page-sizes="[10, 15, 20, 25]" :page-size="10" layout="total, prev, pager, next, sizes, jumper" :total="total">
       </el-pagination>
     </div>
+    <el-dialog title="图片弹框" :visible.sync="dialogVisible" width="30%">
+      <img height='100%' width='100%' :src="imgSrc" alt="">
+
+    </el-dialog>
   </div>
 </template>
 
 <script>
 // import appService from "@njsdata/app-sdk";
 import eventActionDefine from "./components/msgCompConfig";
-import { queryPropertiesHistoryData } from './api/asset'
+
+import { queryPropertiesHistoryData, queryWarnPicture } from './api/asset'
+import qs from "querystringify";
 import "./index.css";
-
 export default {
-
   data() {
     return {
-      value1: [new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 2), undefined],
-
+      dialogVisible: false,
+      value1: [new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 2), new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 2)],
       defvalue: [new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 2)],
-      // defvalue: new Date('2022-6-24'),
       currentPage4: 1,
+      params: {
+        pageSize: 10,
+        pageNum: 1,
+        queryParams: [],
+      },
+      imgSrc: 'http://mms2.baidu.com/it/u=412522572,3814561694&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=950&h=500',
       pickerOptions: {
         disabledDate(time) {
           let now = new Date();   //获取此时的时间
@@ -67,18 +88,20 @@ export default {
           console.log(date);
         }
       },
+      total: 10,
+      queryT: {},
       tableData: [
-        { reportTime: '2', remaining_watt_hour: '3' },
+        { reportTime: '2', remaining_watt_hour: '3', requestFlag: 1 },
         { reportTime: '1', remaining_watt_hour: '5' },
         { reportTime: '3', remaining_watt_hour: '9' },
         { reportTime: '2', remaining_watt_hour: '3' },
         { reportTime: '1', remaining_watt_hour: '5' },
         { reportTime: '3', remaining_watt_hour: '9' },
-        { reportTime: '2', remaining_watt_hour: '3' },
+        { reportTime: '2', remaining_watt_hour: '3', requestFlag: 1 },
         { reportTime: '1', remaining_watt_hour: '5' },
         { reportTime: '3', remaining_watt_hour: '9' },
         { reportTime: '2', remaining_watt_hour: '3' },
-        { reportTime: '1', remaining_watt_hour: '5' },
+        { reportTime: '1', remaining_watt_hour: '5', requestFlag: 1 },
         { reportTime: '3', remaining_watt_hour: '9' },
       ]
     }
@@ -97,12 +120,18 @@ export default {
     },
   },
   created() {
-
+    const temp = qs.parse(window.location.search.substring(1))
+    console.log(temp, '=======参数');
+    this.queryT = { deviceId: temp.deviceId, productId: temp.productId, identifier: temp.identifier }
+    console.log(this.queryT, '========================第一次的参数');
   },
   mounted() {
+    // this.queryAll()
+    this.queryImgSrc()
     queryPropertiesHistoryData({ deviceId: '11ab8e48592a4ad7aa300cb1b53f341a', productId: '71084667-e645-48b1-ab82-89ebb213fc49', identifier: 'remaining_watt_hour' }, { pageSize: 10, pageNum: 1, queryParams: [] }).then(res => {
-      console.log(res, '==============================ddd');
+      // console.log(res, '==============================ddd');
       this.tableData = res.data.results
+      this.total = res.data.totalCount
     })
     let { componentId } = this.customConfig || {};
     componentId &&
@@ -114,23 +143,39 @@ export default {
       );
   },
   methods: {
-
-    testFn() {
-      console.log(this.value1);
+    restFn() {
+      this.value1 = null
+      this.queryAll()
     },
-    defalutStyleFn() {
-      // document.querySelector('.defalutP .el-date-table .el-date-table__row>.default div').style.color = 'red'
-      this.$nextTick(() => {
-        document.querySelector('.defalutP .el-date-table .el-date-table__row .default ').style.color = 'red'
-        // console.log(document.querySelector('.defalutP .el-date-table .el-date-table__row>.default div  ').style);
-      })
-
+    async queryImgSrc() {
+      try {
+        const { data } = await queryWarnPicture({ deviceid: 'f8270e5d2c5c48e29bc68a6991759b44', eventid: 111 })
+      } catch (error) {
+      }
     },
+    async queryAll() {
+      this.params.queryParams = this.value1 ? [{ colName: "reportTime", datatype: 6, type: 111, value: this.value1[0].getTime() }, { colName: "reportTime", type: 113, datatype: 6, value: this.value1[1].getTime() + 1000 * 60 * 60 * 24 }] : []
+      try {
+        // const { data } = await queryPropertiesHistoryData({ deviceId: '11ab8e48592a4ad7aa300cb1b53f341a', productId: '71084667-e645-48b1-ab82-89ebb213fc49', identifier: 'remaining_watt_hour' }, this.params)
+        console.log(this.queryT, '===============路由参数');
+        const { data } = await queryPropertiesHistoryData(this.queryT, this.params)
+        this.tableData = data.results
+        this.total = data.totalCount
+      } catch (error) {
+      }
+    },
+    notificationFn(value) {
+      console.log(value, '=============弹框值');
+      this.dialogVisible = true
+    },
+
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      this.params.pageSize = val
+      this.queryAll()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      this.params.pageNum = val
+      this.queryAll()
     },
     goToStudy() {
       window.open(this.customConfig?.url || "http://baidu.com");
@@ -170,6 +215,7 @@ export default {
 <style lang="less" scoped>
 .Filterpanel {
   padding: 20px;
+  background-color: white;
 
   .filterHeader {
     display: flex;
@@ -188,6 +234,10 @@ export default {
       margin-right: 10px;
     }
 
+    /deep/ .el-date-editor .el-range-separator {
+      width: 6%;
+    }
+
     /deep/.el-picker-panel .el-picker-panel__body .el-date-table__row .default {
       div {
         color: red;
@@ -198,6 +248,25 @@ export default {
   .filterTable {
     /deep/.el-table__row--striped td.el-table__cell {
       background-color: #f6f6f6;
+    }
+
+    .tableFlex {
+      display: flex;
+      justify-content: space-between;
+
+      .tableTitle {
+        margin-right: 60px;
+        color: #66b1ff;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .requestFlag {
+        display: none;
+      }
     }
 
     .el-pagination {

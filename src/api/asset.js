@@ -10,3 +10,5 @@ export const queryAssetById = id =>
 export const queryPropertiesHistoryData = (query, params) =>
   request.post(`iot/device/queryPropertiesHistoryData?deviceId=${query.deviceId}&productId=${query.productId}&identifier=${query.identifier}`, params);
 
+export const queryWarnPicture = params =>
+  request.get(`iot/video/queryWarnPicture?deviceId=${params.deviceid}&eventId=${params.eventid}`);
