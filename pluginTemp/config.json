@@ -1,7 +1,7 @@
 {
-  "id": "35ef2da7-8d40-4b63-a3f2-c8b240b02ee2",
+  "id": "00c8a43a-843d-40cf-9e79-85cf04df6ef3",
   "type": "analyzers",
-  "main": "app.66ff22af.js",
+  "main": "app.6f9f42ab.js",
   "version": "2",
   "props": {
     "img": "custom_table.png",
@@ -14,7 +14,11 @@
     "scriptName": "app.a515a2e6.js",
     "optionModules": [],
     "vars": [
-      "fontSize"
+      "fontSize",
+      "rowSpace",
+      "color",
+      "contentSize",
+      "rotate"
     ]
   }
 }

@@ -41,7 +41,11 @@ if (dom) {
     );
     const options = {
       externalVariables: {
-        fontSize: "20px",
+        fontSize: "15",
+        rowSpace:0,
+        color:'rgba(0,0,0,0.1)',
+        contentSize:'200,200',
+        rotate:-30,
       },
     };
     const props = {

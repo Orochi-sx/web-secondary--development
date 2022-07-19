@@ -1,37 +1,14 @@
 <template>
-  <div
-    className="analyzer-vue-demo"
-    :style="{
-      width: '100%',
-      height: '100%',
-      fontSize: options.externalVariables.fontSize || '14px',
-    }"
-  >
-    <div v-if="dataSource && tableDataHeader && tableData">
-      <div className="card-bg" @click="clickBt">点这里测试逻辑控制</div>
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column
-          v-for="(item, index) in tableDataHeader"
-          :key="index"
-          :prop="item.prop"
-          :label="item.label"
-          width="180"
-        >
-        </el-table-column>
-      </el-table>
+  <div>
+    <div class="contentBox" ref="contentBox">
+      <div v-for="ol of boxNum" :key="ol" class="itemBox" :ref="'itemBox' + ol">
+        <div v-for="(item, index) in content" class="detail" :ref="'detail' + ol + index" :key="index">{{ item }}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-const zipObject = (arr1, arr2) => {
-  const ret = {};
-  arr1.forEach((item, index) => {
-    ret[item] = arr2[index];
-  });
-  return ret;
-};
-
 export default {
   props: {
     dataSource: {
@@ -51,76 +28,29 @@ export default {
     },
     updateProcess: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
   },
   data() {
     return {
-      demoTableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄",
-        },
-      ],
+      fontSize: '',
+      rowSpace: 0,
+      color: '',
+      contentSize: '',
+      rotate: '',
+      content: [],
+      boxNum: 0
     };
   },
-  computed: {
-    tableDataHeader() {
-      return (this.dataSource[0] || []).map(t => ({
-        prop: t,
-        label: t,
-      }));
-    },
-    tableData() {
-      let [header, ...tableData] = this.dataSource;
-      tableData = tableData || [];
-      return tableData.map(d => (window?._?.zipObject || zipObject)(header, d));
-    },
-  },
-  mounted() {
-    const events = [
-      {
-        key: "onClick",
-        name: "点击",
-        payload: [
-          {
-            name: "名称",
-            dataType: "string",
-            key: "name",
-          },
-        ],
-      },
-    ];
 
-    const actions = [
-      {
-        key: "messageSuccess",
-        name: "成功提示",
-        params: [
-          {
-            key: "value",
-            name: "值",
-            dataType: "string",
-          },
-        ],
-      },
-    ];
+  mounted() {
+    const { fontSize, rowSpace, color, contentSize, rotate } = this.options.externalVariables
+    this.fontSize = fontSize + 'px',
+      this.rowSpace = rowSpace,
+      this.color = color,
+      this.contentSize = contentSize.split(','),
+      this.rotate = rotate
+    this.init()
 
     this.componentId &&
       window.componentCenter?.register &&
@@ -131,16 +61,45 @@ export default {
     this.updateProcess && this.updateProcess();
   },
   methods: {
-    clickBt() {
-      this.componentId &&
-        window.eventCenter?.triggerEvent &&
-        window.eventCenter.triggerEvent(this.componentId, "onClick", {
-          name: "二开插件",
-        });
+    init() {
+      console.log('window.localtion.href', window.location.href)
+      let url = window.location.href || "https://www.baidu.com?data1=123&data2=456&data3=789"
+      let str = ''
+      let newArr = []
+      if (url.indexOf('?') == true) {
+        str = url.split('?')[1]
+        if (str.indexOf('&')) {
+          newArr = str.split('&')
+        }
+      }
+      let flagArr = []
+      newArr.forEach(item => {
+        flagArr.push(item.split('=')[0])
+      })
+      this.content = flagArr.length == 0 ? ['data1', 'data2', 'data3'] : flagArr
+      let width = this.$refs.contentBox.offsetWidth
+      let height = this.$refs.contentBox.offsetHeight
+      let area = width * height
+      let boxArea = this.contentSize[0] * this.contentSize[1]
+      this.boxNum = Math.ceil(area / boxArea);
+      this.$nextTick(() => {
+        for (let i = 1; i < this.boxNum + 1; i++) {
+          let name = 'itemBox' + i
+          this.$refs[name][0].style.color = this.color//颜色透明度
+          this.$refs[name][0].style.fontSize = this.fontSize//字号大小设置
+          this.$refs[name][0].style.width = this.contentSize[0] + 'px'//文字块宽设置
+          this.$refs[name][0].style.height = this.contentSize[1] + 'px'//文字块高设置
+          this.$refs[name][0].style.transform = `rotate(${this.rotate}deg)`//文字旋转角度设置
+          for (let j = 0; j < this.content.length; j++) {
+            let contentName = 'detail' + i + j
+            this.$refs[contentName][0].style.marginBottom = this.rowSpace + 'px'//文字行间距设置
+          }
+        }
+      })
     },
     // 逻辑控制用，不可删，return内容可改
     Event_Center_getName: () => {
-      return "Demo实例";
+      return "大屏水印";
     },
     do_EventCenter_messageSuccess(param) {
       console.log(param);
@@ -149,3 +108,31 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.contentBox {
+  width: 100%;
+  height: 95vh;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.itemBox {
+  margin-bottom: 50px;
+  margin-left: 200px;
+}
+
+.detail {
+  width: 100%;
+  font-family: 'Microsoft YaHei';
+}
+</style>
