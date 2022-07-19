@@ -32,6 +32,7 @@ const DesignConfiguration = ({ changeConfiguration, configuration }) => {
         <Form.Item label="数据源ID" name="assetId" initialValue={''}>
           <Input />
         </Form.Item>
+
       </Form>
     </>
   );

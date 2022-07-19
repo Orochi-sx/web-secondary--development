@@ -23,6 +23,8 @@ const List = ({ configuration }) => {
   const [smallwidth, setSmallwidth] = useState(0)
   const [bigwidth, setBigwidth] = useState(0)
 
+
+
   const showModal = (title) => {
     let targetObject = assetInfo.filter(item => {
       return item.notice_title === title
