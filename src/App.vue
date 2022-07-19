@@ -1,10 +1,11 @@
 <template>
   <div class="Filterpanel">
     <div class="filterHeader">
-      <div class="filhead_left">筛选条件</div>
+      <!-- <div class="filhead_left">筛选条件</div> -->
+      <h3>筛选条件</h3>
       <div class="filhead_right">
-        <el-button icon="el-icon-refresh-right" @click="restFn">重置</el-button>
-        <el-button icon="el-icon-search" @click="queryAll()" type="primary">筛选</el-button>
+        <el-button icon="el-icon-refresh-right" class="rest" @click="restFn">重置</el-button>
+        <el-button icon="el-icon-search" class="search" @click="queryAll()" type="primary">筛选</el-button>
       </div>
 
     </div>
@@ -103,7 +104,8 @@ export default {
         { reportTime: '2', remaining_watt_hour: '3' },
         { reportTime: '1', remaining_watt_hour: '5', requestFlag: 1 },
         { reportTime: '3', remaining_watt_hour: '9' },
-      ]
+      ],
+      eventid: ''
     }
   },
   name: "App",
@@ -122,6 +124,7 @@ export default {
   created() {
     const temp = qs.parse(window.location.search.substring(1))
     console.log(temp, '=======参数');
+    this.eventid = temp.eventid
     this.queryT = { deviceId: temp.deviceId, productId: temp.productId, identifier: temp.identifier }
     console.log(this.queryT, '========================第一次的参数');
   },
@@ -147,9 +150,9 @@ export default {
       this.value1 = null
       this.queryAll()
     },
-    async queryImgSrc() {
+    async queryImgSrc(deviceid, eventid) {
       try {
-        const { data } = await queryWarnPicture({ deviceid: 'f8270e5d2c5c48e29bc68a6991759b44', eventid: 111 })
+        const { data } = await queryWarnPicture({ deviceid, eventid })
       } catch (error) {
       }
     },
@@ -166,6 +169,9 @@ export default {
     },
     notificationFn(value) {
       console.log(value, '=============弹框值');
+      this.queryImgSrc(value, this.eventid)
+
+
       this.dialogVisible = true
     },
 
@@ -214,15 +220,33 @@ export default {
 
 <style lang="less" scoped>
 .Filterpanel {
+
   padding: 20px;
   background-color: white;
 
   .filterHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .filhead_left {
       font-weight: 900;
+    }
+
+    .rest {
+      border-radius: 2px;
+
+      &:hover {
+        background-color: #fff;
+        border-color: #DCDFE6;
+        color: #606266;
+      }
+    }
+
+    .search {
+      background-color: #0454f2;
+      border-color: #0454f2;
+      border-radius: 2px;
     }
   }
 
