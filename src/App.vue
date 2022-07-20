@@ -83,7 +83,7 @@ export default {
     // 请求资产并处理数据格式, 渲染页面
     getTreeData() {
       let { assetId } = this.customConfig
-
+      // assetId = '7113b789-6e72-a1c1-f954-22603897a267'
       queryAssetById({assetId: assetId}).then( (res) => {
           const nest = (items, id = '') => items.filter(item => item['parentId'] == id).map(item => ({ ...item, children: nest(items, item.id) }));
 
@@ -172,7 +172,7 @@ export default {
 
     // 修改节点
     edit() {
-      this.$prompt("请输入节点名称", "编辑", { confirmButtonText: "确定", cancelButtonText: "取消", }).then((e) => {
+      this.$prompt("请输入节点名称", "编辑", { confirmButtonText: "确定", cancelButtonText: "取消", inputValue: this.treeData.name, }).then((e) => {
           let { assetId } = this.customConfig
           let dataForm = {
             assetId: assetId,
