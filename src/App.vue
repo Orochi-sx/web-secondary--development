@@ -77,7 +77,6 @@ export default {
       );
     
     this.customConfig.assetId = 'f6515bb2-8c25-9702-dcc7-c000a54ff8e3'
-
     this.getTreeData()
   },
 
@@ -90,7 +89,6 @@ export default {
           const nest = (items, id = '') => items.filter(item => item['parentId'] == id).map(item => ({ ...item, children: nest(items, item.id) }));
 
           this.treeList = nest(res.data)
-
           this.$nextTick(() => {
             this.labelList = [];
             this.createTableData(this.treeList);
@@ -168,7 +166,6 @@ export default {
         createTbSample(dataForm).then( (res) => {
           this.getTreeData()
         })
-
       }).catch(() => {});
     },
 
