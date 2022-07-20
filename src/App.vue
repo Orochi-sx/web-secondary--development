@@ -1,5 +1,6 @@
 <template>
-  <div class="multiFfilterDataGrid">
+
+    <div class="multiFfilterDataGrid">
     <div class="header">
       <div class="card-title">
         {{ title }}
@@ -59,6 +60,7 @@
         :page-size.sync="pageSize"
         layout="total, sizes, prev, pager, next"
         :total="total"
+        small
       >
       </el-pagination>
     </div>
@@ -374,6 +376,11 @@ export default {
 };
 </script>
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;     
+  /* box-sizing: border-box; */
+}
 .header {
   display: flex;
   justify-content: space-around;
@@ -404,7 +411,6 @@ export default {
 
 .multiFfilterDataGrid >>> .el-table {
   max-height: 550px;
-  overflow: auto;
 }
 
 .multiFfilterDataGrid >>> .el-table .el-table__cell {
@@ -417,5 +423,10 @@ export default {
 }
 .multiFfilterDataGrid >>> .el-table__header-wrapper {
   display: none;
+}
+.pagaNation >>> .el-pagination {
+  width: 100%;
+  height: 50px;
+  overflow-x: auto;
 }
 </style>
