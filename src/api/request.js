@@ -4,12 +4,12 @@ import qs from "querystringify";
 let apiContextPath = "";
 if (process.env.NODE_ENV === "development") {
   document.cookie =
-    "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1ODE5NDIyMjQ5OCwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.g-dtXGrqW6uzJkJCRXiaglkJnsldm3GmVzby-OXNDG0";
+    "token=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY1ODI4MzA3OTM0MiwidXNlcklkIjoiMTIzNDU2Nzg5MCJ9.lafgW6yyHmzIBieuJPl9jbZtdcCfFVqbv7LEWEDs_x4";
   // document.cookie =
   //   "refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJsb2dpblRpbWVzdGFtcCI6MTY0NjcyMjI2ODY4Nn0.TEVE_nopHNZlvSQM_RUZrLcCzkaERiHo8nz0q-ksL3E";
   // document.cookie = "username=admin";
   // document.cookie = "windowOnline=true";
-  // apiContextPath = "/api";
+  apiContextPath = "/api";
 }
 
 const instance = axios.create({

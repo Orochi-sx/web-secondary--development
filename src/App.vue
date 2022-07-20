@@ -1,8 +1,8 @@
 <template>
   <div class="Filterpanel">
     <div class="filterHeader">
-      <!-- <div class="filhead_left">筛选条件</div> -->
-      <h3>筛选条件</h3>
+      <div class="filhead_left">筛选条件</div>
+      <!-- <h3>筛选条件</h3> -->
       <div class="filhead_right">
         <el-button icon="el-icon-refresh-right" class="rest" @click="restFn">重置</el-button>
         <el-button icon="el-icon-search" class="search" @click="queryAll()" type="primary">筛选</el-button>
@@ -22,8 +22,7 @@
             <div class="tableFlex">
               <div>
                 {{
-                    scope.row.remaining_watt_hour
-                
+                    scope.row.data
                 }}</div>
               <div :class="{ tableTitle: true, requestFlag: !scope.row.requestFlag }"
                 @click="notificationFn(scope.row.deviceId)" :temp="scope.row.requestFlag"
@@ -31,9 +30,7 @@
                 弹框图片
               </div>
             </div>
-
           </template>
-
         </el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
@@ -85,9 +82,6 @@ export default {
             || time.getTime() < oneMonthAgo.getTime()  //小于一个月的全部disabled掉
           );
         },
-        onPick(date) {
-          console.log(date);
-        }
       },
       total: 10,
       queryT: {},
@@ -123,16 +117,13 @@ export default {
   },
   created() {
     const temp = qs.parse(window.location.search.substring(1))
-    console.log(temp, '=======参数');
     this.eventid = temp.eventid
     this.queryT = { deviceId: temp.deviceId, productId: temp.productId, identifier: temp.identifier }
-    console.log(this.queryT, '========================第一次的参数');
   },
   mounted() {
     // this.queryAll()
-    this.queryImgSrc()
-    queryPropertiesHistoryData({ deviceId: '11ab8e48592a4ad7aa300cb1b53f341a', productId: '71084667-e645-48b1-ab82-89ebb213fc49', identifier: 'remaining_watt_hour' }, { pageSize: 10, pageNum: 1, queryParams: [] }).then(res => {
-      // console.log(res, '==============================ddd');
+    this.queryImgSrc(this.queryT.deviceId, this.eventid)
+    queryPropertiesHistoryData(this.queryT, { pageSize: 10, pageNum: 1, queryParams: [] }).then(res => {
       this.tableData = res.data.results
       this.total = res.data.totalCount
     })
@@ -153,6 +144,7 @@ export default {
     async queryImgSrc(deviceid, eventid) {
       try {
         const { data } = await queryWarnPicture({ deviceid, eventid })
+        this.imgSrc = data.result.picUrl
       } catch (error) {
       }
     },
@@ -160,7 +152,6 @@ export default {
       this.params.queryParams = this.value1 ? [{ colName: "reportTime", datatype: 6, type: 111, value: this.value1[0].getTime() }, { colName: "reportTime", type: 113, datatype: 6, value: this.value1[1].getTime() + 1000 * 60 * 60 * 24 }] : []
       try {
         // const { data } = await queryPropertiesHistoryData({ deviceId: '11ab8e48592a4ad7aa300cb1b53f341a', productId: '71084667-e645-48b1-ab82-89ebb213fc49', identifier: 'remaining_watt_hour' }, this.params)
-        console.log(this.queryT, '===============路由参数');
         const { data } = await queryPropertiesHistoryData(this.queryT, this.params)
         this.tableData = data.results
         this.total = data.totalCount
@@ -168,10 +159,7 @@ export default {
       }
     },
     notificationFn(value) {
-      console.log(value, '=============弹框值');
       this.queryImgSrc(value, this.eventid)
-
-
       this.dialogVisible = true
     },
 
@@ -187,9 +175,6 @@ export default {
       window.open(this.customConfig?.url || "http://baidu.com");
     },
     getData() {
-      //   console.log(appService.getMenuData(), "菜单");
-      //   console.log(appService.getPageData(), "页面");
-      //   console.log(appService.getVariable(), "变量");
     },
     triggerEvent() {
       let { componentId, appId } = this.customConfig || {};
@@ -231,6 +216,7 @@ export default {
 
     .filhead_left {
       font-weight: 900;
+      font-size: 20px;
     }
 
     .rest {
