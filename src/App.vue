@@ -10,13 +10,8 @@
         </div>
       </div>
       <div>
-        <el-tree
-          ref="tree"
-          :data="treeList"
-          @node-click="handleNodeClick"
-          :props="defaultProps"
-          :expand-on-click-node="false"
-          default-expand-all>
+        <el-tree ref="tree" :data="treeList" @node-click="handleNodeClick" :props="defaultProps"
+          :expand-on-click-node="false" default-expand-all>
         </el-tree>
       </div>
     </el-card>
@@ -38,6 +33,7 @@ import { queryAssetById, createTbSample, updateTbSample, deleteTbSample } from '
 export default {
   name: "App",
 
+
   props: {
     customConfig: Object,
     info: Object,
@@ -50,6 +46,8 @@ export default {
         children: 'children',
         label: 'name'
       },
+      //节点层级
+      nodeLevelName: [],
       // 按钮禁用
       disabledButton: true,
       // 新增按钮禁用
@@ -75,8 +73,8 @@ export default {
         this,
         eventActionDefine
       );
-    
-    this.customConfig.assetId = 'f6515bb2-8c25-9702-dcc7-c000a54ff8e3'
+
+    // this.customConfig.assetId = 'f6515bb2-8c25-9702-dcc7-c000a54ff8e3'
     this.getTreeData()
   },
 
@@ -84,16 +82,16 @@ export default {
     // 请求资产并处理数据格式, 渲染页面
     getTreeData() {
       let { assetId } = this.customConfig
-      
-      queryAssetById({assetId: assetId}).then( (res) => {
-          const nest = (items, id = '') => items.filter(item => item['parentId'] == id).map(item => ({ ...item, children: nest(items, item.id) }));
 
-          this.treeList = nest(res.data)
-          this.$nextTick(() => {
-            this.labelList = [];
-            this.createTableData(this.treeList);
-            this.refreshTableData();
-          });
+      queryAssetById({ assetId: assetId }).then((res) => {
+        const nest = (items, id = '') => items.filter(item => item['parentId'] == id).map(item => ({ ...item, children: nest(items, item.id) }));
+
+        this.treeList = nest(res.data)
+        this.$nextTick(() => {
+          this.labelList = [];
+          this.createTableData(this.treeList);
+          this.refreshTableData();
+        });
       })
     },
 
@@ -130,7 +128,7 @@ export default {
     createTableData(arr, temp = "") {
       if (arr.length) arr = arr[0];
 
-      arr.children.forEach( (e) => {
+      arr.children.forEach((e) => {
         temp += `${e.name}-`;
         if (e.children.length) {
           this.createTableData(e, temp);
@@ -152,9 +150,28 @@ export default {
       });
     },
 
+    //获取父节点
+
+    obtainNodeName(node) {
+
+
+      if (Boolean(node.parent) && node.parent.data.name != '样品位置') {
+
+        this.nodeLevelName.push(node.parent.data.name)
+        this.obtainNodeName(node.parent)
+      } else {
+
+        return
+      }
+
+    },
+
+
+
+
     // 新增节点
     append() {
-      this.$prompt("请输入节点名称", "新增", { confirmButtonText: "确定", cancelButtonText: "取消", }).then( (e) => {
+      this.$prompt("请输入节点名称", "新增", { confirmButtonText: "确定", cancelButtonText: "取消", }).then((e) => {
         let { assetId } = this.customConfig
         let dataForm = {
           assetId: assetId,
@@ -162,11 +179,30 @@ export default {
           parentId: this.treeData.id,
           tierName: this.treeData.tierName,
         }
+        this.obtainNodeName(this.treeNode)
 
-        createTbSample(dataForm).then( (res) => {
+        // console.log(this.nodeLevelName.reverse().join('-'), '==================nodeLevelName');
+
+        dataForm.tier = this.nodeLevelName.reverse().join('-') + '-' + this.treeData.name + '-' + dataForm.name
+        this.nodeLevelName = []
+        // let tierList = []
+        // this.tableData.forEach((e) => {
+        //   if (e.sample.indexOf(this.treeData.name) != -1) {
+        //     tierList.push(e.sample + `-${dataForm.name}`)
+        //   }
+        // })
+        // dataForm.tier = tierList
+
+
+        // this.treeData.children.push(dataForm)
+        // console.log(this.treeNode, '========treeNode')
+        // console.log(this.tableData, '========tableData')
+        // console.log(dataForm, '========新建节点')
+
+        createTbSample(dataForm).then((res) => {
           this.getTreeData()
         })
-      }).catch(() => {});
+      }).catch(() => { });
     },
 
     // 修改节点
@@ -179,7 +215,11 @@ export default {
           name: e.value || "节点",
           id: this.treeData.id,
         }
+        this.obtainNodeName(this.treeNode)
 
+        dataForm.tier = this.nodeLevelName.reverse().join('-') + '-' + dataForm.name
+        this.nodeLevelName = []
+        // console.log(this.nodeLevelName.reverse().join('-'), e.value, '=========');
         // let tierList = []
         // this.tableData.forEach( (e) => {
         //   if(e.sample.indexOf(this.treeData.name) != -1) {
@@ -188,27 +228,27 @@ export default {
         // })
         // dataForm.tier = tierList
 
-        updateTbSample(dataForm).then( (res) => {
+        updateTbSample(dataForm).then((res) => {
           this.getTreeData()
         })
 
-      }).catch(() => {});
+      }).catch(() => { });
     },
 
     // 删除节点
     remove() {
       this.$confirm("此操作将永久删除该节点, 是否继续?", "删除", { confirmButtonText: "确定", cancelButtonText: "取消", type: "warning", }).then(() => {
-          let { assetId } = this.customConfig
-          let dataForm = {
-            assetId: assetId,
-            id: this.treeData.id,
-          }
+        let { assetId } = this.customConfig
+        let dataForm = {
+          assetId: assetId,
+          id: this.treeData.id,
+        }
 
-          deleteTbSample(dataForm).then( (res) => {
-            this.getTreeData()
-          })
+        deleteTbSample(dataForm).then((res) => {
+          this.getTreeData()
+        })
 
-      }).catch(() => {});
+      }).catch(() => { });
     },
 
     Event_Center_getName() {
@@ -227,22 +267,27 @@ export default {
   width: 100%;
   display: flex;
 }
+
 .tree_left,
 .tree_right {
   width: 50%;
 }
+
 .tree_right {
   width: 49%;
   margin-left: 1%;
 }
+
 .button_group {
   display: flex;
 }
+
 .tree_button {
   width: 100%;
   text-align: right;
   margin-bottom: 20px;
 }
+
 .el-tree-node__content {
   background: #f4f4f5;
   border-radius: 4px;
@@ -251,15 +296,18 @@ export default {
   margin-bottom: 15px;
   border: 1px solid #f4f4f5;
 }
+
 // 选中节点效果
-.el-tree-node.is-current > .el-tree-node__content {
+.el-tree-node.is-current>.el-tree-node__content {
   border: 1px solid #409eff;
 }
+
 // 图标旋转
 .el-tree .el-tree-node__expand-icon.expanded {
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }
+
 // 树形子节点未展开
 .el-tree .el-icon-caret-right:before {
   content: "+";
@@ -272,6 +320,7 @@ export default {
   text-align: center;
   border-radius: 4px;
 }
+
 // 树形子节点展开
 .el-tree .el-tree-node__expand-icon.expanded.el-icon-caret-right:before {
   content: "-";
@@ -284,6 +333,7 @@ export default {
   text-align: center;
   border-radius: 4px;
 }
+
 // 树形子节点最后一级
 .el-tree-node__expand-icon.is-leaf::before {
   content: "";
@@ -294,6 +344,7 @@ export default {
   text-align: center;
   border-radius: 50%;
 }
+
 .has-gutter th:first-child {
   padding-top: 0;
 }
