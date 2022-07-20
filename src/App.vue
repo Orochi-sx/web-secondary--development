@@ -194,7 +194,7 @@ export default {
       alert("动作执行成功！");
     },
     Event_Center_getName() {
-      return "应用二开测试";
+      return "定制设备属性数据列表页";
     },
   },
   destroyed() {
