@@ -1,5 +1,4 @@
 <template>
-
     <div class="multiFfilterDataGrid">
     <div class="header">
       <div class="card-title">
@@ -386,6 +385,9 @@ export default {
   justify-content: space-around;
   height: 50px;
   line-height: 50px;
+}
+.multiConditionButton {
+  padding: 10px;
 }
 
 .header .card-title {
