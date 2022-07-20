@@ -1,290 +1,311 @@
 <template>
-  <div class="Filterpanel">
-    <div class="filterHeader">
-      <div class="filhead_left">筛选条件</div>
-      <!-- <h3>筛选条件</h3> -->
-      <div class="filhead_right">
-        <el-button icon="el-icon-refresh-right" class="rest" @click="restFn">重置</el-button>
-        <el-button icon="el-icon-search" class="search" @click="queryAll()" type="primary">筛选</el-button>
-      </div>
-
-    </div>
-    <div class="filterTime"><span>上报时间</span>
-      <el-date-picker popper-class="defalutP" v-model="value1" type="daterange" :default-value="defvalue"
-        :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-      </el-date-picker>
-    </div>
-    <div class="filterTable">
-      <el-table :data="tableData" stripe border>
-        <el-table-column prop="reportTime" sortable label="上报时间"></el-table-column>
-        <el-table-column prop="remaining_watt_hour" sortable label="原始值">
-          <template slot-scope="scope">
-            <div class="tableFlex">
-              <div>
-                {{
-                    scope.row.data
-                }}</div>
-              <div :class="{ tableTitle: true, requestFlag: !scope.row.requestFlag }"
-                @click="notificationFn(scope.row.deviceId)" :temp="scope.row.requestFlag"
-                :temp1="JSON.stringify(scope.row)">
-                弹框图片
-              </div>
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
-        :page-sizes="[10, 15, 20, 25]" :page-size="10" layout="total, prev, pager, next, sizes, jumper" :total="total">
-      </el-pagination>
-    </div>
-    <el-dialog title="图片弹框" :visible.sync="dialogVisible" width="30%">
-      <img height='100%' width='100%' :src="imgSrc" alt="">
-
-    </el-dialog>
+  <div className="analyzer-vue-demo" :style="{
+    width: '100%',
+    height: '100%',
+  
+  }">
+    <div class="echarts" ref="echart"></div>
   </div>
 </template>
 
 <script>
-// import appService from "@njsdata/app-sdk";
-import eventActionDefine from "./components/msgCompConfig";
-
-import { queryPropertiesHistoryData, queryWarnPicture } from './api/asset'
-import qs from "querystringify";
-import "./index.css";
+const zipObject = (arr1, arr2) => {
+  const ret = {};
+  arr1.forEach((item, index) => {
+    ret[item] = arr2[index];
+  });
+  return ret;
+};
+import * as echarts from "echarts";
 export default {
+  props: {
+    dataSource: {
+      type: Array,
+      default: () => [],
+    },
+    componentId: {
+      type: String | undefined,
+      default: "",
+    },
+    options: {
+      type: Object,
+      default: () => ({
+        // 配置项从externalVariables里取
+        externalVariables: {},
+      }),
+    },
+    updateProcess: {
+      type: Function,
+      default: () => { },
+    },
+  },
   data() {
     return {
-      dialogVisible: false,
-      value1: [new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 2), new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 2)],
-      defvalue: [new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 2)],
-      currentPage4: 1,
-      params: {
-        pageSize: 10,
-        pageNum: 1,
-        queryParams: [],
-      },
-      imgSrc: 'http://mms2.baidu.com/it/u=412522572,3814561694&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=950&h=500',
-      pickerOptions: {
-        disabledDate(time) {
-          let now = new Date();   //获取此时的时间
-          let nowData = new Date(  //获取此时年月日的后一天
-            now.getFullYear(),
-            now.getMonth(),
-            now.getDate() + 1 //获取明天
-          );
-          let oneMonthAgo = new Date(  //获取一个月之前的时间
-            now.getFullYear(),
-            now.getMonth() - 1,  //获取上一个月
-            now.getDate() + 1   //将多算的一天减掉
-          );
-          return (
-            time.getTime() > nowData.getTime() - 1000  //可以选择到今天的xxx:xxx:xxx:23:59:59，只有的全部disabled
-            || time.getTime() < oneMonthAgo.getTime()  //小于一个月的全部disabled掉
-          );
+      temp1: [45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62],
+      temp2: [26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43],
+      options1: {
+        title: {
+          text: "kWh",
+          left: "60px",
+          textStyle: {
+            color: "#000000",
+            fontSize: 14,
+          },
         },
+        tooltip: {
+          trigger: "axis",
+          backgroundColor: "rgba(75, 75, 75,0.7)",
+          textStyle: {
+            color: "#fff", //字体颜色，
+            fontSize: 13, //字体大小
+          },
+          borderColor: "rgba(75, 75, 75,0.7)",
+          formatter: function (params) {
+            let res =
+              "总电量: " +
+              (params[0].data + params[1].data) +
+              "<br>" +
+              "自发自用电量: " +
+              params[0].data +
+              "<br>" +
+              "上网电量: " +
+              params[1].data +
+              "<br>";
+
+            return (
+              '<div class="showBox"  style="bcakground:#4b4b4b"  >' +
+              res +
+              "</div>"
+            );
+            //  params[0].seriesName + '：' + params[0].data + '<br>' +
+            //  params[1].seriesName + '：' + params[1].data + '<br>' +
+            //  params[2].seriesName + '：' + params[2].data + '<br>' +
+            //  params[3].seriesName + '：' + params[3].data + '<br>' +
+            //  params[4].seriesName + '：' + params[4].data + '<br>'
+          },
+        },
+        legend: {
+          itemWidth: 15,
+          itemHeight: 15,
+          data: ["上网电量", "自发自用发电量", "消纳率(%)"],
+        },
+        xAxis: {
+          data: [
+            '长沙', '株洲', '湘潭', '岳阳', '益阳', '常德', '娄底', '邵阳', '衡阳', '永州', '郴州', '怀化', '张家界', '湘西', '德胜', '益为', '绿岛', '兴新'
+          ],
+          splitLine: {
+            show: false,
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#000', // 颜色
+              width: 4 // 粗细
+            }
+          },
+          axisLabel: {
+            // inside: false,
+            textStyle: {
+              color: '#000',
+              fontSize: '14',
+              itemSize: ''
+
+            }
+
+          }
+        },
+        yAxis: {
+          type: "value",
+          // data: [0, 10, 20, 30, 40, 50, 60],
+          // splitLine: {
+          //   show: false,
+          // },
+        },
+        series: [
+          {
+            name: "自发自用发电量",
+            type: "bar",
+            stack: "使用情况",
+            data: [45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62],
+            itemStyle: {
+              normal: {
+                opacity: 0.8,
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "rgb(56, 108, 166) ",
+                  },
+                  {
+                    offset: 1,
+                    color: "rgb(55, 120, 137)",
+                  },
+                ]),
+              },
+            },
+          },
+          {
+            name: "上网电量",
+            type: "bar",
+            stack: "使用情况",
+            data: [26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43],
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true, //开启显示
+                  position: "top", //在上方显示
+                  formatter: function (val) {
+                    // let data1 = options1.series[0].data[val.dataIndex];
+                    // let temp = data1 + val.data;
+                    // // let temp = val[0] + val[1];
+                    // return parseInt((data1 / temp) * 100);
+                  },
+                  textStyle: {
+                    //数值样式
+                    color: "#42ac8d",
+                    fontSize: 14,
+                    fontWeight: 600,
+                  },
+                },
+                opacity: 0.8,
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "rgb(65, 170, 139)",
+                  },
+                  {
+                    offset: 1,
+                    color: "rgb(36, 222, 212)",
+                  },
+                ]),
+              },
+            },
+          },
+          {
+            name: "消纳率(%)",
+            type: "bar",
+            stack: "使用情况",
+          },
+        ],
       },
-      total: 10,
-      queryT: {},
-      tableData: [
-        { reportTime: '2', remaining_watt_hour: '3', requestFlag: 1 },
-        { reportTime: '1', remaining_watt_hour: '5' },
-        { reportTime: '3', remaining_watt_hour: '9' },
-        { reportTime: '2', remaining_watt_hour: '3' },
-        { reportTime: '1', remaining_watt_hour: '5' },
-        { reportTime: '3', remaining_watt_hour: '9' },
-        { reportTime: '2', remaining_watt_hour: '3', requestFlag: 1 },
-        { reportTime: '1', remaining_watt_hour: '5' },
-        { reportTime: '3', remaining_watt_hour: '9' },
-        { reportTime: '2', remaining_watt_hour: '3' },
-        { reportTime: '1', remaining_watt_hour: '5', requestFlag: 1 },
-        { reportTime: '3', remaining_watt_hour: '9' },
-      ],
-      eventid: ''
-    }
-  },
-  name: "App",
-  props: {
-    customConfig: Object,
-    info: Object,
+    };
   },
   computed: {
-    title() {
-      return this.customConfig?.title || "数据构建";
+    tableDataHeader() {
+      return (this.dataSource[0] || []).map((t) => ({
+        prop: t,
+        label: t,
+      }));
     },
-    desc() {
-      return this.customConfig?.desc || "描述";
+    tableData() {
+      let [header, ...tableData] = this.dataSource;
+      tableData = tableData || [];
+      return tableData.map((d) =>
+        (window?._?.zipObject || zipObject)(header, d)
+      );
     },
+    // colorArr(){
+    //   return{c  }this.options.externalVariables.color
+    // }
   },
   created() {
-    const temp = qs.parse(window.location.search.substring(1))
-    this.eventid = temp.eventid
-    this.queryT = { deviceId: temp.deviceId, productId: temp.productId, identifier: temp.identifier }
+    // console.log(this.tableData, "===============tableData");
+
+    //处理资产里的数据
+    let dataArr2 = []
+    let addArr = []
+    let dataArr1 = this.tableData.map(x => {
+      dataArr2.push(x.on_grid_electricity_consumption)
+      addArr.push(x.region)
+      return x.self_generating_capacity
+    })
+
+    this.options1.series[0].data = dataArr1
+    this.options1.series[1].data = dataArr2
+    this.options1.xAxis.data = addArr
+    console.log(dataArr1, dataArr2, '==========ll');
+
+
+    let that = this;
+    this.options1.series[1].itemStyle.normal.label.formatter = function (val) {
+      // let data1 = that.temp1[val.dataIndex];
+      //如果用资产就用这个
+      let data1 = dataArr1[val.dataIndex];
+
+      let temp = data1 + val.data;
+      // console.log(((62 / 105) * 100).toFixed(2));
+      return ((data1 / temp) * 100).toFixed(2);
+    };
   },
   mounted() {
-    // this.queryAll()
-    this.queryImgSrc(this.queryT.deviceId, this.eventid)
-    queryPropertiesHistoryData(this.queryT, { pageSize: 10, pageNum: 1, queryParams: [] }).then(res => {
-      this.tableData = res.data.results
-      this.total = res.data.totalCount
-    })
-    let { componentId } = this.customConfig || {};
-    componentId &&
-      window.componentCenter?.register(
-        componentId,
-        "comp",
-        this,
-        eventActionDefine
-      );
+    this.initFn();
+    const events = [
+      {
+        key: "onClick",
+        name: "点击",
+        payload: [
+          {
+            name: "名称",
+            dataType: "string",
+            key: "name",
+          },
+        ],
+      },
+    ];
+
+    const actions = [
+      {
+        key: "messageSuccess",
+        name: "成功提示",
+        params: [
+          {
+            key: "value",
+            name: "值",
+            dataType: "string",
+          },
+        ],
+      },
+    ];
+
+    this.componentId &&
+      window.componentCenter?.register &&
+      window.componentCenter.register(this.componentId, "comp", this, {
+        events,
+        actions,
+      });
+    this.updateProcess && this.updateProcess();
   },
   methods: {
-    restFn() {
-      this.value1 = null
-      this.queryAll()
+    initFn() {
+      let Gechart = echarts.init(this.$refs.echart);
+      // this.option.series[0].data = this.nodeD;
+      // this.option.series[0].links = this.linkD;
+      Gechart.setOption(this.options1);
     },
-    async queryImgSrc(deviceid, eventid) {
-      try {
-        const { data } = await queryWarnPicture({ deviceid, eventid })
-        this.imgSrc = data.result.picUrl
-      } catch (error) {
-      }
-    },
-    async queryAll() {
-      this.params.queryParams = this.value1 ? [{ colName: "reportTime", datatype: 6, type: 111, value: this.value1[0].getTime() }, { colName: "reportTime", type: 113, datatype: 6, value: this.value1[1].getTime() + 1000 * 60 * 60 * 24 }] : []
-      try {
-        // const { data } = await queryPropertiesHistoryData({ deviceId: '11ab8e48592a4ad7aa300cb1b53f341a', productId: '71084667-e645-48b1-ab82-89ebb213fc49', identifier: 'remaining_watt_hour' }, this.params)
-        const { data } = await queryPropertiesHistoryData(this.queryT, this.params)
-        this.tableData = data.results
-        this.total = data.totalCount
-      } catch (error) {
-      }
-    },
-    notificationFn(value) {
-      this.queryImgSrc(value, this.eventid)
-      this.dialogVisible = true
-    },
-
-    handleSizeChange(val) {
-      this.params.pageSize = val
-      this.queryAll()
-    },
-    handleCurrentChange(val) {
-      this.params.pageNum = val
-      this.queryAll()
-    },
-    goToStudy() {
-      window.open(this.customConfig?.url || "http://baidu.com");
-    },
-    getData() {
-    },
-    triggerEvent() {
-      let { componentId, appId } = this.customConfig || {};
-      componentId &&
-        appId &&
-        window.eventCenter?.triggerEventNew({
-          objectId: appId,
-          componentId: componentId,
-          type: "app",
-          event: "onImgClick",
-          payload: {
-            value: "sasdasd",
-          },
+    clickBt() {
+      this.componentId &&
+        window.eventCenter?.triggerEvent &&
+        window.eventCenter.triggerEvent(this.componentId, "onClick", {
+          name: "二开插件",
         });
     },
-    do_EventCenter_messageSuccess() {
+    // 逻辑控制用，不可删，return内容可改
+    Event_Center_getName: () => {
+      return "Demo实例";
+    },
+    do_EventCenter_messageSuccess(param) {
+      console.log(param);
       alert("动作执行成功！");
     },
-    Event_Center_getName() {
-      return "定制设备属性数据列表页";
-    },
-  },
-  destroyed() {
-    window.componentCenter?.removeInstance(this.customConfig?.componentId);
   },
 };
 </script>
 
+
 <style lang="less" scoped>
-.Filterpanel {
+.echarts {
+  height: 100%;
+}
 
-  padding: 20px;
-  background-color: white;
-
-  .filterHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .filhead_left {
-      font-weight: 900;
-      font-size: 20px;
-    }
-
-    .rest {
-      border-radius: 2px;
-
-      &:hover {
-        background-color: #fff;
-        border-color: #DCDFE6;
-        color: #606266;
-      }
-    }
-
-    .search {
-      background-color: #0454f2;
-      border-color: #0454f2;
-      border-radius: 2px;
-    }
-  }
-
-  .filterTime {
-    padding-left: 90px;
-    padding-bottom: 60px;
-
-    span {
-      margin-right: 10px;
-    }
-
-    /deep/ .el-date-editor .el-range-separator {
-      width: 6%;
-    }
-
-    /deep/.el-picker-panel .el-picker-panel__body .el-date-table__row .default {
-      div {
-        color: red;
-      }
-    }
-  }
-
-  .filterTable {
-    /deep/.el-table__row--striped td.el-table__cell {
-      background-color: #f6f6f6;
-    }
-
-    .tableFlex {
-      display: flex;
-      justify-content: space-between;
-
-      .tableTitle {
-        margin-right: 60px;
-        color: #66b1ff;
-        cursor: pointer;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-
-      .requestFlag {
-        display: none;
-      }
-    }
-
-    .el-pagination {
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-
-
+.showBox {
+  background-color: #4b4b4b;
 }
 </style>

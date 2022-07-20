@@ -1,50 +1,80 @@
+/*
+ * @Author: zhangzhuo
+ * @Email: zhangzhuo@njsdata.com
+ * @LastEditors: Do not edit
+ * @Date: 2021-10-21 19:40:39
+ * @LastEditTime: 2021-10-22 10:34:09
+ * @Description: 请描述文件作用
+ */
 import Vue from "vue";
 import App from "./App.vue";
-// 按需引入组件，引入方式见https://element.eleme.cn/#/zh-CN/component/quickstart#an-xu-yin-ru
-import { Input, DatePicker, Table, TableColumn, Button, Pagination, Dialog } from "element-ui";
-
+import './index.css'
+import { Table, TableColumn } from "element-ui";
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false;
-Vue.use(Input);
-Vue.use(DatePicker);
 Vue.use(Table);
 Vue.use(TableColumn);
-Vue.use(Button);
-Vue.use(Pagination);
-Vue.use(Dialog);
 
-// import * as appService from "@njsdata/app-sdk";
+import config from "../pluginTemp/config.json";
 
-if (process.env.NODE_ENV !== "production") {
-  // 添加 customConfig 进行测试
-  let customConfig = {
-    title: "数据构建",
-    desc: "无码化应用搭建，弹指间即完成数据从无到有到收集和使用",
-    url: "http://baidu.com",
-    imgUrl:
-      "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
-  };
+let { domId } = Object.values(config)[0];
 
-  new Vue({
-    render: h => {
-      return <App customConfig={customConfig} />;
-    },
-  }).$mount("#app");
-} else {
-  if (!window.CUSTOM_PLUGIN) {
-    window.CUSTOM_PLUGIN = new Map();
+let dom = document.getElementById(domId);
+
+if (dom) {
+  if (dom.childNodes.length > 0) {
+    dom.removeChild(dom.childNodes[0]);
   }
 
-  window.CUSTOM_PLUGIN.set(
-    process.env.VUE_APP_CUSTOM_PLUGIN_ID,
-    (dom, props) => {
-      if (dom.childNodes.length > 0) {
-        dom.removeChild(dom.childNodes[0]);
-      }
-      const div = document.createElement("div");
-      dom.appendChild(div);
-      new Vue({
-        render: h => <App {...{ props }} />,
-      }).$mount(div);
+  const App = require("./App.vue").default;
+  let wrapper = document.createElement("div");
+  wrapper.style = "width: 100%; height: 100%";
+  dom.appendChild(wrapper);
+
+  new Vue({
+    render: h => h(App),
+  }).$mount(wrapper);
+} else {
+  if (process.env.NODE_ENV !== "production") {
+    const dataSource = JSON.parse(
+      '[["衬衫","高跟鞋","裤子","袜子","雪纺衫","羊毛衫"],[5,10,10,17,36,20]]'
+    );
+    const options = {
+      externalVariables: {
+        color1: "#0462a1",
+        color2: "#0594fb",
+        color3: "#5aef7d",
+        color4: "#269846",
+
+
+      },
+    };
+    const props = {
+      dataSource,
+      options,
+    };
+    const App = require("./App.vue").default;
+    new Vue({
+      render: h => <App {...{ props }} />,
+    }).$mount("#app");
+  } else {
+    if (!window.CUSTOM_PLUGIN) {
+      window.CUSTOM_PLUGIN = new Map();
     }
-  );
+
+    window.CUSTOM_PLUGIN.set(
+      process.env.VUE_APP_CUSTOM_PLUGIN_ID,
+      (dom, props) => {
+        if (dom.childNodes.length > 0) {
+          dom.removeChild(dom.childNodes[0]);
+        }
+        const div = document.createElement("div");
+        dom.appendChild(div);
+        new Vue({
+          render: h => <App {...{ props }} />,
+        }).$mount(div);
+      }
+    );
+  }
 }
