@@ -25,7 +25,7 @@
                     scope.row.data
                 }}</div>
               <div :class="{ tableTitle: true, requestFlag: !scope.row.requestFlag }"
-                @click="notificationFn(scope.row.deviceId)" :temp="scope.row.requestFlag"
+                @click="notificationFn(scope.row.deviceId, scope.row.data)" :temp="scope.row.requestFlag"
                 :temp1="JSON.stringify(scope.row)">
                 弹框图片
               </div>
@@ -158,8 +158,8 @@ export default {
       } catch (error) {
       }
     },
-    notificationFn(value) {
-      this.queryImgSrc(value, this.eventid)
+    notificationFn(value, eventid) {
+      this.queryImgSrc(value, eventid)
       this.dialogVisible = true
     },
 
