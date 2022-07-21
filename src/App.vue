@@ -38,7 +38,7 @@
         :page-sizes="[10, 15, 20, 25]" :page-size="10" layout="total, prev, pager, next, sizes, jumper" :total="total">
       </el-pagination>
     </div>
-    <el-dialog title="图片弹框" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="" :visible.sync="dialogVisible" width="30%">
       <img v-if="imgSrc" height='100%' width='100%' :src="imgSrc" alt="拉取图片失败">
       <div class="Dlo_temp" v-else>拉取图片失败</div>
     </el-dialog>
