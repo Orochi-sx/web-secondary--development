@@ -17,18 +17,19 @@
     <div class="filterTable">
       <el-table :data="tableData" stripe border>
         <el-table-column prop="reportTime" sortable label="上报时间"></el-table-column>
-        <el-table-column prop="remaining_watt_hour" sortable label="原始值">
+        <el-table-column prop="data" sortable label="原始值">
           <template slot-scope="scope">
             <div class="tableFlex">
-              <div>
+              <div :class="{ tableTitle: true, requestFlag: !scope.row.requestFlag }"
+                @click="notificationFn(scope.row.deviceId, scope.row.data, scope.row.requestFlag)">
                 {{
                     scope.row.data
                 }}</div>
-              <div :class="{ tableTitle: true, requestFlag: !scope.row.requestFlag }"
+              <!-- <div :class="{ tableTitle: true, requestFlag: !scope.row.requestFlag }"
                 @click="notificationFn(scope.row.deviceId, scope.row.data)" :temp="scope.row.requestFlag"
                 :temp1="JSON.stringify(scope.row)">
                 弹框图片
-              </div>
+              </div> -->
             </div>
           </template>
         </el-table-column>
@@ -38,9 +39,10 @@
       </el-pagination>
     </div>
     <el-dialog title="图片弹框" :visible.sync="dialogVisible" width="30%">
-      <img height='100%' width='100%' :src="imgSrc" alt="">
-
+      <img v-if="imgSrc" height='100%' width='100%' :src="imgSrc" alt="拉取图片失败">
+      <div class="Dlo_temp" v-else>拉取图片失败</div>
     </el-dialog>
+
   </div>
 </template>
 
@@ -63,7 +65,7 @@ export default {
         pageNum: 1,
         queryParams: [],
       },
-      imgSrc: 'http://mms2.baidu.com/it/u=412522572,3814561694&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=950&h=500',
+      imgSrc: null,
       pickerOptions: {
         disabledDate(time) {
           let now = new Date();   //获取此时的时间
@@ -83,21 +85,10 @@ export default {
           );
         },
       },
-      total: 10,
+      total: 0,
       queryT: {},
       tableData: [
-        { reportTime: '2', remaining_watt_hour: '3', requestFlag: 1 },
-        { reportTime: '1', remaining_watt_hour: '5' },
-        { reportTime: '3', remaining_watt_hour: '9' },
-        { reportTime: '2', remaining_watt_hour: '3' },
-        { reportTime: '1', remaining_watt_hour: '5' },
-        { reportTime: '3', remaining_watt_hour: '9' },
-        { reportTime: '2', remaining_watt_hour: '3', requestFlag: 1 },
-        { reportTime: '1', remaining_watt_hour: '5' },
-        { reportTime: '3', remaining_watt_hour: '9' },
-        { reportTime: '2', remaining_watt_hour: '3' },
-        { reportTime: '1', remaining_watt_hour: '5', requestFlag: 1 },
-        { reportTime: '3', remaining_watt_hour: '9' },
+
       ],
       eventid: ''
     }
@@ -117,12 +108,12 @@ export default {
   },
   created() {
     const temp = qs.parse(window.location.search.substring(1))
-    this.eventid = temp.eventid
+
     this.queryT = { deviceId: temp.deviceId, productId: temp.productId, identifier: temp.identifier }
   },
   mounted() {
     // this.queryAll()
-    this.queryImgSrc(this.queryT.deviceId, this.eventid)
+
     queryPropertiesHistoryData(this.queryT, { pageSize: 10, pageNum: 1, queryParams: [] }).then(res => {
       this.tableData = res.data.results
       this.total = res.data.totalCount
@@ -144,21 +135,25 @@ export default {
     async queryImgSrc(deviceid, eventid) {
       try {
         const { data } = await queryWarnPicture({ deviceid, eventid })
-        this.imgSrc = data.result.picUrl
+        console.log(data, '=============');
+        this.imgSrc = data.picUrl
       } catch (error) {
+        this.imgSrc = ''
       }
     },
     async queryAll() {
-      this.params.queryParams = this.value1 ? [{ colName: "reportTime", datatype: 6, type: 111, value: this.value1[0].getTime() }, { colName: "reportTime", type: 113, datatype: 6, value: this.value1[1].getTime() + 1000 * 60 * 60 * 24 }] : []
+      this.params.queryParams = this.value1 ? [{ colName: "reportTime", datatype: 6, type: 111, value: this.value1[0].getTime() }, { colName: "reportTime", type: 113, datatype: 6, value: this.value1[1].getTime() + (1000 * 60 * 60 * 24) - 1 }] : []
+      this.value1 ? console.log(new Date(this.value1[0]), new Date(this.value1[1].getTime() + (1000 * 60 * 60 * 24) - 1)) : null;
       try {
-        // const { data } = await queryPropertiesHistoryData({ deviceId: '11ab8e48592a4ad7aa300cb1b53f341a', productId: '71084667-e645-48b1-ab82-89ebb213fc49', identifier: 'remaining_watt_hour' }, this.params)
+        // const { data } = await queryPropertiesHistoryData({ deviceId: '11ab8e48592a4ad7aa300cb1b53f341a', productId: '71084667-e645-48b1-ab82-89ebb213fc49', identifier: 'data' }, this.params)
         const { data } = await queryPropertiesHistoryData(this.queryT, this.params)
         this.tableData = data.results
         this.total = data.totalCount
       } catch (error) {
       }
     },
-    notificationFn(value, eventid) {
+    notificationFn(value, eventid, requestFlag) {
+      if (!requestFlag) return
       this.queryImgSrc(value, eventid)
       this.dialogVisible = true
     },
@@ -275,7 +270,9 @@ export default {
       }
 
       .requestFlag {
-        display: none;
+        // display: none;
+        color: #606266;
+        cursor: default;
       }
     }
 
@@ -285,6 +282,13 @@ export default {
     }
   }
 
-
+  .Dlo_temp {
+    width: 100%;
+    height: 300px;
+    font-size: 28px;
+    color: #CCCCCC;
+    line-height: 200px;
+    text-align: center;
+  }
 }
 </style>
