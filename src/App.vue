@@ -1,66 +1,35 @@
 <template>
-    <div class="multiFfilterDataGrid">
+  <div class="multiFfilterDataGrid">
     <div class="header">
       <div class="card-title">
         {{ title }}
       </div>
       <div class="total">{{ allTableList.length }}</div>
       <div>
-        <el-button
-          type="primary"
-          class="multiConditionButton"
-          @click="handleButtonClick"
-          >{{ buttonTitle }}
+        <el-button type="primary" class="multiConditionButton" @click="handleButtonClick">{{ buttonTitle }}
         </el-button>
       </div>
     </div>
     <div class="inputSearch" v-for="item in inputSearchArr">
-      <el-input
-        v-model="item.value"
-        style="margin-top: 5px"
-        @change="load"
-      ></el-input>
+      <el-input v-model="item.value" style="margin-top: 5px" @change="load"></el-input>
     </div>
     <div class="select" v-for="(selectList, index) in selectSearchArr">
-      <el-select
-        style="width: 100%; margin-top: 5px"
-        v-model="selectValueArr[index]"
-        clearable
-        @change="load"
-      >
-        <el-option
-          v-for="(item, index) in selectList"
-          :key="index"
-          :label="item.label"
-          :value="item.value"
-          >{{ item.label }}
+      <el-select style="width: 100%; margin-top: 5px" v-model="selectValueArr[index]" clearable @change="load">
+        <el-option v-for="(item, index) in selectList" :key="index" :label="item.label" :value="item.value">{{
+            item.label
+        }}
         </el-option>
       </el-select>
     </div>
-    <el-table
-      :data="displayTableList"
-      highlight-current-row
-      @row-click="handleRowClick"
-      ref="myTable"
-    >
+    <el-table :data="displayTableList" highlight-current-row @row-click="handleRowClick" ref="myTable">
       <div v-for="item in tableDisplayFieldName">
-        <el-table-column
-          :sortable="sortConfig.indexOf(item) > -1"
-          :prop="item"
-        ></el-table-column>
+        <el-table-column :sortable="sortConfig.indexOf(item) > -1" :prop="item"></el-table-column>
       </div>
     </el-table>
     <div style="width: 100%" class="pagaNation">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-sizes="[10, 20, 50, 100]"
-        :page-size.sync="pageSize"
-        layout="total, sizes, prev, pager, next"
-        :total="total"
-        small
-      >
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        :current-page.sync="currentPage" :page-sizes="[10, 20, 50, 100]" :page-size.sync="pageSize"
+        layout="total, sizes, prev, pager, next" :total="total" small>
       </el-pagination>
     </div>
   </div>
@@ -120,7 +89,7 @@ export default {
           inputFilterConditionItem[item] = this.inputSearchArr[index].value;
           inputFilterCondition.push(inputFilterConditionItem);
         });
-      } catch (e) {}
+      } catch (e) { }
       return [...inputFilterCondition, ...selectFilterCondition];
     },
   },
@@ -377,15 +346,17 @@ export default {
 <style scoped>
 * {
   margin: 0;
-  padding: 0;     
+  padding: 0;
   /* box-sizing: border-box; */
 }
+
 .header {
   display: flex;
   justify-content: space-around;
   height: 50px;
   line-height: 50px;
 }
+
 .multiConditionButton {
   padding: 10px;
 }
@@ -399,36 +370,51 @@ export default {
   color: #409eff;
 }
 
-.multiFfilterDataGrid >>> .el-table__header-wrapper {
+.multiFfilterDataGrid>>>.el-table__header-wrapper {
   height: 50px;
 }
 
-.multiFfilterDataGrid >>> .el-table__row.current-row {
+.multiFfilterDataGrid>>>.el-table__row.current-row {
   color: #409eff;
 }
 
-.multiFfilterDataGrid >>> .el-table__body tr.current-row > td.el-table__cell {
+.multiFfilterDataGrid>>>.el-table__body tr.current-row>td.el-table__cell {
   background-color: #fff;
 }
 
-.multiFfilterDataGrid >>> .el-table {
+.multiFfilterDataGrid>>>.el-table {
   max-height: 550px;
 }
 
-.multiFfilterDataGrid >>> .el-table .el-table__cell {
+.multiFfilterDataGrid>>>.el-table .el-table__cell {
   border-bottom: 0;
 }
-.multiFfilterDataGrid >>> .el-table--border::after,
+
+.multiFfilterDataGrid>>>.el-table--border::after,
 .el-table--group::after,
 .el-table::before {
   z-index: 0;
 }
-.multiFfilterDataGrid >>> .el-table__header-wrapper {
+
+.multiFfilterDataGrid>>>.el-table__header-wrapper {
   display: none;
 }
-.pagaNation >>> .el-pagination {
+.pagaNation {
+  background: #ffffff;
+  padding: 10px;
+}
+
+.pagaNation>>>.el-pagination {
   width: 100%;
   height: 50px;
-  overflow-x: auto;
+  background: #ffffff;
+  transform: scale(0.6);
+  transform-origin: bottom left;
+
+}
+
+/deep/ .el-select-dropdown__item {
+  padding-left: 10px !important;
+
 }
 </style>
