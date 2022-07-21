@@ -108,12 +108,10 @@ export default {
   },
   created() {
     const temp = qs.parse(window.location.search.substring(1))
-
     this.queryT = { deviceId: temp.deviceId, productId: temp.productId, identifier: temp.identifier }
   },
   mounted() {
     // this.queryAll()
-
     queryPropertiesHistoryData(this.queryT, { pageSize: 10, pageNum: 1, queryParams: [] }).then(res => {
       this.tableData = res.data.results
       this.total = res.data.totalCount
