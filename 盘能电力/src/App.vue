@@ -190,13 +190,13 @@ export default {
   },
   computed: {
     tableDataHeader() {
-      return (this.dataSource[0] || []).map((t) => ({
+      return (this.dataSource[0] || window.__analysisData[0] || []).map((t) => ({
         prop: t,
         label: t,
       }));
     },
     tableData() {
-      let [header, ...tableData] = this.dataSource;
+      let [header, ...tableData] = this.dataSource || window.__analysisData;
       tableData = tableData || [];
       return tableData.map((d) =>
         (window?._?.zipObject || zipObject)(header, d)
