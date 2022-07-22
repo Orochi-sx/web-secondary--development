@@ -8,9 +8,10 @@
  */
 import Vue from "vue";
 import App from "./App.vue";
-
+import './index.css'
 import { Table, TableColumn } from "element-ui";
-
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false;
 Vue.use(Table);
 Vue.use(TableColumn);
@@ -41,7 +42,12 @@ if (dom) {
     );
     const options = {
       externalVariables: {
-        fontSize: "20px",
+        渐变色1: "#f093fb,#f5576c",
+        渐变色2: "#43e97b,#38f9d7",
+        头部文字颜色: "#CCCC99",
+
+
+
       },
     };
     const props = {
@@ -64,6 +70,7 @@ if (dom) {
           dom.removeChild(dom.childNodes[0]);
         }
         const div = document.createElement("div");
+
         dom.appendChild(div);
         new Vue({
           render: h => <App {...{ props }} />,
