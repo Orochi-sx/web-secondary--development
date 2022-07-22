@@ -2,8 +2,10 @@
   <div class="bigest" ref="biggest">
     <div class="title">
       <div class="top">
-        <div style="height:100%;width:60px">
-          <img :src="titleImg" alt="" class="icon" />
+        <div style="height:100%;width:60px ;display: flex;
+    align-items: center">
+          <!-- <img :src="titleImg" alt="" class="icon" /> -->
+          <img :src="require('./images/demin_trian.png')" alt="" class="icon" />
           <!-- <img src="./../output" alt=""> -->
         </div>
         <div>
@@ -35,8 +37,8 @@
               <div class="train_left">
                 <img :src="item.imgUrl" alt="" class="userImg">
               </div>
-              <div class="content-left">
-                <div class="ctitle">{{ item.skillSchool }}</div>
+              <div class="content-left  ">
+                <div class="ctitle tleft">{{ item.skillSchool }}</div>
                 <div class="ccontent">{{ item.introduce }}</div>
               </div>
             </div>
@@ -598,7 +600,7 @@ export default {
       showServe: false,
       url: 'http://www.baidu.com',
       url1: 'http://www.baidu.com',
-      titleImg: require('./../output/images/demin_trian.png').default
+      titleImg: require('./images/demin_trian.png').default
     }
   },
   computed: {
@@ -622,30 +624,30 @@ export default {
         this,
         eventActionDefine
       );
-    let userConfig = JSON.parse(window.configuration.secondary_develop_login.current_value)
+    let userConfig = JSON.parse(window.configuration.training_examination_login.current_value)
     // let userConfig = [
     //   //招工
     //   {
-    //     asset_id: "8bf91192-0cc0-4be9-a5c3-535cea758ad5",
-    //     title: "name1",
+    //     asset_id: "10cd6fee-c204-4bb8-ba20-1e681999f4a2",
+    //     title: "name",
     //     content: "content1",
-    //     person: "person1"
+    //     person: "personId"
     //   },
     //   //找活
     //   {
-    //     asset_id: "fe91018f-66b9-494f-9da7-3858443111f9",
+    //     asset_id: "961fac4e-935a-46d3-9da1-13fc15f91c30",
     //     name: "title1",
     //     sex: "sex1",
     //     age: "age1",
     //     nation: "nation1",
-    //     seniority: "seniority1",
-    //     introduce: "introduce1",
-    //     imgUrl: "imgUrl1",
+    //     skillSchool: "skillschool",
+    //     introduce: "introduce",
+    //     imgUrl: "avatar",
     //     skills: "skills1"
     //   },
     //   {
-    //      loginUrl:"url",
-    //      registerUrl:"url"
+    //     loginUrl: "url",
+    //     registerUrl: "url"
     //   }
     // ]
     //userConfig.xxx  资产id  
@@ -674,6 +676,7 @@ export default {
         this.userData = this.userData.splice(0, 10)
       }
     })
+    // console.log(this.userData, '================');
     this.url = userConfig[2].loginUrl
     this.url1 = userConfig[2].registerUrl
     // console.log(this.customConfig.data[0][0].title);
@@ -865,12 +868,12 @@ export default {
 }
 
 .train_left {
-  flex: 2;
+  flex: 1;
 }
 
 .train_left>img {
-  width: 100%;
-  height: 100%;
+  width: 190px;
+  height: 100px;
 }
 
 .close {
@@ -963,8 +966,9 @@ button {
 }
 
 .userImg {
-  width: 60px;
-  height: 60px;
+  /* width: 248px !important; */
+  min-height: 80px;
+  /* height: 80px !important; */
   margin: 0 auto;
 }
 
@@ -989,7 +993,9 @@ body {
   height: 20px;
   display: flex;
   justify-content: space-around;
+  align-content: center;
   font-size: 30px;
+  margin-top: 15px;
   color: #7F7F7F;
 }
 
@@ -1057,6 +1063,7 @@ body {
   justify-content: space-around;
 }
 
+
 .ctitle {
   font-weight: bolder;
   font-size: 16px;
@@ -1064,16 +1071,29 @@ body {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
-  margin-top: 15px;
+  margin-top: 5px;
   flex: 1;
+}
+
+.tleft {
+  margin-top: 5px;
 }
 
 .ccontent {
   font-size: 16px;
-  color: #c2c2c3;
-  margin: 10px 0;
+  /* color: #c2c2c3; */
+  line-height: 21px;
+  color: rgb(59, 59, 59);
+  margin: 5px 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+
+  -webkit-line-clamp: 3;
+
+  overflow: hidden;
 }
 
 .cperson {
@@ -1094,6 +1114,7 @@ body {
   display: flex;
   justify-content: space-around;
   border-top: 1px solid #f2f2f2;
+  padding: 10px 0;
 }
 
 .red {
@@ -1187,7 +1208,7 @@ body {
 .rb {
   width: 100%;
   height: 80%;
-  margin-top: 100px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
