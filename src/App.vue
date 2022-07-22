@@ -67,7 +67,9 @@ export default {
       total: 0,
       pageSize: 10,
       allTableList: [],
-      displayTableList: [],
+      displayTableList: [
+      
+      ],
       inputSelectConfig: {},
       selectFilterCondition: [],
       inputFilterCondition: [],
@@ -77,8 +79,8 @@ export default {
       componentId: "",
       selectArr: [],
       isMap: Boolean,
-      flagArr: [1, 2, 3, 4],
-      showButton: 4,
+      flagArr: [],
+      showButton: 0,
       spliceArr: [],
       pageNums: 0,
       currentIndex: 0,
@@ -111,6 +113,7 @@ export default {
   async mounted() {
     let {
       title,
+      showButton,
       buttonTitle,
       tableDisplayFieldName,
       assetId,
@@ -122,6 +125,7 @@ export default {
     this.sortConfig = sortConfig.split(",");
 
     this.title = title;
+    this.showButton = showButton
     this.sortType = sortType;
     this.assetId = assetId;
     this.tableDisplayFieldName = tableDisplayFieldName.split(",");
@@ -129,9 +133,13 @@ export default {
     this.inputSelectConfig = JSON.parse(inputSelectConfig);
     //todo
     this.originTableData = await queryAssetById(assetId);
+    for (let i = 0; i < this.showButton; i++) {
+      this.flagArr.push(i + 1)
+    }
+    console.log('this.flagArr==', this.flagArr);
 
-    // this.handleTableData(this.originTableData);
-    this.handleSelectData();
+    this.handleTableData(this.originTableData);
+    // this.handleSelectData();
 
     this.load();
     for (let i = 0; i < this.inputSelectConfig.input.length; i++) {
@@ -149,44 +157,14 @@ export default {
       );
   },
   methods: {
-    preDemoClick() {
-      if (this.flagArr[0] !== 1 && this.flagArr.length >= 4) {
-        console.log(123);
-        let arr = []
-        this.flagArr.forEach(item => {
-          arr.push(item - this.showButton)
-        })
-        this.flagArr = arr
-        console.log('this.flagArr==', arr);
-
-      } if (this.flagArr[0] !== 1 && this.flagArr.length < 4) {
-        let arr2 = [this.flagArr[0] - (this.showButton - 2), this.flagArr[0] - (this.showButton - 3), this.flagArr[0] - (this.showButton - 4), this.flagArr[0] - (this.showButton - 5)]
-        this.flagArr = arr2
-
-      }
-
-
-
-
-    },
-    nextDemoClick() {
-    },
     demoClick(item, index) {
-      if (index === 3) {
+      console.log('item==1111', item);
+      this.displayTableList = this.splitItemArr[item - 1]
+      if (index == (this.showButton - 1)) {
+        console.log('最后一个');
         this.currentIndex = 0
-      }
-
-      else if (index == 0 && item !== 1) {
-        this.currentIndex = 3
-
-      } else {
-        this.currentIndex = index
-
-      }
-
-      if (index === 3) {
         let arr = []
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this.showButton; i++) {
           if (item <= this.pageNums) {
             arr.push(item)
             item++
@@ -196,18 +174,22 @@ export default {
         this.flagArr = arr
 
       }
-      if (index == 0 && item !== 1) {
+      else if (index == 0 && item !== 1) {
+        console.log('第一个');
+        this.currentIndex = (this.showButton - 1)
         let arr = []
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this.showButton; i++) {
           arr.unshift(item)
           item--
-
         }
         this.flagArr = arr
 
+      } else {
+        this.currentIndex = index
+
       }
-      this.displayTableList = this.splitItemArr[item - 1]
-      this.load()
+
+      // this.load()
 
 
     },
@@ -310,6 +292,7 @@ export default {
         }
       }
       this.pageNums = Math.ceil(this.displayTableList.length / this.pageSize)
+      console.log('pageNums', this.pageNums);
       for (let i = 0; i < this.pageNums; i++) {
         let start = i * 10
         let end = start + 10
@@ -516,15 +499,17 @@ export default {
 }
 
 .active {
-  color: red;
+  color: #409eff;
 }
 
 .fenye {
   display: flex;
-  width: 200px;
+  width: 100%;
   height: 50px;
-  overflow: hidden;
   flex-shrink: 0;
+  justify-content: center;
+  background: #ffffff;
+  padding: 20px 0;
 
 }
 
@@ -533,6 +518,8 @@ export default {
   height: 50px;
   flex-shrink: 0;
   cursor: pointer;
+  text-align: center;
+  line-height: 50px;
 
 }
 </style>

@@ -26,6 +26,7 @@ if (process.env.NODE_ENV !== "production") {
   // 添加 customConfig 进行测试
   let customConfig = {
     title: "技术服务委托",
+    showButton:6,
     buttonTitle: '新增委托',
     tableDisplayFieldName: "address,date,name",
     assetId: "c22df847-684d-4b83-af74-6afacb38a4f5",
