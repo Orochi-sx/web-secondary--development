@@ -12,22 +12,25 @@ import { queryAssetById } from '../api/asset'
 export default {
   name: 'List',
   props: {
+    // 平台数据
     platformProps: Object,
+    // 本地数据
     customConfig: Object
   },
   data() {
     return {
-      form: {
+      // 配置项数据
+      configForm: {
         assetId: ''
       }
     }
   },
   mounted() {
-    // 配置项信息
+    // 配置项数据隔离
     if(this.platformProps) {
-      this.form = this.platformProps.pluginConfig
+      this.configForm = this.platformProps.pluginConfig
     } else {
-      this.form = this.customConfig.configuration
+      this.configForm = this.customConfig.configuration
     }
   },
   methods: {

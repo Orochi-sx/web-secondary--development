@@ -11,22 +11,25 @@
 export default {
   name: 'DesignConfiguration',
   props: {
+    // 平台数据
     customConfig: Object,
+    // 本地数据
     platformProps: Object
   },
   data() {
     return {
-      form: {
+      // 配置项数据
+      configForm: {
         assetId: "",
       },
     }
   },
   mounted() {
-    // 配置项信息
+    // 配置项数据隔离
     if(this.platformProps) {
-      this.form = JSON.parse(this.platformProps.configuration)
+      this.configForm = JSON.parse(this.platformProps.configuration)
     } else {
-      this.form = this.customConfig.configuration
+      this.configForm = this.customConfig.configuration
     }
   },
   watch: {
