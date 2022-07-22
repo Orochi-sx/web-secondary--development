@@ -36,20 +36,24 @@ export default {
       fontSize: '',
       rowSpace: 0,
       color: '',
-      contentSize: '',
+      contentSize: [],
       rotate: '',
       content: [],
-      boxNum: 0
+      boxNum: 0,
+      showField: '',
+      arr2: []
     };
   },
 
   mounted() {
-    const { fontSize, rowSpace, color, contentSize, rotate } = this.options.externalVariables
+    const { fontSize, rowSpace, color, contentSize, rotate, showField } = this.options.externalVariables
     this.fontSize = fontSize + 'px',
       this.rowSpace = rowSpace,
       this.color = color,
       this.contentSize = contentSize.split(','),
       this.rotate = rotate
+    this.showField = showField.split(',')
+    console.log('this.showField',this.showField);
     this.init()
 
     this.componentId &&
@@ -63,20 +67,32 @@ export default {
   methods: {
     init() {
       console.log('window.localtion.href', window.location.href)
-      let url = window.location.href || "https://www.baidu.com?data1=123&data2=456&data3=789"
+      let url = window.location.href ||"https://www.baidu.com?data1=123&data2=456&data3=789"
       let str = ''
       let newArr = []
-      if (url.indexOf('?') == true) {
+      console.log('111', url.indexOf('?'));
+      if (url.indexOf('?')) {
         str = url.split('?')[1]
+        console.log('str==', str);
         if (str.indexOf('&')) {
           newArr = str.split('&')
         }
       }
-      let flagArr = []
+      console.log('newArr==', newArr);
       newArr.forEach(item => {
-        flagArr.push(item.split('=')[0])
+        let arr = []
+        arr = item.split('=')
+        if (this.showField.indexOf(arr[0]) !== -1 && arr[1] !== '') {
+          this.arr2.push(`${arr[0]}${arr[1]}`)
+        }
       })
-      this.content = flagArr.length == 0 ? ['data1', 'data2', 'data3'] : flagArr
+      console.log('arr2==', this.arr2);
+      // let flagArr = ['data1', 'data2', 'data3']
+
+      // console.log('flagArr==',flagArr);
+      // this.content = flagArr.length == 0 ? ['data1', 'data2', 'data3'] : flagArr
+      this.content = this.arr2
+
       let width = this.$refs.contentBox.offsetWidth
       let height = this.$refs.contentBox.offsetHeight
       let area = width * height
@@ -117,13 +133,14 @@ export default {
 
 .contentBox {
   width: 100%;
-  height: 95vh;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   overflow-y: hidden;
   position: absolute;
   top: 0;
   left: 0;
+  overflow: hidden;
 }
 
 .itemBox {

@@ -1,7 +1,7 @@
 {
-  "id": "00c8a43a-843d-40cf-9e79-85cf04df6ef3",
+  "id": "e62e09e6-fde2-4ab8-a8d7-104b6b6d0a2a",
   "type": "analyzers",
-  "main": "app.6f9f42ab.js",
+  "main": "app.c925c1d1.js",
   "version": "2",
   "props": {
     "img": "custom_table.png",
@@ -18,7 +18,8 @@
       "rowSpace",
       "color",
       "contentSize",
-      "rotate"
+      "rotate",
+      "showField"
     ]
   }
 }

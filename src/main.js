@@ -46,6 +46,7 @@ if (dom) {
         color:'rgba(0,0,0,0.1)',
         contentSize:'200,200',
         rotate:-30,
+        showField:'data2,data3'
       },
     };
     const props = {
