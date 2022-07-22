@@ -84,7 +84,8 @@ export default {
       spliceArr: [],
       pageNums: 0,
       currentIndex: 0,
-      splitItemArr: []
+      splitItemArr: [],
+      fix:[]
     };
   },
   computed: {
