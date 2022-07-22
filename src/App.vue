@@ -26,12 +26,21 @@
         <el-table-column :sortable="sortConfig.indexOf(item) > -1" :prop="item"></el-table-column>
       </div>
     </el-table>
-    <div style="width: 100%" class="pagaNation">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :current-page.sync="currentPage" :page-sizes="[10, 20, 50, 100]" :page-size.sync="pageSize"
-        layout="total, sizes, prev, pager, next" :total="total" small>
-      </el-pagination>
+    <div class="fenye">
+      <div @click="demoClick(item, index)" :class="currentIndex === index ? 'active' : ''" class="fenyeItem"
+        v-for="(item, index) in flagArr" :key="index">
+        {{ item }}
+
+      </div>
+
     </div>
+    <!-- <div style="width: 100%" class="pagaNation">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total="1000"
+        :current-page.sync="currentPage" :pager-count=5 :page-sizes="[10, 20, 50, 100]" :page-size.sync="pageSize"
+        layout="prev, pager, next">
+      </el-pagination>
+    </div> -->
+
   </div>
 </template>
 
@@ -68,6 +77,12 @@ export default {
       componentId: "",
       selectArr: [],
       isMap: Boolean,
+      flagArr: [1, 2, 3, 4],
+      showButton: 4,
+      spliceArr: [],
+      pageNums: 0,
+      currentIndex: 0,
+      splitItemArr: []
     };
   },
   computed: {
@@ -112,6 +127,7 @@ export default {
     this.tableDisplayFieldName = tableDisplayFieldName.split(",");
     this.buttonTitle = buttonTitle;
     this.inputSelectConfig = JSON.parse(inputSelectConfig);
+    //todo
     this.originTableData = await queryAssetById(assetId);
 
     // this.handleTableData(this.originTableData);
@@ -133,6 +149,68 @@ export default {
       );
   },
   methods: {
+    preDemoClick() {
+      if (this.flagArr[0] !== 1 && this.flagArr.length >= 4) {
+        console.log(123);
+        let arr = []
+        this.flagArr.forEach(item => {
+          arr.push(item - this.showButton)
+        })
+        this.flagArr = arr
+        console.log('this.flagArr==', arr);
+
+      } if (this.flagArr[0] !== 1 && this.flagArr.length < 4) {
+        let arr2 = [this.flagArr[0] - (this.showButton - 2), this.flagArr[0] - (this.showButton - 3), this.flagArr[0] - (this.showButton - 4), this.flagArr[0] - (this.showButton - 5)]
+        this.flagArr = arr2
+
+      }
+
+
+
+
+    },
+    nextDemoClick() {
+    },
+    demoClick(item, index) {
+      if (index === 3) {
+        this.currentIndex = 0
+      }
+
+      else if (index == 0 && item !== 1) {
+        this.currentIndex = 3
+
+      } else {
+        this.currentIndex = index
+
+      }
+
+      if (index === 3) {
+        let arr = []
+        for (let i = 0; i < 4; i++) {
+          if (item <= this.pageNums) {
+            arr.push(item)
+            item++
+          }
+        }
+        console.log('arr==', arr);
+        this.flagArr = arr
+
+      }
+      if (index == 0 && item !== 1) {
+        let arr = []
+        for (let i = 0; i < 4; i++) {
+          arr.unshift(item)
+          item--
+
+        }
+        this.flagArr = arr
+
+      }
+      this.displayTableList = this.splitItemArr[item - 1]
+      this.load()
+
+
+    },
     formDate(date) {
       let bzDate = new Date(date);
       let Y = bzDate.getFullYear() + "-";
@@ -166,13 +244,20 @@ export default {
     async load() {
 
       let { componentId } = this.customConfig || {};
-
+      //todo
       this.originTableData = await queryAssetById(this.assetId);
       this.handleTableData(this.originTableData);
       console.log("this,allTableList==", this.allTableList);
+
+      //todo
       this.displayTableList = this.filterDataBySearchAndSelect(
         this.allTableList
       );
+
+
+      console.log('displayTableList==', this.displayTableList);
+
+      //todo
       if (this.sortConfig[1] && this.sortConfig[1] === "dateTime") {
         this.displayTableList.forEach((d) => {
           d[this.sortConfig[0]] = new Date(d[this.sortConfig[0]]).getTime();
@@ -224,10 +309,20 @@ export default {
           }
         }
       }
+      this.pageNums = Math.ceil(this.displayTableList.length / this.pageSize)
+      for (let i = 0; i < this.pageNums; i++) {
+        let start = i * 10
+        let end = start + 10
+        this.splitItemArr.push(this.displayTableList.slice(start, end))
+      }
+      console.log('splitItemArr==', this.splitItemArr);
+      this.displayTableList = this.splitItemArr[0]
 
-      this.displayTableList = this.filterDataBypagination(
-        this.displayTableList
-      );
+      // this.displayTableList = this.filterDataBypagination(
+      //   this.displayTableList
+      // );
+
+
       this.firstRowInfo = this.displayTableList[0];
 
       this.$refs.myTable.setCurrentRow(this.displayTableList[0]);
@@ -274,6 +369,7 @@ export default {
       this.allTableList = tableData;
     },
     async handleSelectData() {
+      //todo
       for (let i = 0; i < this.inputSelectConfig.select.length; i++) {
         this.selectArr.push(
           await queryAssetById(this.inputSelectConfig.select[i].selectAssetId)
@@ -399,6 +495,7 @@ export default {
 .multiFfilterDataGrid>>>.el-table__header-wrapper {
   display: none;
 }
+
 .pagaNation {
   background: #ffffff;
   padding: 10px;
@@ -415,6 +512,27 @@ export default {
 
 /deep/ .el-select-dropdown__item {
   padding-left: 10px !important;
+
+}
+
+.active {
+  color: red;
+}
+
+.fenye {
+  display: flex;
+  width: 200px;
+  height: 50px;
+  overflow: hidden;
+  flex-shrink: 0;
+
+}
+
+.fenyeItem {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  cursor: pointer;
 
 }
 </style>
