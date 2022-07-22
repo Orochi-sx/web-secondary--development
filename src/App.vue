@@ -83,7 +83,7 @@ export default {
         let arr = []
         arr = item.split('=')
         if (this.showField.indexOf(arr[0]) !== -1 && arr[1] !== '') {
-          this.arr2.push(`${arr[0]}${arr[1]}`)
+          this.arr2.push(`${arr[1]}`)
         }
       })
       console.log('arr2==', this.arr2);
