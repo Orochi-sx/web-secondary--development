@@ -20,8 +20,10 @@
     "@vue/babel-preset-jsx": "^1.2.4",
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
+    "element-china-area-data": "^5.0.2",
     "element-ui": "^2.15.6",
     "querystringify": "^2.2.0",
+    "table-excel": "^1.1.8",
     "vue": "^2.6.11"
   },
   "devDependencies": {

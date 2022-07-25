@@ -1,0 +1,15 @@
+.el-cascader-menu {
+  height: 300px;
+}
+.el-cascader-menu__wrap {
+  overflow-x: hidden;
+}
+#trans-tooltip {
+  display: none;
+}
+#trans-content,
+#tip-arrow-top,
+#tip-arrow-bottom {
+  padding: 0px;
+  height: 0px;
+}
