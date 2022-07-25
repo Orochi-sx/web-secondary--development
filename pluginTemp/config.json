@@ -1,7 +1,7 @@
 {
-  "id": "e58d249f-703c-4918-9e0d-892936394f78",
+  "id": "fbd55997-1a83-4c78-912d-88ac96e3dbe4",
   "type": "app",
-  "main": "app.9439dbc9.js",
+  "main": "app.3c0d0e8f.js",
   "version": "2",
   "props": {
     "type": "customize",
@@ -11,10 +11,8 @@
     "lib": [],
     "css_script": [],
     "customconf": [
-      "title",
-      "url",
-      "desc",
-      "imgUrl"
+      "报表ID",
+      "表格查询时间类型"
     ]
   }
 }

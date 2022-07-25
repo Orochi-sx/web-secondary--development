@@ -21,15 +21,6 @@ export default {
     info: Object,
   },
   computed: {
-    title() {
-      return this.customConfig.title || "数据构建";
-    },
-    imgUrl() {
-      return (
-        this.customConfig.imgUrl ||
-        "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"
-      );
-    },
   },
   mounted() {
     let { componentId } = this.customConfig || {};
