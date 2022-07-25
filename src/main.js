@@ -1,7 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 // 按需引入组件，引入方式见https://element.eleme.cn/#/zh-CN/component/quickstart#an-xu-yin-ru
-import { Input, Select, Option, Button, Avatar, Card, Pagination } from "element-ui";
+import { Input, Select, Option, Button, Avatar, Card, Pagination, Dialog, Tooltip, Empty } from "element-ui";
 
 Vue.config.productionTip = false;
 Vue.use(Input);
@@ -11,16 +11,16 @@ Vue.use(Button);
 Vue.use(Avatar);
 Vue.use(Card);
 Vue.use(Pagination);
+Vue.use(Dialog);
+Vue.use(Tooltip);
+Vue.use(Empty);
 
 // import * as appService from "@njsdata/app-sdk";
 
 if (process.env.NODE_ENV !== "production") {
   // 添加 customConfig 进行测试
   let customConfig = {
-    title: "数据构建",
-    desc: "无码化应用搭建，弹指间即完成数据从无到有到收集和使用",
-    url: "http://baidu.com",
-    imgUrl: "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+    url参数: "appid=a4b3e71f-baec-c5ad-028a-383a1eafa2a0&type=view",
   };
 
   new Vue({
